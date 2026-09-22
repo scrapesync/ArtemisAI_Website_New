@@ -383,18 +383,13 @@
   align-items: center;
 }
 
-/* 7px of dot inside a 44px target — the handoff's minimum, non-negotiable. */
+/* 7px of dot inside a 24 x 44 target — tiled, not overlapped, so each is fully clickable. */
 .dot {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
+  width: 24px;
   height: 44px;
-  margin-left: -18px;
-}
-
-.dot:first-child {
-  margin-left: -18px;
 }
 
 .dot::before {

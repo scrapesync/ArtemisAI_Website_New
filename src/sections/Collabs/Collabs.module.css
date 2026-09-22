@@ -1,0 +1,508 @@
+/* "Who to collaborate with. And why." — three concrete, judgeable matches.
+ *
+ * Reflowed rather than scaled. The prototype authored this at a fixed 1440px and scaled it
+ * down, with the caption box given a hard-coded height (140px desktop, 250px mobile) — the
+ * exact pattern that silently clipped content in the prototype. Here the captions share one
+ * grid cell, so the box sizes itself to the tallest of the three and cannot clip.
+ */
+
+.title {
+  margin: 0;
+  font-size: var(--fs-display-lg);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+
+.title span {
+  display: block;
+}
+
+.sub {
+  margin: 20px 0 0;
+  max-width: 900px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-caption);
+  color: var(--ink-60);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+  margin-top: var(--sp-10);
+}
+
+.cell {
+  position: relative;
+  height: 340px;
+}
+
+.panel {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #1e1d19;
+  opacity: 0;
+  transform: scale(0.985);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.panel.on,
+.fixedPanel {
+  opacity: 1;
+  transform: none;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder standing in for photography that has not been shot yet. A tonal gradient with
+   a faint texture and an oversized monogram — enough to read as "a picture of this business"
+   without pretending to be one. Swap in an <img> and delete this. */
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(120% 90% at 25% 15%, rgba(246, 243, 238, 0.09), rgba(0, 0, 0, 0) 60%),
+    linear-gradient(155deg, var(--tone, #26241f) 0%, #14130f 70%, #0d0d0b 100%);
+}
+
+.placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(246, 243, 238, 0.05) 1px,
+    transparent 1px
+  );
+  background-size: 7px 7px;
+}
+
+.placeholderMark {
+  font-size: 128px;
+  font-weight: var(--fw-black);
+  letter-spacing: -0.06em;
+  color: rgba(246, 243, 238, 0.06);
+  user-select: none;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.15) 50%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+}
+
+/* ── Identity tag ─────────────────────────────────────────────────── */
+
+.tag {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: 12px 16px 12px 12px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(246, 243, 238, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-pill);
+  flex-shrink: 0;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-black);
+  letter-spacing: var(--ls-heading);
+  color: var(--ink);
+  background: linear-gradient(145deg, #2a2925, #171613);
+  box-shadow:
+    0 0 0 2px var(--ground-black),
+    0 0 0 4px var(--mint);
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 17px;
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.verified {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ground-black);
+  flex-shrink: 0;
+}
+
+.meta {
+  display: block;
+  margin-top: 3px;
+  font-size: var(--fs-fine);
+  color: var(--ink-60);
+}
+
+.meta em {
+  font-style: normal;
+  color: var(--ink);
+  font-weight: var(--fw-semibold);
+}
+
+.chip {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 6px var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(59, 185, 143, 0.4);
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+  white-space: nowrap;
+}
+
+/* ── Reach badge ──────────────────────────────────────────────────── */
+
+/* Centred on the seam between the two panels. The heavy black ring knocks it out of both. */
+.badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ground-black);
+  font-size: 21px;
+  font-weight: var(--fw-black);
+  letter-spacing: var(--ls-display-tight);
+  box-shadow: 0 0 0 10px var(--ground-black);
+  z-index: 2;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+  transition:
+    opacity 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.45s,
+    transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.45s;
+}
+
+.badge.on {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.badge span {
+  font-size: 9px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  opacity: 0.75;
+}
+
+/* ── Captions ─────────────────────────────────────────────────────── */
+
+/* All three share one grid cell, so the box is as tall as the tallest — no magic number. */
+.captions {
+  display: grid;
+  margin-top: var(--sp-6);
+  max-width: 900px;
+}
+
+.caption {
+  grid-area: 1 / 1;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--ink-78, rgba(246, 243, 238, 0.78));
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.5s ease 0.75s,
+    transform 0.5s ease 0.75s;
+}
+
+.caption.on {
+  opacity: 1;
+  transform: none;
+}
+
+.caption p {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 16px;
+  margin: 0 0 var(--sp-3);
+  align-items: baseline;
+}
+
+.caption p:last-child {
+  margin-bottom: 0;
+}
+
+.caption i {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+/* ── Controls ─────────────────────────────────────────────────────── */
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--sp-6);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+}
+
+/* 6px of dot inside a 24 x 44 target. Full-width 44px buttons would either sit 44px apart —
+   far wider than the design's 14px rhythm — or have to overlap, which would leave each one
+   a thinner exposed strip than it started with. */
+.dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 44px;
+}
+
+.dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.2);
+  transition:
+    width var(--dur-swap) var(--ease-out),
+    background-color var(--dur-swap) var(--ease-out);
+}
+
+.dot[aria-current='true']::before {
+  width: 20px;
+  background: var(--mint);
+}
+
+.arrows {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(246, 243, 238, 0.16);
+  color: var(--ink);
+  transition:
+    border-color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out);
+}
+
+.arrow:hover {
+  border-color: var(--ink-60);
+  background: var(--fill);
+}
+
+/* ── Reflow ───────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .title {
+    font-size: var(--fs-display-md);
+  }
+
+  .cell {
+    height: 300px;
+  }
+
+  .chip {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .caption p {
+    grid-template-columns: 88px 1fr;
+    gap: 12px;
+  }
+
+  .tag {
+    gap: var(--sp-3);
+    padding: var(--sp-3) 12px;
+  }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+    font-size: var(--fs-fine);
+  }
+
+  .name {
+    font-size: var(--fs-body-sm);
+  }
+}
+
+/* Below 760px the pair stacks into one rounded outline with the badge on the join. */
+@media (max-width: 760px) {
+  .title {
+    font-size: var(--fs-display-xs);
+    letter-spacing: var(--ls-display-tight);
+  }
+
+  .sub {
+    font-size: var(--fs-body-sm);
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: var(--sp-8);
+  }
+
+  .cell {
+    height: 196px;
+  }
+
+  .cell:first-child .panel {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .cell:last-child .panel {
+    border-radius: 0 0 20px 20px;
+  }
+
+  /* Pinned to the join between the two panels rather than the middle of the pair. */
+  .badge {
+    top: 196px;
+    width: 72px;
+    height: 72px;
+    font-size: var(--fs-body-sm);
+    box-shadow: 0 0 0 7px var(--ground-black);
+  }
+
+  .badge span {
+    font-size: 8px;
+  }
+
+  .scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.15) 45%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+
+  /* The "you" panel's tag moves to the top, so the badge does not sit on top of it. */
+  .cell:first-child .scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.15) 40%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+  }
+
+  .tag {
+    left: 12px;
+    right: auto;
+    bottom: 12px;
+    gap: var(--sp-2);
+    padding: 5px var(--sp-3) 5px 5px;
+    border-radius: var(--r-pill);
+  }
+
+  .cell:first-child .tag {
+    top: 12px;
+    bottom: auto;
+  }
+
+  .avatar {
+    width: 22px;
+    height: 22px;
+    font-size: 9px;
+    box-shadow:
+      0 0 0 1.5px var(--ground-black),
+      0 0 0 2.5px var(--mint);
+  }
+
+  .name {
+    font-size: 12.5px;
+  }
+
+  .verified,
+  .meta {
+    display: none;
+  }
+
+  .placeholderMark {
+    font-size: 72px;
+  }
+
+  .caption {
+    font-size: var(--fs-caption);
+  }
+
+  .caption p {
+    grid-template-columns: 78px 1fr;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .badge,
+  .caption {
+    transition: none;
+  }
+}

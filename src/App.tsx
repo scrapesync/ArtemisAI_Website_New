@@ -3,6 +3,7 @@ import { Hero } from './sections/Hero/Hero'
 import { WhatWeDo } from './sections/WhatWeDo/WhatWeDo'
 import { Belief } from './sections/Belief/Belief'
 import { HowWeDoIt } from './sections/HowWeDoIt/HowWeDoIt'
+import { Collabs } from './sections/Collabs/Collabs'
 
 export function App() {
   return (
@@ -13,6 +14,7 @@ export function App() {
         <WhatWeDo />
         <Belief />
         <HowWeDoIt />
+        <Collabs />
       </main>
     </>
   )
