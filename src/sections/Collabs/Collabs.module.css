@@ -23,7 +23,7 @@
   max-width: 900px;
   font-size: var(--fs-body);
   line-height: var(--lh-caption);
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 .row {
@@ -176,7 +176,7 @@
   display: block;
   margin-top: 3px;
   font-size: var(--fs-fine);
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 .meta em {

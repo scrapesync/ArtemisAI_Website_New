@@ -66,7 +66,29 @@ node scripts/make-brand-assets.mjs  # regenerate favicons and the OG card from t
 node scripts/optimise-photos.mjs    # re-encode the Belief photographs
 node scripts/shoot.mjs --full       # screenshot dist/ at every breakpoint (build first)
 node scripts/shoot-section.mjs '#why' 1440 out.png   # one section, one width
+npm run audit                       # the accessibility + layout checks below (build first)
 ```
+
+### What `npm run audit` checks
+
+The handoff's contract, as an executable test rather than a promise:
+
+- **Contrast.** Page copy against the 7.2:1 floor. Mint accents are held to their own
+  documented 6.4:1 and checked separately for the "never long-form body copy" rule. The
+  handoff's three named exceptions — chart axis labels, the `n / 3` counter, the dimmed score
+  bar — are marked `data-decorative` in the markup, so the carve-out is visible where someone
+  editing them will see it, and the audit reports them rather than guessing.
+- **Hit targets** at 24×24 minimum.
+- **Keyboard.** Tabs the whole page, confirms every stop paints a focus ring and that none
+  lands inside an `inert` region.
+- **Horizontal overflow** at 19 widths from 320px to 1920px.
+- **Reduced motion.** Revealed content is visible and no carousel advances.
+- **Anchors and heading order.**
+
+One measurement worth knowing: `--ink-62`, which the handoff names as the body-copy floor,
+measures **7.18:1** on `#000` — fractionally under the 7.2 the document quotes, and
+comfortably over WCAG AAA's 7:1. The audit holds the line at the token rather than at the
+rounded figure in the prose.
 
 They expect this environment's Chromium at `/opt/pw-browsers/chromium-1194`. Elsewhere, drop
 the `executablePath` and run `npx playwright install chromium`.

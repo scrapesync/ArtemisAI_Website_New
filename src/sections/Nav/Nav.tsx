@@ -47,7 +47,9 @@ export function Nav() {
         </nav>
 
         <button className={`${styles.connect} ${styles.desktopOnly}`} onClick={goToSignup}>
-          <PlatformBadges size={26} overlap={-7} />
+          <span className={styles.badges}>
+            <PlatformBadges size={26} overlap={-7} />
+          </span>
           <span>{CONNECT_LABEL}</span>
         </button>
 

@@ -34,7 +34,7 @@
   max-width: 760px;
   font-size: var(--fs-body);
   line-height: var(--lh-caption);
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 .head b {
@@ -1046,7 +1046,7 @@
   margin: var(--sp-2) 0 0;
   font-size: var(--fs-fine);
   line-height: 1.5;
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 .sourceTrack {

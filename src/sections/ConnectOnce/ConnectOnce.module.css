@@ -126,7 +126,7 @@
   max-width: 420px;
   font-size: var(--fs-body-lg);
   line-height: 1.5;
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 /* ── Step chips ───────────────────────────────────────────────────── */
@@ -605,7 +605,7 @@
 
 .chev {
   margin-left: auto;
-  color: var(--ink-60);
+  color: var(--ink-62);
   flex-shrink: 0;
 }
 

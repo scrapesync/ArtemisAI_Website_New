@@ -68,7 +68,7 @@
   font-size: var(--fs-body);
   line-height: var(--lh-caption);
   text-align: center;
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 .list {
@@ -265,8 +265,11 @@
   transition: border-color var(--dur-swap) var(--ease-out);
 }
 
+/* The pill is the control, so the focus ring belongs on it rather than on the bare input —
+   an outline inside the pill would collide with its own border. */
 .pill:focus-within {
   border-color: var(--mint-60);
+  box-shadow: 0 0 0 2px var(--focus-ring);
 }
 
 .pill input {
@@ -389,7 +392,7 @@
   margin: 0;
   font-size: var(--fs-body-sm);
   line-height: var(--lh-caption);
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 .social {
@@ -435,7 +438,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-45);
+  color: var(--ink-62);
 }
 
 .links {
@@ -457,7 +460,7 @@
 }
 
 .links span[aria-disabled='true'] {
-  color: var(--ink-45);
+  color: var(--ink-62);
   cursor: default;
 }
 
@@ -471,7 +474,7 @@
   border-top: 1px solid var(--line-soft);
   font-size: var(--fs-fine);
   font-weight: var(--fw-medium);
-  color: var(--ink-45);
+  color: var(--ink-62);
 }
 
 .legalLinks {
@@ -537,8 +540,11 @@
     transition: border-color var(--dur-hover) var(--ease-out);
   }
 
-  .pill input:focus {
+  /* Decomposed: the input is now the control in its own right, so it takes the ring. */
+  .pill input:focus-visible {
     border-color: var(--mint-60);
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
   }
 
   .submit {

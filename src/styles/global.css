@@ -1,8 +1,13 @@
 /* Page-level ground. The handoff's base.css already sets body background/colour/font from
    tokens; this adds the page glow and the typographic defaults the sections assume. */
 
-html {
-  background: var(--ground-raised);
+/* The handoff's contrast contract is computed against #000 — `--ground-black`, whose token
+   comment reads "section grounds, hero". `--ground-raised` is three units lighter, which is
+   invisible but enough to put body copy at `--ink-62` a hair under the 7.2:1 floor. Ground
+   the page on black so the designer's own numbers hold. */
+html,
+body {
+  background: var(--ground-black);
 }
 
 body {

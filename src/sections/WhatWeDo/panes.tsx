@@ -68,7 +68,9 @@ export function StormPane({ comments, minutes }: { comments: number; minutes: nu
           <span className={s.markerLabel}>Artemis flags it</span>
         </div>
 
-        <div className={s.axis}>
+        {/* A chart axis: decorative, and every value on it is restated in the copy beside
+            the chart. One of the handoff's three named contrast exceptions. */}
+        <div className={s.axis} data-decorative="chart-axis">
           <span>6:20pm</span>
           <span>6:30</span>
           <em>6:41</em>
@@ -93,7 +95,11 @@ export function StormPane({ comments, minutes }: { comments: number; minutes: nu
                 </span>
                 <span className={s.replyName}>Art E</span>
                 <span className={s.replyKicker}>Pinned reply</span>
-                <span className={s.replyCount}>{i + 1} / 3</span>
+                {/* One of the handoff's three named contrast exceptions: decorative, and the
+                    same information is in the rotation itself. */}
+                <span className={s.replyCount} data-decorative="counter">
+                  {i + 1} / 3
+                </span>
               </div>
               <p className={s.replyBody}>{text}</p>
             </article>
@@ -136,7 +142,7 @@ export function WindowPane() {
           )}
         </div>
 
-        <div className={s.dayAxis} aria-hidden="true">
+        <div className={s.dayAxis} aria-hidden="true" data-decorative="chart-axis">
           {DAYS.map((day, i) => (
             <span key={i} className={i === 1 ? s.hot : undefined}>
               {day}

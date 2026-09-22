@@ -72,6 +72,10 @@
     background-color var(--dur-hover) var(--ease-out);
 }
 
+.badges {
+  display: inline-flex;
+}
+
 .connect:hover {
   border-color: var(--mint);
   background: var(--fill-soft);
@@ -83,6 +87,24 @@
 
 .mobileOnly {
   display: none;
+}
+
+/* Between the mobile breakpoint and roughly 1000px the row — brand, six links and the badge
+   pill — is wider than the viewport. Tighten the links and drop the badges from the pill
+   before that happens, rather than letting the CTA push off the right edge. */
+@media (max-width: 1000px) {
+  .links {
+    gap: 20px;
+    font-size: var(--fs-caption);
+  }
+
+  .connect {
+    padding: var(--sp-2) var(--sp-5);
+  }
+
+  .connect .badges {
+    display: none;
+  }
 }
 
 /* ── Mobile ───────────────────────────────────────────────────────── */
@@ -144,9 +166,10 @@
   display: flex;
   flex-direction: column;
   padding: 84px 20px 28px;
-  background: rgba(0, 0, 0, 0.97);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  /* Opaque rather than the prototype's 0.97 + blur. `backdrop-filter` is the only thing that
+     made that combination legible, and where it is unsupported or GPU-disabled the page
+     behind stays readable through the menu — 3% of warm white on black is still words. */
+  background: var(--ground-black);
   animation: sheetIn var(--dur-swap) var(--ease-out) both;
 }
 

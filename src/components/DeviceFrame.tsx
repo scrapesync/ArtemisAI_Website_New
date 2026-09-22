@@ -48,7 +48,12 @@ export function DeviceFrame({
           <span key={i} className={styles.button} style={position} />
         ))}
 
-        <div className={[styles.screen, screenClassName].filter(Boolean).join(' ')}>
+        {/* Everything inside the screen is a picture of the product, not page copy — the
+            handoff's contrast floor applies to the page, not to mock UI inside a device. */}
+        <div
+          className={[styles.screen, screenClassName].filter(Boolean).join(' ')}
+          data-decorative="device-screen"
+        >
           {chrome && (
             <>
               <div className={styles.island} />

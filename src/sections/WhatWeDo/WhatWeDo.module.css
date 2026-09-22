@@ -32,7 +32,7 @@
   max-width: 760px;
   font-size: var(--fs-body);
   line-height: var(--lh-caption);
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 /* ── Tabs ─────────────────────────────────────────────────────────── */
@@ -112,7 +112,7 @@
   margin: var(--sp-3) 0 0;
   font-size: var(--fs-body-sm);
   line-height: var(--lh-caption);
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 /* ── Panel ────────────────────────────────────────────────────────── */
@@ -181,7 +181,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: var(--ls-kicker);
   text-transform: uppercase;
-  color: var(--ink-45);
+  color: var(--ink-62);
 }
 
 .label em {
@@ -200,7 +200,7 @@
 .paneSub {
   font-size: var(--fs-body);
   line-height: 1.5;
-  color: rgba(246, 243, 238, 0.55);
+  color: var(--ink-62);
 }
 
 /* ── Pane 1: Catch the storm ──────────────────────────────────────── */
@@ -279,7 +279,7 @@
 .statCaption {
   margin-top: 6px;
   font-size: var(--fs-fine);
-  color: rgba(246, 243, 238, 0.55);
+  color: var(--ink-62);
 }
 
 .coverPill {
@@ -313,6 +313,10 @@
 .chart {
   position: relative;
   flex: 1;
+  /* Once the panel stops being a fixed 440px and the panes come back into flow, `flex: 1`
+     has no height to claim — without this the chart collapses to nothing and its marker
+     label lands on the axis. */
+  min-height: 160px;
   margin-top: var(--sp-6);
   border-bottom: 1px solid var(--line);
 }
@@ -478,7 +482,9 @@
   font-weight: var(--fw-semibold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-45);
+  /* A step above the usual body floor: this card's ground is a mint-tinted gradient rather
+     than black, so --ink-62 measures under 7:1 on it. */
+  color: var(--ink-70);
 }
 
 .replyCount {
@@ -524,7 +530,7 @@
 .replyNote {
   margin-left: auto;
   font-size: 12px;
-  color: var(--ink-45);
+  color: var(--ink-62);
 }
 
 /* ── Pane 2: Find the window ──────────────────────────────────────── */
@@ -610,7 +616,7 @@
   margin-top: 4px;
   font-size: var(--fs-fine);
   letter-spacing: 0.12em;
-  color: var(--ink-40);
+  color: var(--ink-62);
 }
 
 .tracks {
@@ -629,7 +635,7 @@
 }
 
 .trackHead span {
-  color: var(--ink-60);
+  color: var(--ink-62);
 }
 
 .trackHead b {
@@ -806,6 +812,12 @@
   .pane,
   .rail i {
     transition: none;
+  }
+
+  /* Nothing is cycling, so no tab is "next" — dimming the other two would leave their copy
+     at 45% for good. Show all three equally and let the mint rail mark the live one. */
+  .tab {
+    opacity: 1;
   }
 
   .pane.on .spark,

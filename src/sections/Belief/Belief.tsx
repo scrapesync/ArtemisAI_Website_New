@@ -156,9 +156,11 @@ export function Belief() {
   )
 }
 
+/* The three glass artefacts are mock product UI laid over a photograph — a picture of the
+   product, like the device screens, rather than page copy. */
 function NotificationCard() {
   return (
-    <div className={`${s.glass} ${s.note}`}>
+    <div className={`${s.glass} ${s.note}`} data-decorative="product-mock">
       <div className={s.noteHead}>
         <span className={s.noteIcon}>
           <ArtemisTriangle size={12} />
@@ -176,7 +178,7 @@ function NotificationCard() {
 
 function CommentThread() {
   return (
-    <div className={s.thread}>
+    <div className={s.thread} data-decorative="product-mock">
       <div className={s.question}>
         <b>sarah.m</b> what time do you shut tonight?
       </div>
@@ -201,7 +203,7 @@ function CommentThread() {
 
 function IntroCard() {
   return (
-    <div className={`${s.glass} ${s.intro}`}>
+    <div className={`${s.glass} ${s.intro}`} data-decorative="product-mock">
       <span className={s.introAvatars}>
         <i />
         <i />

@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --force",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "audit": "node scripts/audit.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",

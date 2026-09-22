@@ -157,7 +157,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
             )}
           </div>
 
-          <div className={s.dayAxis} aria-hidden="true">
+          <div className={s.dayAxis} aria-hidden="true" data-decorative="chart-axis">
             {DAYS.map((d, i) => (
               <span key={i} className={i === 1 ? s.hot : undefined}>
                 {d}
