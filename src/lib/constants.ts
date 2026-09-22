@@ -14,14 +14,22 @@ export const NAV_LINKS = [
   { href: '#faq', label: 'FAQ' },
 ] as const
 
+export type SocialPlatform = 'facebook' | 'instagram' | 'tiktok' | 'youtube' | 'x'
+
 /**
  * Destinations that do not exist yet.
  *
- * The prototype points all of these at `#` / `#0`. They are rendered, styled and accessible
+ * The prototype points all of these at `#` / `#0`. They are rendered, styled and announced
  * but inert, and collected here so wiring them up later is a single edit. Replace a `null`
- * with a URL and the component renders a real link.
+ * with a URL and the component renders a real link instead of a placeholder.
+ *
+ * Typed as `string | null` rather than inferred, so the real-link branch stays live code.
  */
-export const PENDING_LINKS = {
+export const PENDING_LINKS: {
+  social: Record<SocialPlatform, string | null>
+  company: Record<'about' | 'careers', string | null>
+  legal: Record<'privacy' | 'terms', string | null>
+} = {
   social: {
     facebook: null,
     instagram: null,
@@ -33,7 +41,11 @@ export const PENDING_LINKS = {
     about: null,
     careers: null,
   },
-} satisfies Record<string, Record<string, string | null>>
+  legal: {
+    privacy: null,
+    terms: null,
+  },
+}
 
 export const CONTACT_EMAIL = 'hello@artemisai.co.uk'
 

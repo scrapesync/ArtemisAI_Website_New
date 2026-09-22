@@ -1,0 +1,578 @@
+/* FAQ, the closing call to action, and the footer.
+ *
+ * The prototype's wrapper here is a fixed `width: 1440px` rather than a max-width, so it
+ * overflows at every viewport between 760px and 1440px. That is a bug rather than a design
+ * decision, and it is not reproduced — this uses the shared page frame like every other
+ * section.
+ */
+
+.faq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-9);
+  width: 820px;
+  max-width: 100%;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  margin: 0;
+  max-width: 620px;
+  font-size: var(--fs-display-lg);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-display);
+  line-height: var(--lh-display);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.line {
+  display: block;
+}
+
+.accent {
+  color: var(--mint);
+}
+
+/* Words rise one at a time, in two groups. */
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s var(--ease-out),
+    transform 0.55s var(--ease-out);
+}
+
+.seen .word {
+  opacity: 1;
+  transform: none;
+}
+
+.lead {
+  margin: 0;
+  max-width: 520px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-caption);
+  text-align: center;
+  color: var(--ink-60);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.item {
+  border: 1px solid rgba(246, 243, 238, 0.12);
+  border-radius: var(--r-card-sm);
+  background: rgba(246, 243, 238, 0.03);
+  overflow: hidden;
+  transition:
+    border-color 0.34s var(--ease-out),
+    background-color 0.34s var(--ease-out);
+}
+
+.item.open {
+  border-color: rgba(59, 185, 143, 0.5);
+  background: rgba(59, 185, 143, 0.06);
+}
+
+.question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  padding: var(--sp-6) var(--sp-7);
+  text-align: left;
+  font-size: 17px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* A plus that becomes a minus: the upright bar fades and rotates out of the way. */
+.plusMinus {
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.plusMinus i {
+  position: absolute;
+  background: var(--mint);
+  border-radius: 1px;
+}
+
+.plusMinus i:first-child {
+  left: 0;
+  top: 8px;
+  width: 18px;
+  height: 2px;
+}
+
+.plusMinus i:last-child {
+  left: 8px;
+  top: 0;
+  width: 2px;
+  height: 18px;
+  transition:
+    opacity var(--dur-swap) var(--ease-out),
+    transform var(--dur-swap) var(--ease-out);
+}
+
+.open .plusMinus i:last-child {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+/* Animating grid rows from 0fr to 1fr gives an auto-height transition with nothing measured. */
+.answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.44s var(--ease-out);
+}
+
+.item.open .answer {
+  grid-template-rows: 1fr;
+}
+
+.answer > div {
+  overflow: hidden;
+}
+
+.answer p {
+  margin: 0;
+  padding: 0 var(--sp-7) var(--sp-6);
+  font-size: var(--fs-body-sm);
+  line-height: 1.62;
+  color: rgba(246, 243, 238, 0.65);
+  text-wrap: pretty;
+}
+
+/* ── Closing call to action ───────────────────────────────────────── */
+
+.cta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--sp-16);
+  padding: 96px 0 120px;
+  overflow: hidden;
+}
+
+.dots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(246, 243, 238, 0.32) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  mask-image: radial-gradient(
+    ellipse 58% 70% at 50% 50%,
+    #000 0,
+    rgba(0, 0, 0, 0.5) 48%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 58% 70% at 50% 50%,
+    #000 0,
+    rgba(0, 0, 0, 0.5) 48%,
+    transparent 100%
+  );
+  animation: dotsBreathe 13s ease-in-out infinite;
+}
+
+@keyframes dotsBreathe {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.ctaGlow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 700px;
+  height: 380px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(59, 185, 143, 0.16),
+    rgba(0, 0, 0, 0) 70%
+  );
+  pointer-events: none;
+}
+
+/* Wider than the FAQ heading's 620px so "We'll run the numbers." holds one line. */
+.ctaTitle {
+  max-width: 760px;
+}
+
+.ctaInner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+  width: 760px;
+  max-width: 100%;
+}
+
+/* ── Email capture ────────────────────────────────────────────────── */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  width: 540px;
+  max-width: 100%;
+  margin-top: var(--sp-4);
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 7px 7px 7px var(--sp-2);
+  border: 1px solid rgba(246, 243, 238, 0.18);
+  border-radius: var(--r-pill);
+  background: var(--fill-soft);
+  box-sizing: border-box;
+  transition: border-color var(--dur-swap) var(--ease-out);
+}
+
+.pill:focus-within {
+  border-color: var(--mint-60);
+}
+
+.pill input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px var(--sp-4);
+  border: 0;
+  background: none;
+  font-size: 15.5px;
+  font-weight: var(--fw-medium);
+  color: var(--ink);
+  outline: none;
+}
+
+.pill input::placeholder {
+  color: var(--ink-40);
+}
+
+.submit {
+  padding: var(--sp-3) var(--sp-7);
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+  white-space: nowrap;
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--mint-hover);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.error {
+  padding-left: var(--sp-5);
+  font-size: 13.5px;
+  font-weight: var(--fw-semibold);
+  color: var(--danger);
+}
+
+.done {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: var(--sp-4);
+  padding: var(--sp-4) var(--sp-6) var(--sp-4) var(--sp-5);
+  border: 1px solid rgba(59, 185, 143, 0.5);
+  border-radius: var(--r-pill);
+  background: rgba(59, 185, 143, 0.08);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+}
+
+.doneTick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  flex-shrink: 0;
+}
+
+/* Only here so Netlify's build-time parser and screen readers agree it exists. */
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+  padding: 64px 0 40px;
+  border-top: 1px solid rgba(246, 243, 238, 0.1);
+}
+
+.footerTop {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-10);
+}
+
+.brandColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  max-width: 400px;
+}
+
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-body-lg);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-heading);
+  color: var(--ink);
+}
+
+.lockup svg {
+  color: var(--mint);
+}
+
+.blurb {
+  margin: 0;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-caption);
+  color: var(--ink-60);
+}
+
+.social {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: 2px;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-tile);
+  background: var(--fill);
+  border: 1px solid var(--line-soft);
+  color: rgba(246, 243, 238, 0.85);
+  transition:
+    background-color var(--dur-swap) var(--ease-out),
+    color var(--dur-swap) var(--ease-out);
+}
+
+.socialLink:hover {
+  background: var(--fill-hover);
+}
+
+/* Destinations that do not exist yet: styled and announced, but not pretending to be links. */
+.socialLink[aria-disabled='true'] {
+  cursor: default;
+  color: var(--ink-45);
+}
+
+.linkColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  min-width: 180px;
+}
+
+.linkHeading {
+  font-size: 12px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.links a,
+.links span {
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  color: var(--ink-70);
+  transition: color var(--dur-hover) var(--ease-out);
+}
+
+.links a:hover {
+  color: var(--mint);
+}
+
+.links span[aria-disabled='true'] {
+  color: var(--ink-45);
+  cursor: default;
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-top: var(--sp-7);
+  border-top: 1px solid var(--line-soft);
+  font-size: var(--fs-fine);
+  font-weight: var(--fw-medium);
+  color: var(--ink-45);
+}
+
+.legalLinks {
+  display: flex;
+  gap: var(--sp-6);
+}
+
+.legalLinks span[aria-disabled='true'] {
+  cursor: default;
+}
+
+/* ── Reflow ───────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .title {
+    font-size: var(--fs-display-md);
+  }
+}
+
+@media (max-width: 760px) {
+  .title {
+    font-size: var(--fs-display-xs);
+    letter-spacing: var(--ls-display-tight);
+  }
+
+  .lead {
+    font-size: var(--fs-body-sm);
+  }
+
+  .question {
+    padding: var(--sp-5);
+    gap: var(--sp-4);
+    font-size: 15.5px;
+  }
+
+  .answer p {
+    padding: 0 var(--sp-5) 20px;
+  }
+
+  .cta {
+    margin-top: 72px;
+    padding: 64px 0 72px;
+  }
+
+  /* The pill decomposes: the input becomes a control in its own right, button below it. */
+  .pill {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    border-radius: 0;
+  }
+
+  .pill input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--sp-5) 20px;
+    border: 1px solid rgba(246, 243, 238, 0.18);
+    border-radius: var(--r-pill);
+    background: var(--fill-soft);
+    font-size: var(--fs-body-sm);
+    transition: border-color var(--dur-hover) var(--ease-out);
+  }
+
+  .pill input:focus {
+    border-color: var(--mint-60);
+  }
+
+  .submit {
+    display: block;
+    width: 100%;
+    margin-top: var(--sp-3);
+    padding: var(--sp-5) 20px;
+  }
+
+  .footer {
+    gap: var(--sp-8);
+    /* The extra bottom space clears the sticky mobile CTA. */
+    padding: 48px 0 104px;
+  }
+
+  .footerTop {
+    gap: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .item,
+  .answer,
+  .plusMinus i {
+    transition: none;
+  }
+
+  .dots {
+    animation: none;
+  }
+}

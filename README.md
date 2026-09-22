@@ -53,11 +53,23 @@ every motion on the page is `opacity`/`transform` on CSS transitions and keyfram
 
 ## Scripts
 
+These are maintenance tools, not part of the build. They drive a headless browser, so install
+Playwright first — deliberately unsaved, so it is not pulled down on every deploy:
+
+```bash
+npm install --no-save playwright
+```
+
 ```bash
 node scripts/fetch-fonts.mjs        # re-download webfonts, regenerate src/styles/fonts.css
 node scripts/make-brand-assets.mjs  # regenerate favicons and the OG card from the roundel
-node scripts/shoot.mjs --full       # screenshot dist/ at every breakpoint (needs a build first)
+node scripts/optimise-photos.mjs    # re-encode the Belief photographs
+node scripts/shoot.mjs --full       # screenshot dist/ at every breakpoint (build first)
+node scripts/shoot-section.mjs '#why' 1440 out.png   # one section, one width
 ```
+
+They expect this environment's Chromium at `/opt/pw-browsers/chromium-1194`. Elsewhere, drop
+the `executablePath` and run `npx playwright install chromium`.
 
 ## Deployment
 
@@ -67,3 +79,21 @@ variables or secrets.
 The email capture posts to **Netlify Forms**. Netlify detects forms by parsing the built HTML,
 which never sees a React-rendered form — so a hidden static twin named `trial-signup` lives in
 `index.html`. Its field names must stay in sync with the real form.
+
+This only works on a Netlify deploy. Against the Vite dev server the POST has nowhere to go,
+and the form reports the failure rather than pretending to have worked.
+
+## Still to do before launch
+
+- **Photography.** The three Belief images are the handoff's placeholder stock. The four
+  Collabs panels have no photography at all and render a designed placeholder; they need to
+  read as a café, a market, a creator and a florist, because the caption copy depends on it.
+- **Logo.** There is no logo file. The wordmark, favicons and OG card are all generated from
+  the inline roundel glyph by `scripts/make-brand-assets.mjs`.
+- **Destinations.** Social, About us, Careers, Privacy and Terms have nowhere to point yet.
+  They are collected in `PENDING_LINKS` in `src/lib/constants.ts`; adding a URL turns each
+  one from an announced placeholder into a real link.
+- **Two copy points the handoff flags**, unchanged here because the brief says to flag rather
+  than fix: the Collabs h2 says "collaborate with" while its sub-line says "worth working
+  with"; and the handoff README calls the fifth analysis key "Urgency" where the design markup
+  says "Toxicity" (the markup is what is built).

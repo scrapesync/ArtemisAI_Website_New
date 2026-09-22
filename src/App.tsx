@@ -5,6 +5,7 @@ import { Belief } from './sections/Belief/Belief'
 import { HowWeDoIt } from './sections/HowWeDoIt/HowWeDoIt'
 import { Collabs } from './sections/Collabs/Collabs'
 import { ConnectOnce } from './sections/ConnectOnce/ConnectOnce'
+import { FaqFooter } from './sections/FaqFooter/FaqFooter'
 
 export function App() {
   return (
@@ -17,6 +18,7 @@ export function App() {
         <HowWeDoIt />
         <Collabs />
         <ConnectOnce />
+        <FaqFooter />
       </main>
     </>
   )
