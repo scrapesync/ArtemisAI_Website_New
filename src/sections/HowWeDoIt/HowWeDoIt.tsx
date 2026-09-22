@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { CheckIcon, SearchIcon } from '../../components/Icons'
-import { useInView } from '../../lib/useInView'
+import { useReveal } from '../../lib/useInView'
 import page from '../../styles/page.module.css'
 import { CUBE_CELLS, DECK_CHIPS, FLYING_CHIPS, KEYS, MOBILE_QA } from './content'
 import s from './HowWeDoIt.module.css'
@@ -37,7 +37,7 @@ function useStageScale() {
 }
 
 export function HowWeDoIt() {
-  const { ref, seen } = useInView<HTMLElement>({ threshold: 0.2, once: true })
+  const { ref, seen } = useReveal<HTMLElement>(0.2)
   const { outerRef, stageRef } = useStageScale()
 
   // The diagram is full-bleed: its own stage carries the gutters, so it must not sit inside

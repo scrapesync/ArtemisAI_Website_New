@@ -7,7 +7,9 @@
  */
 import type { SVGProps } from 'react'
 
-type IconProps = Omit<SVGProps<SVGSVGElement>, 'children'> & { size?: number }
+/* SVGAttributes declares `size` and `strokeWidth` as `number | string`. Narrow both, so an
+   icon takes one edge length and one stroke weight rather than a union nobody wants. */
+type IconProps = Omit<SVGProps<SVGSVGElement>, 'size' | 'strokeWidth'> & { size?: number }
 
 function Icon({ size = 24, strokeWidth = 2, ...rest }: IconProps & { strokeWidth?: number }) {
   return (
@@ -113,7 +115,7 @@ export function ArrowUpIcon({ size = 14, ...rest }: IconProps) {
 }
 
 /** The narrow chevron that ends every card header. Authored on a 10×16 box, not 24×24. */
-export function ChevronIcon({ size = 10, ...rest }: Omit<IconProps, 'size'> & { size?: number }) {
+export function ChevronIcon({ size = 10, ...rest }: IconProps) {
   return (
     <svg
       viewBox="0 0 10 16"
