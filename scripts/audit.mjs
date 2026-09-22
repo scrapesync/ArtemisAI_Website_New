@@ -188,6 +188,30 @@ report(noRing.length === 0, 'every tab stop shows a focus ring', noRing.length ?
 
 await page.close()
 
+console.log('\n— animation budget —')
+// The diagram alone is 403 running animations. Left ungated they run from page load forever,
+// which measured at 22fps on a 4x-throttled CPU against 60fps with them paused. Sections gate
+// their loops on visibility (see [data-animate] in global.css); this is the regression guard.
+{
+  const a = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+  await a.goto(url, { waitUntil: 'networkidle' })
+  await a.waitForTimeout(1200)
+  const top = await a.evaluate(() => document.getAnimations().filter((x) => x.playState === 'running').length)
+  report(top < 120, `${top} animations running at the top of the page`, top >= 120 ? 'a section is animating before it is seen' : '')
+
+  await a.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 500) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 40)) } window.scrollTo(0, 0) })
+  await a.waitForTimeout(2000)
+  const off = await a.evaluate(() => document.getAnimations().filter((x) => {
+    if (x.playState !== 'running') return false
+    const el = x.effect?.target
+    if (!el?.getBoundingClientRect) return false
+    const r = el.getBoundingClientRect()
+    return r.bottom < -200 || r.top > window.innerHeight + 200
+  }).length)
+  report(off < 40, `${off} animations running off-screen after a full scroll`, off >= 40 ? 'decorative loops are not gated on visibility' : '')
+  await a.close()
+}
+
 console.log('\n— horizontal overflow —')
 // Two separate questions. Can the visitor scroll sideways into empty space? And is anything
 // sticking out that is not deliberately clipped? Raw scrollWidth answers neither on its own:

@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArtemisMark, CloseIcon } from '../../components/Icons'
 import { PlatformBadges } from '../../components/PlatformBadges'
 import { CONNECT_LABEL, CTA_LABEL, NAV_LINKS } from '../../lib/constants'
 import { scrollToSignup } from '../../lib/scrollToSignup'
+import { useFocusTrap } from '../../lib/useFocusTrap'
 import { useLockBodyScroll } from '../../lib/useLockBodyScroll'
 import { useScrolledPast } from '../../lib/useScrolledPast'
 import styles from './Nav.module.css'
@@ -10,8 +11,11 @@ import styles from './Nav.module.css'
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false)
   const scrolled = useScrolledPast(240)
+  const sheetRef = useRef<HTMLDivElement>(null)
 
   useLockBodyScroll(menuOpen)
+  // role="dialog" + aria-modal is a promise that the page behind is unreachable. Keep it.
+  useFocusTrap(sheetRef, menuOpen)
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
@@ -66,7 +70,13 @@ export function Nav() {
       </header>
 
       {menuOpen && (
-        <div className={styles.sheet} role="dialog" aria-modal="true" aria-label="Menu">
+        <div
+          ref={sheetRef}
+          className={styles.sheet}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+        >
           <button className={styles.close} onClick={closeMenu} aria-label="Close menu">
             <CloseIcon size={18} />
           </button>
@@ -91,7 +101,7 @@ export function Nav() {
         </div>
       )}
 
-      <div className={`${styles.stickyCta} ${scrolled ? styles.stickyOn : ''}`}>
+      <div className={`${styles.stickyCta} ${scrolled ? styles.stickyOn : ''}`} inert={menuOpen}>
         <button onClick={goToSignup} tabIndex={scrolled ? 0 : -1}>
           {CTA_LABEL}
         </button>

@@ -3,6 +3,7 @@ import { DeviceFrame } from '../../components/DeviceFrame'
 import { PlatformBadges } from '../../components/PlatformBadges'
 import { CONNECT_LABEL, CTA_LABEL } from '../../lib/constants'
 import { scrollToSignup } from '../../lib/scrollToSignup'
+import { useInView } from '../../lib/useInView'
 import { usePrefersReducedMotion } from '../../lib/usePrefersReducedMotion'
 import page from '../../styles/page.module.css'
 import { ChatScreen } from './ChatScreen'
@@ -14,13 +15,18 @@ const HEADLINE = ['Change', 'the', 'way', 'you', 'build', 'on', 'social', 'media
  * Tilts the device toward the pointer and lifts it slightly as the page scrolls.
  *
  * Both signals write to one transform on one element, coalesced into a single rAF callback —
- * the prototype wrote directly from the mousemove handler, which the handoff asks us to throttle.
+ * the prototype wrote directly from the mousemove handler, which the handoff asks us to
+ * throttle. `enabled` is false once the hero leaves the viewport, which also stops the
+ * per-frame `getBoundingClientRect` for the rest of the page.
  */
 function useDeviceParallax(enabled: boolean) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!enabled) return
+    // A touch device fires pointermove while dragging, which tilts the phone on every swipe.
+    // The effect is for a mouse, so ask for a mouse.
+    if (!window.matchMedia('(pointer: fine)').matches) return
     const el = ref.current
     if (!el) return
 
@@ -62,10 +68,16 @@ function useDeviceParallax(enabled: boolean) {
 
 export function Hero() {
   const reducedMotion = usePrefersReducedMotion()
-  const parallaxRef = useDeviceParallax(!reducedMotion)
+  const { ref: inViewRef, inView } = useInView<HTMLElement>({ threshold: 0 })
+  const parallaxRef = useDeviceParallax(!reducedMotion && inView)
 
   return (
-    <section className={`${page.frame} ${s.hero}`} id="top">
+    <section
+      ref={inViewRef}
+      className={`${page.frame} ${s.hero}`}
+      id="top"
+      data-animate={inView ? 'running' : 'paused'}
+    >
       <div className={s.copy}>
         <h1 className={s.title}>
           {HEADLINE.map((word, i) => (

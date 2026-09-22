@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CheckIcon, SearchIcon } from '../../components/Icons'
-import { useReveal } from '../../lib/useInView'
+import { useInView } from '../../lib/useInView'
 import page from '../../styles/page.module.css'
 import { CUBE_CELLS, DECK_CHIPS, FLYING_CHIPS, KEYS, MOBILE_QA } from './content'
 import s from './HowWeDoIt.module.css'
@@ -37,13 +37,17 @@ function useStageScale() {
 }
 
 export function HowWeDoIt() {
-  const { ref, seen } = useReveal<HTMLElement>(0.2)
+  // Live, not one-shot: `inView` gates the animation loops as well as the reveal, and the
+  // reveal itself is latched so content never fades back out once it has appeared.
+  const { ref, inView } = useInView<HTMLElement>({ threshold: 0.2 })
+  const [seen, setSeen] = useState(false)
+  if (inView && !seen) setSeen(true)
   const { outerRef, stageRef } = useStageScale()
 
   // The diagram is full-bleed: its own stage carries the gutters, so it must not sit inside
   // the page frame, or it would be padded twice and scaled down for nothing.
   return (
-    <section ref={ref} id="how" className={page.section}>
+    <section ref={ref} id="how" className={page.section} data-animate={inView ? 'running' : 'paused'}>
       <div className={`${page.frame} ${s.head}`}>
         <h2 data-reveal={seen ? 'in' : undefined}>How does it know?</h2>
         <p data-reveal={seen ? 'in' : undefined} style={{ transitionDelay: '0.15s' }}>
@@ -51,6 +55,16 @@ export function HowWeDoIt() {
           checks it against two years of your page.
         </p>
       </div>
+
+      {/* Both the diagram and the mobile variant are pictures of a process, and both are
+          aria-hidden — which left a screen reader with only the heading and sub-line for the
+          whole section. This carries the same narrative in prose, at every width. */}
+      <p className="visually-hidden">
+        Artemis reads every one of tonight&rsquo;s comments five ways — for sentiment,
+        emotion, topic, intent and toxicity. A usual Tuesday brings twenty comments; tonight
+        brought a hundred and forty-two, which is a storm. Most of them are the same question,
+        so it drafts one reply that covers them all. Nothing goes out until you say so.
+      </p>
 
       <div className={s.outer} ref={outerRef} aria-hidden="true">
         <div className={s.stage} ref={stageRef}>

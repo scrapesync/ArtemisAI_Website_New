@@ -13,6 +13,23 @@ export function scrollToSignup(): void {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   form.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' })
 
-  // Focus after the scroll settles, otherwise the browser jumps straight to the field.
-  window.setTimeout(() => input?.focus({ preventScroll: true }), reduced ? 0 : 600)
+  if (reduced) {
+    input?.focus({ preventScroll: true })
+    return
+  }
+
+  // Focus once the scroll has actually finished. A fixed delay either fires while the page
+  // is still moving — which a screen reader announces before the visitor has arrived — or
+  // waits longer than it needs to. `scrollend` knows; the timeout is the fallback for
+  // browsers that do not have it yet.
+  let done = false
+  const settle = () => {
+    if (done) return
+    done = true
+    window.removeEventListener('scrollend', settle)
+    window.clearTimeout(fallback)
+    input?.focus({ preventScroll: true })
+  }
+  const fallback = window.setTimeout(settle, 1200)
+  window.addEventListener('scrollend', settle, { once: true })
 }

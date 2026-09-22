@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#080908" />
+    <meta name="theme-color" content="#000000" />
     <meta name="color-scheme" content="dark" />
 
     <title>Artemis — change the way you build on social media</title>
@@ -84,6 +84,29 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!--
+      With JavaScript off this page is an empty shell. Most crawlers execute JS and will see
+      the real thing, but a visitor who has it blocked deserves the pitch and a way to reach
+      us rather than a blank screen.
+    -->
+    <noscript>
+      <div style="max-width:42rem;margin:0 auto;padding:12vh 20px;font-family:Archivo,'Helvetica Neue',Arial,sans-serif;color:#F6F3EE">
+        <h1 style="font-size:40px;font-weight:800;letter-spacing:-0.04em;line-height:1.15;margin:0">
+          Change the way you build on social media.
+        </h1>
+        <p style="font-size:19px;line-height:1.6;color:rgba(246,243,238,0.62);margin:24px 0 0">
+          Artemis watches your pages every minute and tells you what to reply, when to post,
+          and whether a draft will land — read from two years of your own history, not an
+          industry average.
+        </p>
+        <p style="font-size:19px;line-height:1.6;color:rgba(246,243,238,0.62);margin:24px 0 0">
+          This site needs JavaScript to run. With it switched off, email
+          <a style="color:#3BB98F" href="mailto:hello@artemisai.co.uk">hello@artemisai.co.uk</a>
+          and we&rsquo;ll set you up with the 14-day free trial directly.
+        </p>
+      </div>
+    </noscript>
 
     <!--
       Netlify detects forms by parsing the BUILT HTML at deploy time, which never sees a

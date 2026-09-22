@@ -70,6 +70,7 @@ export function ConnectOnce() {
       ref={ref}
       id="connect"
       className={`${page.frame} ${page.section} ${inView ? s.seen : ''} ${held ? s.held : ''}`}
+      data-animate={inView ? 'running' : 'paused'}
       style={{ '--dwell-ms': `${DWELL_MS}ms` } as CSSProperties}
       onMouseEnter={() => setHeld(true)}
       onMouseLeave={() => setHeld(false)}

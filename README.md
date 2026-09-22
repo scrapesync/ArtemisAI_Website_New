@@ -112,6 +112,10 @@ The handoff's contract, as an executable test rather than a promise:
   lands inside an `inert` region.
 - **Horizontal overflow** at 19 widths from 320px to 1920px.
 - **Reduced motion.** Revealed content is visible and no carousel advances.
+- **Animation budget.** No section animates before it has been seen, and almost nothing runs
+  off-screen. This one exists because it caught a real defect: the "How we do it" diagram is
+  403 running animations, and ungated it ran from page load forever — 22fps at the *top* of
+  the page on a 4x-throttled CPU, against 60fps with it paused.
 - **Anchors and heading order.**
 
 One measurement worth knowing: `--ink-62`, which the handoff names as the body-copy floor,
@@ -133,6 +137,22 @@ which never sees a React-rendered form — so a hidden static twin named `trial-
 
 This only works on a Netlify deploy. Against the Vite dev server the POST has nowhere to go,
 and the form reports the failure rather than pretending to have worked.
+
+## Known trade-offs
+
+Two things measured during QA that are design decisions rather than defects, left as they are:
+
+- **The diagram costs what it costs while you are looking at it.** 125 dots x 3 animations is
+  ~44ms per frame on a 4x-throttled CPU. The cost scales with the number of elements, not with
+  any one property — removing the mint glow changes nothing; halving the lattice takes it to
+  19ms. But the 5x5x5 count is load-bearing for the story it tells (20 dots are "your usual
+  Tuesday", the other 105 are tonight), so it is not ours to cut. It only renders above 760px,
+  and it no longer runs when off-screen.
+- **Type is in `px`, as the handoff specifies.** Browser and OS *zoom* scales it correctly, and
+  the page is clean at 200% with no horizontal scroll. What it does not respond to is a raised
+  default font size in browser settings. Moving body and UI text to `rem` would fix that
+  without changing a single rendered pixel at the default 16px root; it is a systemic change
+  across the stylesheets, so it needs a decision rather than a quiet commit.
 
 ## Still to do before launch
 
