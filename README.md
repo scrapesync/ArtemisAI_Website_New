@@ -2,6 +2,34 @@
 
 The Artemis one-page marketing site. Static React, deployed to Netlify.
 
+## Reviewing it
+
+Three routes, in order of effort.
+
+**A live preview** is published at the link in the project chat — the real production bundle,
+so every carousel, count-up and breakpoint behaves as it will in production. The one dead
+control is the email capture: it posts to Netlify Forms, which is not behind the preview, so
+it validates the address and then reports the failure.
+
+**Locally**, for hot reload and poking at the code:
+
+```bash
+git clone https://github.com/scrapesync/ArtemisAI_Website_New.git
+cd ArtemisAI_Website_New
+git checkout claude/fervent-brown-mk6htq
+npm install
+npm run dev                      # http://localhost:5173, hot reload
+npm run build && npm run preview # http://localhost:4173, the production build
+```
+
+Needs Node `^20.19 || ^22.13 || >=24` — `nvm use` picks a correct one from `.nvmrc`. The
+email capture behaves the same as in the preview: there is no Netlify to post to.
+
+**On Netlify**, which is the only route where the form works end to end. Connect the repo in
+the Netlify UI and pick the branch; `netlify.toml` already supplies the build command, publish
+directory, Node version and cache headers, so there is nothing to configure. After the first
+deploy, `trial-signup` appears under the site's **Forms** tab and submissions land there.
+
 ## Running it
 
 ```bash
@@ -10,6 +38,7 @@ npm run dev        # vite dev server
 npm run build      # typecheck + production build to dist/
 npm run preview    # serve the built output
 npm run lint
+npm run audit      # accessibility + layout checks (see below)
 ```
 
 ## What this is
