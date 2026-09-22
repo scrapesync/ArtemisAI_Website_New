@@ -1,0 +1,842 @@
+/* "What we do" — three tabs over one panel with three swappable panes.
+ *
+ * The idle cycle is pure CSS: a 15-second loop, three 5-second phases, running on the tabs,
+ * their dwell rails and the panes in lockstep. Clicking a tab adds `.manual`, which disables
+ * every one of those keyframes and hands control to React state; 15 seconds later the class
+ * comes off and the CSS loop resumes. Neither mechanism has to know about the other.
+ */
+
+.section {
+  padding-top: var(--sp-16);
+}
+
+.head h2 {
+  margin: 0;
+  font-size: var(--fs-display-lg);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+
+.head h2 span {
+  display: block;
+}
+
+.head h2 em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+.sub {
+  margin: var(--sp-6) 0 0;
+  max-width: 760px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-caption);
+  color: var(--ink-60);
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────────── */
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 64px;
+}
+
+.tab {
+  position: relative;
+  padding-top: var(--sp-6);
+  text-align: left;
+  opacity: 0.45;
+  transition: opacity var(--dur-swap) var(--ease-out);
+}
+
+.tab.on {
+  opacity: 1;
+}
+
+.rail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(246, 243, 238, 0.12);
+  overflow: hidden;
+}
+
+/* The mint fill is the dwell timer: it sweeps across over exactly as long as the step holds,
+   then snaps back when the tab stops being live. */
+.rail i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--mint);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.tab.on .rail i {
+  transform: scaleX(1);
+  transition: transform var(--wwd-dwell, 5s) linear;
+}
+
+/* A hand-picked tab fills immediately rather than pretending to time out. */
+.manual .tab.on .rail i {
+  transition: transform 0.4s var(--ease-reveal);
+}
+
+.tabIndex {
+  display: block;
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  color: var(--mint);
+}
+
+.tabTitle {
+  display: block;
+  margin-top: var(--sp-3);
+  font-size: 22px;
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.tabSentence {
+  display: block;
+  margin: var(--sp-3) 0 0;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-caption);
+  color: var(--ink-60);
+}
+
+/* ── Panel ────────────────────────────────────────────────────────── */
+
+.panel {
+  position: relative;
+  height: 440px;
+  margin-top: var(--sp-9);
+  background: rgba(246, 243, 238, 0.035);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card-sm);
+  overflow: hidden;
+}
+
+/* A mint pulse confirms a manual pick landed. */
+.panel.flash::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--r-card-sm);
+  pointer-events: none;
+  z-index: 5;
+  animation: panelFlash 1.2s var(--ease-reveal) both;
+}
+
+@keyframes panelFlash {
+  from {
+    box-shadow:
+      inset 0 0 0 1px rgba(59, 185, 143, 0.7),
+      0 0 90px rgba(59, 185, 143, 0.3);
+  }
+  to {
+    box-shadow:
+      inset 0 0 0 1px rgba(59, 185, 143, 0),
+      0 0 0 rgba(59, 185, 143, 0);
+  }
+}
+
+.pane {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  padding: 40px 48px;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition:
+    opacity 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out);
+}
+
+.pane.on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* ── Shared pane furniture ────────────────────────────────────────── */
+
+.label {
+  display: block;
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-kicker);
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.label em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+.big {
+  font-size: 64px;
+  font-weight: var(--fw-black);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.paneSub {
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: rgba(246, 243, 238, 0.55);
+}
+
+/* ── Pane 1: Catch the storm ──────────────────────────────────────── */
+
+.paneStorm {
+  grid-template-columns: 1.15fr 1fr;
+  gap: 0;
+  padding: 0;
+  align-items: stretch;
+}
+
+.stormLeft {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 40px;
+  border-right: 1px solid rgba(246, 243, 238, 0.1);
+}
+
+.stormHead {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.stormHead .label {
+  display: inline-block;
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.stats {
+  display: flex;
+  align-items: flex-end;
+  gap: 36px;
+  margin-top: var(--sp-5);
+}
+
+.stat .big {
+  font-size: 56px;
+}
+
+.stat .big span {
+  font-size: var(--sp-6);
+  letter-spacing: 0;
+  margin-left: 3px;
+}
+
+.statCaption {
+  margin-top: 6px;
+  font-size: var(--fs-fine);
+  color: rgba(246, 243, 238, 0.55);
+}
+
+.coverPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-left: auto;
+  padding: 7px 12px 7px 9px;
+  border-radius: var(--r-pill);
+  background: var(--mint-12);
+  box-shadow: inset 0 0 0 1px rgba(59, 185, 143, 0.35);
+  font-size: 12px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.coverPill i {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  box-shadow: 0 0 0 3px rgba(59, 185, 143, 0.2);
+}
+
+.coverPill b {
+  color: var(--mint);
+  font-weight: var(--fw-black);
+}
+
+.chart {
+  position: relative;
+  flex: 1;
+  margin-top: var(--sp-6);
+  border-bottom: 1px solid var(--line);
+}
+
+.chart svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The trend line draws itself in, then holds for the rest of the cycle. */
+.spark {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+}
+
+/* Adding `.on` restarts the animation, so the line redraws every time the pane comes round. */
+.pane.on .spark {
+  animation: draw 1.65s linear 0.45s forwards;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 600;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.marker {
+  position: absolute;
+  left: 63%;
+  top: 0;
+  bottom: 0;
+  border-left: 1px dashed rgba(59, 185, 143, 0.6);
+}
+
+.markerLabel {
+  position: absolute;
+  left: calc(63% + 8px);
+  top: 0;
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.08em;
+  color: var(--ink-40);
+}
+
+.axis em {
+  font-style: normal;
+  font-weight: var(--fw-semibold);
+  color: var(--mint);
+}
+
+.stormRight {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 40px;
+}
+
+.replyStack {
+  position: relative;
+  height: 128px;
+  margin-top: 34px;
+}
+
+/* Three drafts on one 9s loop, each offset by a third, so one is always front and centre. */
+.replyCard {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--sp-5) 20px;
+  border-radius: var(--r-card-sm);
+  background:
+    linear-gradient(
+      165deg,
+      rgba(59, 185, 143, 0.22) 0%,
+      rgba(59, 185, 143, 0.07) 55%,
+      rgba(30, 30, 28, 1) 100%
+    ),
+    #161512;
+  box-shadow:
+    inset 0 0 0 1px rgba(246, 243, 238, 0.08),
+    0 16px 32px rgba(0, 0, 0, 0.45);
+  transform-origin: top center;
+  animation: replySwap 9s var(--ease-reveal) infinite;
+}
+
+@keyframes replySwap {
+  0%,
+  30% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+  }
+  33.3% {
+    transform: translateY(22px) scale(1);
+    opacity: 0;
+    z-index: 3;
+  }
+  33.4% {
+    transform: translateY(-20px) scale(0.92);
+    opacity: 0;
+    z-index: 1;
+  }
+  37%,
+  63% {
+    transform: translateY(-20px) scale(0.92);
+    opacity: 0.5;
+    z-index: 1;
+  }
+  66.6%,
+  96% {
+    transform: translateY(-10px) scale(0.96);
+    opacity: 0.75;
+    z-index: 2;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+  }
+}
+
+.replyHead {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.replyAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--mint-light), var(--mint-deep) 70%);
+  color: var(--ground-screen-deep);
+  flex-shrink: 0;
+}
+
+.replyName {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+}
+
+.replyKicker {
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.replyCount {
+  margin-left: auto;
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.1em;
+  color: var(--ink-40);
+}
+
+.replyBody {
+  margin: var(--sp-3) 0 0;
+  font-size: var(--fs-body-lg);
+  line-height: 1.45;
+  color: rgba(246, 243, 238, 0.92);
+}
+
+.replyFoot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: auto;
+}
+
+.pillSolid {
+  padding: 11px 24px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+}
+
+.pillGhost {
+  padding: var(--sp-3) var(--sp-6);
+  border: 1px solid rgba(246, 243, 238, 0.25);
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+}
+
+.replyNote {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--ink-45);
+}
+
+/* ── Pane 2: Find the window ──────────────────────────────────────── */
+
+/* 7 columns × 4 rows. Note the README describes this as 7×3 — the markup is 28 cells, and
+   the 21-cell grid it means lives on the mobile deck card instead. */
+.heatGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--sp-2);
+  margin-top: var(--sp-6);
+}
+
+.heatCell {
+  height: 36px;
+  border-radius: 4px;
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+/* Each cell carries its own inline delay, which wipes the grid diagonally. */
+.pane.on .heatCell {
+  animation: heatIn 0.75s var(--ease-reveal) forwards;
+}
+
+@keyframes heatIn {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dayAxis {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-top: var(--sp-3);
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: var(--ink-35);
+}
+
+.dayAxis .hot {
+  color: var(--mint);
+}
+
+.windowTime {
+  margin-top: var(--sp-5);
+  font-size: 56px;
+}
+
+.windowLift {
+  margin: var(--sp-4) 0 0;
+  font-size: 20px;
+  font-weight: var(--fw-semibold);
+  color: var(--mint);
+}
+
+.windowNote {
+  margin: var(--sp-5) 0 0;
+  max-width: 420px;
+}
+
+/* ── Pane 3: Score the draft ──────────────────────────────────────── */
+
+.scoreRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+  margin-top: var(--sp-6);
+}
+
+.scoreValue {
+  font-size: 88px;
+}
+
+.scoreOutOf {
+  margin-top: 4px;
+  font-size: var(--fs-fine);
+  letter-spacing: 0.12em;
+  color: var(--ink-40);
+}
+
+.tracks {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding-top: var(--sp-3);
+}
+
+.trackHead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-caption);
+}
+
+.trackHead span {
+  color: var(--ink-60);
+}
+
+.trackHead b {
+  font-weight: var(--fw-bold);
+}
+
+.track {
+  position: relative;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(246, 243, 238, 0.12);
+}
+
+.trackFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--mint);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.pane.on .trackFill {
+  animation: trackIn 1.05s var(--ease-reveal) forwards;
+}
+
+@keyframes trackIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.draftText {
+  margin: var(--sp-5) 0 0;
+  font-size: 19px;
+  line-height: 1.5;
+  color: rgba(246, 243, 238, 0.75);
+}
+
+.draftVerdict {
+  margin: var(--sp-6) 0 0;
+  font-size: 20px;
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+}
+
+.draftVerdict em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+/* ── Closer ───────────────────────────────────────────────────────── */
+
+.closer {
+  display: flex;
+  justify-content: center;
+  gap: 0.28em;
+  margin-top: var(--sp-12);
+  text-align: center;
+  font-size: 30px;
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-display-tight);
+}
+
+.closer .accent {
+  color: var(--mint);
+}
+
+/* ── Reflow ───────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .head h2 {
+    font-size: var(--fs-display-md);
+  }
+
+  .tabs {
+    gap: var(--sp-6);
+  }
+
+  .pane {
+    gap: 40px;
+    padding: var(--sp-8) var(--sp-8);
+  }
+
+  .stormLeft,
+  .stormRight {
+    padding: var(--sp-7) var(--sp-7);
+  }
+
+  .panel {
+    height: 480px;
+  }
+
+  .scoreValue {
+    font-size: 68px;
+  }
+
+  .windowTime {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .tabs {
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  .panel {
+    height: auto;
+    min-height: 520px;
+  }
+
+  .pane {
+    position: relative;
+    inset: auto;
+    grid-template-columns: 1fr;
+    gap: var(--sp-7);
+  }
+
+  /* Once the panes are in flow they must not stack, so only the live one is laid out. */
+  .pane:not(.on) {
+    display: none;
+  }
+
+  .paneStorm {
+    grid-template-columns: 1fr;
+  }
+
+  .stormLeft {
+    border-right: 0;
+    border-bottom: 1px solid rgba(246, 243, 238, 0.1);
+  }
+}
+
+/* The desktop tab/panel structure is replaced wholesale by a swipe deck below 760px. */
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .section {
+    padding-top: var(--sp-12);
+  }
+
+  .closer {
+    margin-top: 34px;
+    font-size: 20px;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The step timer never arms under reduced motion (see useCarousel), so pane one simply
+     stays put. Its inner animations are shown at their end state rather than replayed. */
+  .tab,
+  .pane,
+  .rail i {
+    transition: none;
+  }
+
+  .pane.on .spark,
+  .pane.on .heatCell,
+  .pane.on .trackFill {
+    animation: none;
+  }
+
+  .spark {
+    stroke-dashoffset: 0;
+  }
+
+  .heatCell {
+    opacity: 1;
+    transform: none;
+  }
+
+  .trackFill {
+    transform: scaleX(1);
+  }
+
+  .replyCard {
+    animation-play-state: paused !important;
+    animation-delay: -1s !important;
+  }
+
+  .liveDot {
+    animation: none;
+  }
+
+  .panel.flash::after {
+    animation: none;
+  }
+}

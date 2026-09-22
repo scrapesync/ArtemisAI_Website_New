@@ -4,15 +4,14 @@ import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 /**
  * Counts from 0 to `target`, eased `1 - (1 - k)³`, driven by requestAnimationFrame.
  *
- * Bump `runKey` to replay — the handoff re-runs the count when its tab is picked by hand.
- * Under reduced motion the final value is returned directly, derived during render rather
- * than written from an effect.
+ * Flipping `active` off and on replays the count — which is what makes the numbers re-run
+ * each time their tab comes back round. Under reduced motion the final value is returned
+ * directly, derived during render rather than written from an effect.
  */
 export function useCountUp(
   target: number,
   durationMs: number,
   active: boolean,
-  runKey: number = 0,
 ): number {
   const [value, setValue] = useState(0)
   const reducedMotion = usePrefersReducedMotion()
@@ -32,8 +31,7 @@ export function useCountUp(
 
     frame = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(frame)
-    // runKey is intentionally a dependency: changing it restarts the count.
-  }, [target, durationMs, active, reducedMotion, runKey])
+  }, [target, durationMs, active, reducedMotion])
 
   return reducedMotion ? target : value
 }

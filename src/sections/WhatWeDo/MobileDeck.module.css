@@ -1,0 +1,444 @@
+/* Below 760px the tab/panel structure is replaced wholesale by a snap-scrolling deck of three
+   self-contained cards. Its copy is deliberately shorter than the desktop copy — that is the
+   handoff's own editing for the narrower measure, not an accident, so both versions are kept. */
+
+.deckWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--fs-display-xs);
+  font-weight: var(--fw-bold);
+  line-height: 1.08;
+  letter-spacing: -0.032em;
+}
+
+.title em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+.sub {
+  margin: var(--sp-3) 0 0;
+  font-size: var(--fs-caption);
+  line-height: 1.5;
+  color: var(--ink-60);
+}
+
+/* Bleeds into the gutters so a card edge is always visible past the fold. */
+.deck {
+  display: flex;
+  gap: 12px;
+  margin: var(--sp-6) calc(var(--page-pad-sm) * -1) 0;
+  padding: 0 var(--page-pad-sm);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  align-items: stretch;
+  scrollbar-width: none;
+}
+
+.deck::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 min(300px, 84vw);
+  scroll-snap-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(246, 243, 238, 0.03);
+  box-shadow: inset 0 0 0 1px rgba(246, 243, 238, 0.1);
+}
+
+.cardIndex {
+  display: block;
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  color: var(--mint);
+}
+
+.cardTitle {
+  margin-top: 6px;
+  font-size: var(--fs-body-lg);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.022em;
+}
+
+.cardSentence {
+  margin: 6px 0 var(--sp-5);
+  font-size: var(--fs-fine);
+  line-height: 1.5;
+  color: var(--ink-60);
+}
+
+.label {
+  display: block;
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.label em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.labelRow .label {
+  display: inline-block;
+}
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+.live i {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.stats {
+  display: flex;
+  gap: var(--sp-6);
+  margin-top: var(--sp-3);
+}
+
+.number {
+  font-size: 34px;
+  font-weight: var(--fw-black);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.number span {
+  font-size: var(--fs-body-sm);
+  letter-spacing: 0;
+  margin-left: 2px;
+}
+
+.caption {
+  margin-top: 4px;
+  font-size: var(--fs-kicker);
+  color: rgba(246, 243, 238, 0.5);
+}
+
+.miniChart {
+  margin-top: var(--sp-3);
+}
+
+.spark {
+  stroke-dasharray: 340;
+  stroke-dashoffset: 340;
+}
+
+.on .spark {
+  animation: draw 1.3s cubic-bezier(0.3, 0.8, 0.3, 1) 0.2s forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.replyBlock {
+  margin-top: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--sp-4);
+  background: rgba(59, 185, 143, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(59, 185, 143, 0.28);
+}
+
+.replyBlock .label {
+  color: rgba(246, 243, 238, 0.5);
+}
+
+.replyText {
+  margin: 6px 0 0;
+  font-size: var(--fs-body-sm);
+  line-height: 1.45;
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: auto;
+  padding-top: var(--sp-5);
+}
+
+.send {
+  padding: var(--sp-3) 20px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  font-size: var(--fs-fine);
+  font-weight: var(--fw-bold);
+}
+
+.note {
+  font-size: var(--fs-kicker);
+  color: var(--ink-45);
+}
+
+/* ── Card 2: 7 × 3, hot cell on Tuesday ───────────────────────────── */
+
+.heatGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: var(--sp-3);
+}
+
+.heatCell {
+  height: 22px;
+  border-radius: 4px;
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.on .heatCell {
+  animation: cellIn 0.4s ease forwards;
+}
+
+@keyframes cellIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.dayAxis {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: var(--sp-2);
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--ink-35);
+}
+
+.dayAxis .hot {
+  color: var(--mint);
+}
+
+.windowTime {
+  margin-top: 20px;
+  font-size: 30px;
+  font-weight: var(--fw-black);
+  letter-spacing: -0.04em;
+}
+
+.windowLift {
+  margin: var(--sp-3) 0 0;
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--mint);
+}
+
+.windowNote {
+  margin: auto 0 0;
+  padding-top: var(--sp-5);
+  font-size: var(--fs-fine);
+  line-height: 1.5;
+  color: rgba(246, 243, 238, 0.5);
+}
+
+/* ── Card 3: the score ────────────────────────────────────────────── */
+
+.score {
+  font-size: 52px;
+  font-weight: var(--fw-black);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.outOf {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--ink-40);
+}
+
+.tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: var(--sp-5);
+}
+
+.trackHead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--ink-60);
+}
+
+.trackHead b {
+  color: var(--ink);
+  font-weight: var(--fw-bold);
+}
+
+.bar {
+  display: block;
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.12);
+}
+
+.bar i {
+  display: block;
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.on .bar i {
+  animation: barIn 0.9s var(--ease-reveal) 0.25s forwards;
+}
+
+@keyframes barIn {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.draftBlock {
+  margin-top: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--sp-4);
+  background: var(--fill-soft);
+}
+
+.draftText {
+  margin: 6px 0 0;
+  font-size: var(--fs-caption);
+  line-height: 1.5;
+  color: rgba(246, 243, 238, 0.75);
+}
+
+.verdict {
+  margin: auto 0 0;
+  padding-top: var(--sp-5);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+}
+
+.verdict em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+/* ── Dots and swipe hint ──────────────────────────────────────────── */
+
+.deckFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--sp-5);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+}
+
+/* 7px of dot inside a 44px target — the handoff's minimum, non-negotiable. */
+.dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-left: -18px;
+}
+
+.dot:first-child {
+  margin-left: -18px;
+}
+
+.dot::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.22);
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.dot[aria-current='true']::before {
+  background: var(--mint);
+}
+
+.swipe {
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live i {
+    animation: none;
+  }
+
+  .on .spark,
+  .on .heatCell,
+  .on .bar i {
+    animation: none;
+  }
+
+  .spark {
+    stroke-dashoffset: 0;
+  }
+
+  .heatCell {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bar i {
+    transform: scaleX(1);
+  }
+}
