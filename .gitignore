@@ -5,3 +5,6 @@ dist
 .vite
 .netlify
 dist-preview
+
+# TypeScript build-mode cache
+*.tsbuildinfo
