@@ -1,0 +1,33 @@
+/* The shared page frame: 1440px max, gutters 130 → 56 (≤1200) → 20 (≤760).
+   Every section composes `.frame` rather than redeclaring its own padding. */
+
+.frame {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-inline: var(--page-pad);
+}
+
+@media (max-width: 1200px) {
+  .frame {
+    padding-inline: var(--page-pad-md);
+  }
+}
+
+@media (max-width: 760px) {
+  .frame {
+    padding-inline: var(--page-pad-sm);
+  }
+}
+
+/* Sections sit 140px apart. */
+.section {
+  margin-top: var(--sp-16);
+  scroll-margin-top: var(--sp-12);
+}
+
+@media (max-width: 760px) {
+  .section {
+    margin-top: 72px;
+  }
+}

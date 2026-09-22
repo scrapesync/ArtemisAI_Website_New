@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&amp;display=swap">
+  <style>
+    html, body { margin: 0; background: #080908; }
+    html { scrollbar-width: none; -ms-overflow-style: none; }
+    html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display: none; }
+    a { color: #3BB98F; text-decoration: none; }
+    a:hover { color: #6FD9B5; }
+  </style>
+</helmet>
+
+<div style="min-height: 100vh; box-sizing: border-box; padding: 56px 24px 72px; background: radial-gradient(90% 60% at 50% 0%, rgba(59,185,143,0.12), rgba(8,9,8,0) 60%), #080908; color: #F6F3EE; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; display: flex; flex-direction: column; align-items: center; gap: 36px;">
+
+  <div style="width: 100%; max-width: 760px; display: flex; flex-direction: column; gap: 14px; text-align: center; align-items: center;">
+    
+    
+    
+    <div style="display: flex; gap: 8px; margin-top: 6px;">
+      <button type="button" onClick="{{ set360 }}" style="height: 40px; padding: 0 18px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ b360 }}; background: {{ g360 }}; color: #F6F3EE;">360</button>
+      <button type="button" onClick="{{ set390 }}" style="height: 40px; padding: 0 18px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ b390 }}; background: {{ g390 }}; color: #F6F3EE;">390</button>
+      <button type="button" onClick="{{ set430 }}" style="height: 40px; padding: 0 18px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid {{ b430 }}; background: {{ g430 }}; color: #F6F3EE;">430</button>
+      <button type="button" onClick="{{ reload }}" style="height: 40px; padding: 0 20px; margin-left: 10px; border-radius: 999px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; border: 0; background: #3BB98F; color: #161512;">Replay</button>
+    </div>
+  </div>
+
+  <div style="position: relative; padding: 12px; border-radius: 62px; background: linear-gradient(150deg, #5a5956 0%, #23231f 22%, #16160f 50%, #2e2d2a 78%, #0e0e0c 100%); box-shadow: inset 0 0 0 1.5px rgba(246,243,238,0.16), 0 60px 120px rgba(0,0,0,0.75), 0 20px 40px rgba(0,0,0,0.5);">
+    <div style="position: absolute; left: -3px; top: 148px; width: 3px; height: 34px; border-radius: 2px; background: linear-gradient(180deg, #4a4946, #1a1a18);"></div>
+    <div style="position: absolute; left: -3px; top: 206px; width: 3px; height: 62px; border-radius: 2px; background: linear-gradient(180deg, #4a4946, #1a1a18);"></div>
+    <div style="position: absolute; left: -3px; top: 280px; width: 3px; height: 62px; border-radius: 2px; background: linear-gradient(180deg, #4a4946, #1a1a18);"></div>
+    <div style="position: absolute; right: -3px; top: 236px; width: 3px; height: 96px; border-radius: 2px; background: linear-gradient(180deg, #4a4946, #1a1a18);"></div>
+    <div style="position: relative; border-radius: 50px; overflow: hidden; background: #000; box-shadow: inset 0 0 0 2px #050505;">
+      <div style="position: absolute; left: 0; right: 0; top: 0; height: 44px; z-index: 3; pointer-events: none; display: flex; align-items: center; justify-content: space-between; padding: 0 26px; background: linear-gradient(180deg, rgba(0,0,0,0.92), rgba(0,0,0,0.55) 70%, rgba(0,0,0,0)); font-size: 12px; font-weight: 700; letter-spacing: -0.01em; color: #F6F3EE;">
+        <span>9:41</span>
+        <span style="display: flex; align-items: center; gap: 5px;">
+          <svg width="15" height="11" viewBox="0 0 18 12" fill="#F6F3EE"><rect x="0" y="8" width="3" height="4" rx="1"></rect><rect x="5" y="6" width="3" height="6" rx="1"></rect><rect x="10" y="3" width="3" height="9" rx="1"></rect><rect x="15" y="0" width="3" height="12" rx="1"></rect></svg>
+          <svg width="16" height="11" viewBox="0 0 22 12" fill="none" stroke="#F6F3EE" stroke-width="1.4"><rect x="0.7" y="1.4" width="17" height="9.2" rx="2.6"></rect><rect x="2.4" y="3.1" width="12" height="5.8" rx="1.4" fill="#F6F3EE" stroke="none"></rect><path d="M19.6 4.6v2.8" stroke-linecap="round"></path></svg>
+        </span>
+      </div>
+      <div style="position: absolute; left: 50%; top: 11px; width: 78px; height: 24px; border-radius: 999px; background: #000; transform: translateX(-50%); z-index: 4; pointer-events: none;"></div>
+      <iframe src="{{ srcTwo }}" ref="{{ frTwo }}" title="Artemis, mobile, two beats" style="display: block; width: {{ w }}px; height: 812px; border: 0; background: #000;"></iframe>
+      <div style="position: absolute; left: 50%; bottom: 7px; width: 118px; height: 4px; border-radius: 999px; background: rgba(246,243,238,0.5); transform: translateX(-50%); z-index: 4; pointer-events: none;"></div>
+    </div>
+  </div>
+
+  <p style="margin: 0; max-width: 560px; font-size: 14px; line-height: 1.55; text-align: center; color: rgba(246,243,238,0.4); text-wrap: pretty;">Same file as the desktop page, driven by <span style="font-family: ui-monospace, Menlo, monospace; font-size: 12.5px;">#fold=two&amp;rel=1</span>.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { w: 360 };
+  frTwo = React.createRef();
+  reload = () => { const f = this.frTwo.current; if (!f) return; try { f.contentWindow.location.reload(); } catch (e) { f.src = f.src; } };
+  renderVals() {
+    const { w } = this.state;
+    const on = (x) => w === x;
+    const b = (x) => on(x) ? '#3BB98F' : 'rgba(246,243,238,0.18)';
+    const g = (x) => on(x) ? 'rgba(59,185,143,0.14)' : 'transparent';
+    return {
+      w, widthLabel: w + 'px', reload: this.reload, frTwo: this.frTwo,
+      srcTwo: './Artemis v3 Hero 2n.dc.html#mv=bleed&fold=two&rel=1&sb=1',
+      b360: b(360), b390: b(390), b430: b(430),
+      g360: g(360), g390: g(390), g430: g(430),
+      set360: () => this.setState({ w: 360 }),
+      set390: () => this.setState({ w: 390 }),
+      set430: () => this.setState({ w: 430 }),
+    };
+  }
+}
+</script>
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+    <rect width="120" height="120" fill="#080908"/>
+    <circle cx="60" cy="46" r="26" fill="none" stroke="#3BB98F" stroke-width="3"/>
+    <path d="M60 20v52M34 37h52" stroke="#3BB98F" stroke-width="3" stroke-linecap="round"/>
+    <text x="60" y="100" text-anchor="middle" fill="#F6F3EE" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="14" font-weight="700">Mobile</text>
+  </svg>
+</template>
+</body>
+</html>

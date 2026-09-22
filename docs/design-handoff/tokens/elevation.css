@@ -1,0 +1,19 @@
+:root {
+  /* Device / hardware */
+  --shadow-device: inset 0 0 0 1.5px rgba(246, 243, 238, 0.16), 0 60px 120px rgba(0, 0, 0, 0.75), 0 20px 40px rgba(0, 0, 0, 0.5);
+  --shadow-screen-inset: inset 0 0 0 2px #050505;
+
+  /* Surfaces */
+  --shadow-card-inset: inset 0 0 0 1px rgba(246, 243, 238, 0.09);
+  --shadow-pop: 0 24px 70px -18px rgba(0, 0, 0, 0.75);
+
+  /* Brand glows — the only "light source" in the system */
+  --glow-page: radial-gradient(90% 60% at 50% 0%, rgba(59, 185, 143, 0.12), rgba(8, 9, 8, 0) 60%);
+  --glow-section: radial-gradient(50% 50% at 50% 45%, rgba(59, 185, 143, 0.14), rgba(0, 0, 0, 0) 70%);
+  --glow-screen: radial-gradient(50% 50% at 50% 50%, rgba(59, 185, 143, 0.5), rgba(59, 185, 143, 0) 70%);
+
+  /* Edge fades used instead of hard clipping */
+  --mask-rail-x: linear-gradient(90deg, transparent 0, #000 18%, #000 82%, transparent 100%);
+  --mask-rail-end: linear-gradient(90deg, #000 0, #000 84%, transparent 100%);
+  --mask-thread-top: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 22%);
+}

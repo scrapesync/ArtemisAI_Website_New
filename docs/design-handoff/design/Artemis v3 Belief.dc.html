@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
+  <style>
+    .bl-wrap { position: relative; width: 1440px; margin: 0 auto; padding: 0 130px; box-sizing: border-box; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; color: #F6F3EE; background: #000; overflow: hidden; }
+    .bl-rv { opacity: 0; transform: translateY(18px); transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+    .bl-in .bl-rv { opacity: 1; transform: none; }
+    .bl-view { position: relative; margin: 56px -130px 0; overflow: hidden; }
+    .bl-track { display: flex; gap: 24px; padding-left: 130px; width: max-content; transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1); }
+    .bl-cell { width: 690px; flex: none; }
+    .bl-card { position: relative; width: 690px; height: 500px; border-radius: 24px; overflow: hidden; box-sizing: border-box; background: #121211; border: 1px solid rgba(246,243,238,0.10); }
+    .bl-cap { margin: 22px 0 0 0; max-width: 620px; font-size: 16px; line-height: 1.5; color: rgba(246,243,238,0.55); text-wrap: pretty; }
+    .bl-cap b { font-weight: 600; color: #F6F3EE; }
+    .bl-arrows { display: flex; justify-content: flex-end; gap: 12px; margin-top: 36px; }
+    .bl-arr { width: 48px; height: 48px; border-radius: 999px; background: rgba(246,243,238,0.10); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.4s, background-color 0.25s; }
+    .bl-arr:hover { background: rgba(246,243,238,0.16); }
+    .bl-arr.bl-off { opacity: 0.3; pointer-events: none; }
+    .bl-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .bl-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,11,10,0.05) 0%, rgba(10,11,10,0.2) 45%, rgba(10,11,10,0.84) 100%); }
+    .bl-send { display: inline-block; white-space: nowrap; background: #3BB98F; color: #161512; font-size: 11px; font-weight: 700; padding: 6px 13px; border-radius: 999px; }
+    .bl-ghost { display: inline-block; white-space: nowrap; border: 1px solid rgba(246,243,238,0.25); color: #F6F3EE; font-size: 11px; font-weight: 500; padding: 5px 11px; border-radius: 999px; }
+    .bl-glass { position: absolute; left: 24px; bottom: 24px; box-sizing: border-box; border-radius: 14px; background: rgba(18,18,17,0.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 8px 30px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(246,243,238,0.08); }
+    .bl-note { width: 292px; padding: 10px 12px 11px; }
+    .bl-nh { display: flex; align-items: center; gap: 8px; }
+    .bl-ico { width: 16px; height: 16px; border-radius: 5px; background: #3BB98F; display: flex; align-items: center; justify-content: center; flex: none; }
+    .bl-napp { font-size: 11px; font-weight: 600; color: rgba(246,243,238,0.8); }
+    .bl-ntime { margin-left: auto; font-size: 10px; color: rgba(246,243,238,0.45); }
+    .bl-nt { margin-top: 6px; font-size: 13px; font-weight: 700; color: #F6F3EE; line-height: 1.3; }
+    .bl-nb { margin-top: 2px; font-size: 12px; line-height: 1.4; color: rgba(246,243,238,0.7); }
+    .bl-thread { position: absolute; left: 24px; bottom: 24px; width: 272px; }
+    .bl-q { padding: 0 4px 7px 6px; font-size: 11.5px; color: rgba(246,243,238,0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
+    .bl-q b { color: #F6F3EE; font-weight: 600; }
+    .bl-cm { position: static; display: flex; gap: 8px; align-items: flex-start; padding: 9px 11px; border-radius: 13px; }
+    .bl-cav { width: 20px; height: 20px; border-radius: 999px; background: #3BB98F; flex: none; margin-top: 1px; }
+    .bl-cn { font-size: 11px; font-weight: 700; color: #F6F3EE; }
+    .bl-cn span { margin-left: 6px; color: #3BB98F; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 9px; }
+    .bl-ct { margin-top: 2px; font-size: 12.5px; line-height: 1.4; color: rgba(246,243,238,0.85); }
+    .bl-intro { width: 380px; display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+    .bl-iav { position: relative; width: 36px; height: 24px; flex: none; }
+    .bl-iav i { position: absolute; top: 0; width: 24px; height: 24px; border-radius: 999px; }
+    .bl-iav i.a { left: 0; background: rgba(246,243,238,0.2); }
+    .bl-iav i.b { left: 12px; background: #3BB98F; border: 2px solid #121211; box-sizing: border-box; }
+    .bl-it { font-size: 12.5px; font-weight: 700; color: #F6F3EE; }
+    .bl-ib { margin-top: 2px; font-size: 11.5px; line-height: 1.4; color: rgba(246,243,238,0.7); }
+    .bl-in .bl-glass, .bl-in .bl-thread { animation: blPop 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s both; }
+    @keyframes blPop { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .bl-track { transition: none; } .bl-rv { opacity: 1; transform: none; } }
+    @media (max-width: 760px) {
+      .bl-wrap { width: 100%; padding: 0 20px; }
+      .bl-wrap h2 { font-size: 26px !important; letter-spacing: -0.03em !important; }
+      .bl-view { margin: 32px -20px 0 !important; }
+      .bl-track { padding-left: 20px; gap: 14px; }
+      .bl-cell { width: 84vw; }
+      .bl-card { width: 100%; height: 330px; }
+      .bl-cap { margin-top: 16px !important; font-size: 14px; }
+      .bl-note, .bl-thread, .bl-intro { width: calc(84vw - 48px); max-width: 292px; }
+      .bl-glass { left: 16px; bottom: 16px; } .bl-thread { left: 16px; bottom: 16px; }
+      .bl-arrows { display: none; }
+    }
+  </style>
+</helmet>
+
+<div class="bl-wrap {{ inClass }}" ref="{{ wrapRef }}" data-screen-label="Why we do it">
+  <h2 class="bl-rv" style="margin: 0; max-width: 980px; font-size: 60px; font-weight: 700; letter-spacing: -0.038em; line-height: 1.02; text-wrap: balance;">Growth shouldn’t mean being online all day.</h2>
+
+  <div class="bl-view bl-rv" style="transition-delay: 0.15s;" onMouseEnter="{{ hold }}" onMouseLeave="{{ release }}">
+    <div class="bl-track" style="transform: {{ shift }};">
+      <div class="bl-cell">
+        <div class="bl-card">
+          <img class="bl-photo" alt="a café owner on her phone behind the counter" src="{{ imgCafe }}">
+          <div class="bl-scrim"></div>
+          <div class="bl-glass bl-note">
+            <div class="bl-nh"><div class="bl-ico"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1.5l5 11H2z" fill="none" stroke="#161512" stroke-width="1.6" stroke-linejoin="round"></path><circle cx="7" cy="9" r="1.3" fill="#161512"></circle></svg></div><span class="bl-napp">Artemis</span><span class="bl-ntime">now</span></div>
+            <div class="bl-nt">3 people asked what time you close tonight</div>
+            <div class="bl-nb">Reply’s drafted in your voice. Have a look when you get a sec.</div>
+          </div>
+        </div>
+        <p class="bl-cap"><b>Same tools, any size.</b> A café with 1,200 followers gets the same read of its comments as a brand with a team behind it. The only difference is who’s holding the phone.</p>
+      </div>
+      <div class="bl-cell">
+        <div class="bl-card">
+          <img class="bl-photo" alt="a thumb hovering over a phone screen, about to tap" src="{{ imgThumb }}">
+          <div class="bl-scrim"></div>
+          <div class="bl-thread">
+            <div class="bl-q"><b>sarah.m</b> what time do you shut tonight?</div>
+            <div class="bl-glass bl-cm"><div class="bl-cav"></div><div style="flex: 1; min-width: 0;"><div class="bl-cn">Corner Eatery <span>draft</span></div><div class="bl-ct">Open till 8pm from Monday — same kitchen, longer evenings.</div>
+              <div style="display: flex; gap: 6px; margin-top: 8px; align-items: center;"><span class="bl-send">Send</span><span class="bl-ghost">Change it</span></div></div></div>
+          </div>
+        </div>
+        <p class="bl-cap"><b>You always decide.</b> Artemis drafts, scores and suggests — it never posts. Every reply and every post waits for you to say so.</p>
+      </div>
+      <div class="bl-cell">
+        <div class="bl-card">
+          <img class="bl-photo" alt="two local business owners together, laughing" src="{{ imgOwners }}">
+          <div class="bl-scrim"></div>
+          <div class="bl-glass bl-intro">
+            <div class="bl-iav"><i class="a"></i><i class="b"></i></div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="bl-it">Riverside Runners are worth a hello.</div>
+              <div class="bl-ib">Puts you in front of 8,200 people who don't know you yet.</div>
+            </div>
+            <span class="bl-send" style="flex: none;">Say hello</span>
+          </div>
+        </div>
+        <p class="bl-cap"><b>Opportunities should find you.</b> Other pages already reach people you never will. Artemis finds them and makes the introduction, so you’re not the one hunting.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bl-arrows bl-rv" style="transition-delay: 0.3s;">
+    <div class="bl-arr {{ prevOff }}" onClick="{{ prev }}"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M9 2L4 7l5 5" fill="none" stroke="#F6F3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+    <div class="bl-arr {{ nextOff }}" onClick="{{ next }}"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M5 2l5 5-5 5" fill="none" stroke="#F6F3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;dwell&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:7,&quot;min&quot;:3,&quot;max&quot;:15,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;autoGlide&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { i: 0, seen: false, hold: false };
+  wrapRef = React.createRef();
+  offsets = [0, -714, -938];
+  dwell() { return (this.props.dwell ?? 7) * 1000; }
+  arm() { clearTimeout(this.t); if (this.props.autoGlide === false || this.state.hold) return; this.t = setTimeout(() => { this.setState(s => ({ i: (s.i + 1) % 3 })); this.arm(); }, this.dwell()); }
+  go(n) { this.setState({ i: Math.max(0, Math.min(2, n)) }); this.arm(); }
+  componentDidMount() {
+    const el = this.wrapRef.current; if (!el) return;
+    this.io = new IntersectionObserver(es => {
+      const on = es.some(e => e.isIntersecting);
+      if (on && !this.state.seen) { this.setState({ seen: true, i: 0 }); this.arm(); }
+      if (!on && this.state.seen) { clearTimeout(this.t); this.setState({ seen: false }); }
+    }, { threshold: 0.2 });
+    this.io.observe(el);
+    this.fb = setTimeout(() => { if (!this.state.seen && el.getBoundingClientRect().top < (window.innerHeight || 800)) { this.setState({ seen: true }); this.arm(); } }, 1200);
+    this.rs = () => this.forceUpdate();
+    window.addEventListener('resize', this.rs);
+  }
+  componentWillUnmount() { clearTimeout(this.t); clearTimeout(this.fb); this.io && this.io.disconnect(); if (this.rs) window.removeEventListener('resize', this.rs); }
+  renderVals() {
+    const { i, seen } = this.state;
+    const R = window.__resources || {};
+    return {
+      imgCafe: R.beliefCafe || './icons/belief-cafe.jpg', imgThumb: R.beliefThumb || './icons/belief-thumb.jpg', imgOwners: R.beliefOwners || './icons/belief-owners.jpg',
+      wrapRef: this.wrapRef, inClass: seen ? 'bl-in' : '',
+      shift: window.innerWidth <= 760 ? 'translateX(calc(' + (-i) + ' * (84vw + 14px)))' : 'translateX(' + this.offsets[i] + 'px)',
+      prevOff: i === 0 ? 'bl-off' : '', nextOff: i === 2 ? 'bl-off' : '',
+      prev: () => this.go(i - 1), next: () => this.go(i + 1),
+      hold: () => this.setState({ hold: true }, () => clearTimeout(this.t)),
+      release: () => this.setState({ hold: false }, () => this.arm()),
+    };
+  }
+}
+</script>
+</body>
+</html>

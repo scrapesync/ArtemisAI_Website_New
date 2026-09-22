@@ -1,0 +1,47 @@
+/** The site's one conversion action. Every CTA on the page routes here. */
+export const SIGNUP_ANCHOR = 'trial-signup'
+
+/** Copy that appears in more than one place. Verbatim from the handoff — do not rewrite. */
+export const CTA_LABEL = 'Join 14-day free trial'
+export const CONNECT_LABEL = 'Connect now'
+
+export const NAV_LINKS = [
+  { href: '#what', label: 'What' },
+  { href: '#why', label: 'Why' },
+  { href: '#how', label: 'How' },
+  { href: '#collabs', label: 'Collabs' },
+  { href: '#connect', label: 'Connect' },
+  { href: '#faq', label: 'FAQ' },
+] as const
+
+/**
+ * Destinations that do not exist yet.
+ *
+ * The prototype points all of these at `#` / `#0`. They are rendered, styled and accessible
+ * but inert, and collected here so wiring them up later is a single edit. Replace a `null`
+ * with a URL and the component renders a real link.
+ */
+export const PENDING_LINKS = {
+  social: {
+    facebook: null,
+    instagram: null,
+    tiktok: null,
+    youtube: null,
+    x: null,
+  },
+  company: {
+    about: null,
+    careers: null,
+  },
+} satisfies Record<string, Record<string, string | null>>
+
+export const CONTACT_EMAIL = 'hello@artemisai.co.uk'
+
+export const SITE = {
+  name: 'Artemis',
+  legalName: 'ArtemisAI Ltd',
+  url: 'https://artemisai.co.uk',
+  title: 'Artemis — change the way you build on social media',
+  description:
+    'Artemis watches your pages every minute and tells you what to reply, when to post, and whether a draft will land. Read from two years of your own history, not an industry average.',
+} as const

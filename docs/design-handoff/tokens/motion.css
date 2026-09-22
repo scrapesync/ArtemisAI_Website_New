@@ -1,0 +1,24 @@
+:root {
+  /* Easing — one curve does almost all the work */
+  --ease-out: cubic-bezier(0.22, 0.7, 0.2, 1);
+  --ease-reveal: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-scan: cubic-bezier(0.4, 0, 0.5, 1);
+
+  /* Durations */
+  --dur-press: 120ms;
+  --dur-hover: 250ms;
+  --dur-swap: 300ms;
+  --dur-slide: 550ms;
+  --dur-reveal: 700ms;
+  --dur-scan: 2600ms;
+
+  /* Sequencing */
+  --stagger: 50ms;         /* between revealed siblings */
+  --dwell: 5s;             /* how long a carousel step holds */
+  --drift: 26s;            /* platform rail loop */
+  --sway: 9s;              /* device tilt loop */
+
+  /* Reveal distances */
+  --rise: 18px;            /* scroll reveal translate */
+  --slide-x: 38px;         /* mobile screen swap translate */
+}

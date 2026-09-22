@@ -1,0 +1,30 @@
+/* Breakpoints. Custom properties cannot be used inside @media, so these are the
+   documented reference values — write the literal px in the query and keep them in sync. */
+:root {
+  --bp-wide: 1440px;   /* page stops growing; gutters absorb the rest */
+  --bp-desk: 1200px;   /* gutter 130 → 56, display 60 → 46 */
+  --bp-stack: 900px;   /* two-column grids collapse to one, device centres */
+  --bp-mobile: 760px;  /* full mobile treatment */
+  --bp-small: 390px;   /* design width for the mobile kit */
+
+  --page-pad-wide: 130px;
+  --page-pad-desk: 56px;
+  --page-pad-mobile: 20px;
+}
+
+/* Fluid defaults every consumer inherits. */
+img, svg, video { max-width: 100%; }
+.artemis-page { width: 100%; max-width: var(--page-max); margin: 0 auto; padding: 0 var(--page-pad); box-sizing: border-box; }
+.artemis-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 120px; align-items: center; }
+
+@media (max-width: 1200px) {
+  .artemis-page { padding: 0 var(--page-pad-desk); }
+  .artemis-grid { gap: 56px; }
+}
+@media (max-width: 900px) {
+  .artemis-grid { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+}
+@media (max-width: 760px) {
+  .artemis-page { padding: 0 var(--page-pad-mobile); }
+  .artemis-grid { gap: 28px; }
+}

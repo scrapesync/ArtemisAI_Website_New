@@ -1,0 +1,29 @@
+/* The overlapped badge cluster inside every "Connect now" pill.
+   Appears at 26px in the nav, 32px in the hero, and flat (no overlap) in the mobile sheet. */
+
+.cluster {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--badge-size);
+  height: var(--badge-size);
+  border-radius: var(--r-pill);
+  background: var(--ground-black);
+  border: 1.5px solid var(--ground-black);
+  box-shadow: 0 0 0 1px rgba(246, 243, 238, 0.18);
+  box-sizing: border-box;
+}
+
+/* Each badge but the first tucks under the one before it. */
+.cluster:not(.flat) .badge + .badge {
+  margin-left: var(--badge-overlap);
+}
+
+.flat {
+  gap: 8px;
+}

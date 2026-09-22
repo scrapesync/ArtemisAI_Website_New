@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
+  <script src="./image-slot.js"></script>
+  <style>
+    .cl-ph { position: absolute; inset: 0; border-radius: 24px; overflow: hidden; background: #1E1D19; opacity: 0; transform: scale(0.985); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .cl-ph[data-on="1"] { opacity: 1; transform: scale(1); }
+    .cl-ph image-slot { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .cl-scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.85) 100%); }
+    .cl-tag { position: absolute; left: 20px; right: 20px; bottom: 20px; pointer-events: none; display: flex; align-items: center; gap: 14px; padding: 12px 16px 12px 12px; border-radius: 16px; background: rgba(0,0,0,0.55); border: 1px solid rgba(246,243,238,0.12); backdrop-filter: blur(12px); }
+    .cl-av { width: 46px; height: 46px; border-radius: 999px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: #F6F3EE; background: linear-gradient(145deg, #2A2925, #171613); box-shadow: 0 0 0 2px #000, 0 0 0 4px #3BB98F; }
+    .cl-tag b { display: flex; align-items: center; gap: 7px; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; color: #F6F3EE; line-height: 1.2; }
+    .cl-tag b i { width: 16px; height: 16px; border-radius: 999px; background: #3BB98F; display: inline-flex; align-items: center; justify-content: center; }
+    .cl-tag span { display: block; margin-top: 3px; font-size: 13px; color: rgba(246,243,238,0.6); }
+    .cl-tag span em { font-style: normal; color: #F6F3EE; font-weight: 600; }
+    .cl-you { margin-left: auto; flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #3BB98F; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(59,185,143,0.4); white-space: nowrap; }
+    .cl-fix { opacity: 1; transform: none; }
+    .cl-badge { position: absolute; left: 50%; top: 50%; width: 104px; height: 104px; border-radius: 999px; background: #3BB98F; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; box-shadow: 0 0 0 10px #000; z-index: 2; opacity: 0; transform: translate(-50%, -50%) scale(0.6); transition: opacity 0.45s cubic-bezier(.2,.9,.3,1.2) 0.45s, transform 0.45s cubic-bezier(.2,.9,.3,1.2) 0.45s; }
+    .cl-badge[data-on="1"] { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .cl-badge span { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; opacity: 0.75; }
+    .cl-cap { position: absolute; left: 0; right: 0; top: 0; font-size: 16px; line-height: 1.5; color: rgba(246,243,238,0.78); opacity: 0; transform: translateY(6px); transition: opacity 0.5s ease 0.75s, transform 0.5s ease 0.75s; text-wrap: pretty; }
+    .cl-cap[data-on="1"] { opacity: 1; transform: translateY(0); }
+    .cl-cap b { font-weight: 600; color: #F6F3EE; }
+    .cl-cap p { display: grid; grid-template-columns: 104px 1fr; gap: 16px; margin: 0 0 10px; align-items: baseline; }
+    .cl-cap p:last-child { margin-bottom: 0; }
+    .cl-cap p > i { font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #3BB98F; }
+    @media (max-width: 760px) { .cl-cap p { grid-template-columns: 78px 1fr; gap: 10px; margin-bottom: 8px; } }
+    .cl-dot { width: 6px; height: 6px; border-radius: 999px; background: rgba(246,243,238,0.2); border: 0; padding: 0; cursor: pointer; transition: width 0.3s ease, background 0.3s ease; }
+    .cl-dot[data-on="1"] { background: #3BB98F; width: 20px; }
+    .cl-arrow { width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(246,243,238,0.16); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+    .cl-arrow:hover { border-color: rgba(246,243,238,0.5); background: rgba(246,243,238,0.06); }
+    @media (max-width: 760px) {
+      [data-cl-outer] { height: auto !important; overflow: visible !important; }
+      [data-cl-stage] { width: 100% !important; height: auto !important; padding: 0 !important; transform: none !important; }
+      [data-cl-stage] > div { padding-left: 20px; padding-right: 20px; }
+      [data-cl-stage] h2 { font-size: 26px !important; letter-spacing: -0.03em !important; }
+      [data-cl-stage] > div:first-child p { white-space: normal !important; font-size: 15px !important; }
+      .cl-cap { font-size: 14px !important; }
+      .cl-row { grid-template-columns: 1fr !important; gap: 0 !important; margin-top: 32px !important; padding: 0 20px !important; overflow: visible !important; }
+      .cl-row > div:not(.cl-badge) { height: 196px !important; }
+      .cl-row > div:first-child .cl-ph { border-radius: 20px 20px 0 0; }
+      .cl-row > div:nth-child(2) .cl-ph { border-radius: 0 0 20px 20px; }
+      .cl-badge { left: 50% !important; top: 196px !important; width: 72px; height: 72px; font-size: 15px; box-shadow: 0 0 0 7px #000; }
+      .cl-badge span { font-size: 8px; }
+      .cl-scrim { background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.6) 100%) !important; }
+      .cl-row > div:first-child .cl-scrim { background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.5) 100%) !important; }
+      .cl-tag { left: 12px !important; right: auto !important; bottom: 12px !important; gap: 8px !important; padding: 5px 10px 5px 5px !important; border-radius: 999px !important; }
+      .cl-row > div:first-child .cl-tag { top: 12px; bottom: auto !important; }
+      .cl-av { width: 22px !important; height: 22px !important; font-size: 9px !important; box-shadow: 0 0 0 1.5px #000, 0 0 0 2.5px #3BB98F !important; }
+      .cl-tag b { font-size: 12.5px !important; }
+      .cl-tag b i { display: none !important; }
+      .cl-tag span { display: none !important; }
+      .cl-you { margin-left: 0 !important; font-size: 9px !important; padding: 0 !important; border: 0 !important; letter-spacing: 0.1em !important; }
+      [data-cl-stage] > div:nth-child(3) > div { height: 250px !important; max-width: none !important; }
+      [data-cl-stage] > div:nth-child(4) { padding-bottom: 8px; }
+    }
+    /* reveal on scroll, same curve as the rest of the page */
+    @keyframes clland { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    [data-cl-stage] .cl-rv { opacity: 0; }
+    [data-cl-stage].seen .cl-rv { animation: clland 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  </style>
+</helmet>
+
+<div data-cl-band="1" style="width: 100%; background: #000; overflow: hidden; display: flex; justify-content: center;">
+<div data-cl-outer="1" ref="{{ outerRef }}" style="width: 100%; max-width: 1440px; height: 800px; overflow: hidden;">
+<div data-cl-stage="1" ref="{{ stageRef }}" onMouseEnter="{{ pause }}" onMouseLeave="{{ resume }}" style="width: 1440px; min-height: 800px; transform-origin: 0 0; color: #F6F3EE; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; overflow: hidden; padding: 0 130px; box-sizing: border-box;">
+
+  <div style="display: flex; flex-direction: column; gap: 20px;">
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <h2 style="margin: 0; font-size: 60px; font-weight: 700; line-height: 1.02; letter-spacing: -0.038em; text-wrap: balance;"><span class="cl-rv" style="display: block; animation-delay: 0.1s;">Who to collaborate with.</span><span class="cl-rv" style="display: block; animation-delay: 0.22s;">And why.</span></h2>
+    </div>
+    <p class="cl-rv" style="animation-delay: 0.4s; margin: 0; max-width: 900px; font-size: 16px; line-height: 1.55; color: rgba(246, 243, 238, 0.6);">Businesses, creators and pages worth working with — who, why it makes sense, who you’d reach, and what you could run together.</p>
+  </div>
+
+  <div class="cl-rv cl-row" style="animation-delay: 0.55s; position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px;">
+    <div style="position: relative; height: 340px;">
+      <div class="cl-ph cl-fix"><image-slot id="cl-you-1" src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=1200" credit="Pexels" radius="0" placeholder="Your page photo"></image-slot><div class="cl-scrim"></div><div class="cl-tag"><div class="cl-av">CE</div><div><b>Corner Eatery<i><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.2 5.2L20 6.9"></path></svg></i></b><span>you &middot; café &middot; <em>1,240</em> followers</span></div><div class="cl-you">You</div></div></div>
+    </div>
+    <div style="position: relative; height: 340px;">
+      <div class="cl-ph" data-on="{{ on0 }}"><image-slot id="cl-them-1" src="https://images.pexels.com/photos/1775043/pexels-photo-1775043.jpeg?auto=compress&cs=tinysrgb&w=1200" credit="Pexels" radius="0" placeholder="Their page photo"></image-slot><div class="cl-scrim"></div><div class="cl-tag"><div class="cl-av">SM</div><div><b>Saturday Market<i><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.2 5.2L20 6.9"></path></svg></i></b><span>Community page &middot; <em>5.8k</em> followers</span></div><div class="cl-you">Every other Saturday</div></div></div>
+      <div class="cl-ph" data-on="{{ on1 }}"><image-slot id="cl-them-2" src="https://images.pexels.com/photos/2402777/pexels-photo-2402777.jpeg?auto=compress&cs=tinysrgb&w=1200" credit="Pexels" radius="0" placeholder="Their page photo"></image-slot><div class="cl-scrim"></div><div class="cl-tag"><div class="cl-av">TA</div><div><b>Tom Ashby<i><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.2 5.2L20 6.9"></path></svg></i></b><span>Creator &middot; <em>24k</em> followers</span></div><div class="cl-you">Films local spots</div></div></div>
+      <div class="cl-ph" data-on="{{ on2 }}"><image-slot id="cl-them-3" src="https://images.pexels.com/photos/1470171/pexels-photo-1470171.jpeg?auto=compress&cs=tinysrgb&w=1200" credit="Pexels" radius="0" placeholder="Their page photo"></image-slot><div class="cl-scrim"></div><div class="cl-tag"><div class="cl-av">HF</div><div><b>Hollow Lane Florist<i><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.2 5.2L20 6.9"></path></svg></i></b><span>Florist &middot; <em>5.4k</em> followers</span></div><div class="cl-you">Same block</div></div></div>
+    </div>
+    <div class="cl-badge" data-on="{{ on0 }}">+4,300<span>new people</span></div>
+    <div class="cl-badge" data-on="{{ on1 }}">+9,100<span>new people</span></div>
+    <div class="cl-badge" data-on="{{ on2 }}">+2,600<span>new people</span></div>
+  </div>
+
+  <div class="cl-rv" style="animation-delay: 0.7s; margin-top: 22px;">
+    <div style="position: relative; height: 140px; max-width: 900px;">
+      <div class="cl-cap" data-on="{{ on0 }}"><p><i>Why</i><span>Their crowd is on your street every other Saturday, and most of them have never been in.</span></p><p><i>Reach</i><span>4,300 new people, the kind who already respond to local food.</span></p><p><i>Together</i><span>A market-day special: they post the stall map, you post the deal. They get somewhere to send people at 1pm; you get a queue.</span></p></div>
+      <div class="cl-cap" data-on="{{ on1 }}"><p><i>Why</i><span>He films small businesses for people who live here. He hasn’t filmed yours.</span></p><p><i>Reach</i><span>9,100 new people who watch his videos to decide where to go next.</span></p><p><i>Together</i><span>One morning behind your counter: he gets a story, you host his followers for breakfast. He gets the access; you get his Saturday audience.</span></p></div>
+      <div class="cl-cap" data-on="{{ on2 }}"><p><i>Why</i><span>Their Friday bouquet drop lands at your busiest hour, one block away.</span></p><p><i>Reach</i><span>2,600 new people who already buy something nice on a Friday.</span></p><p><i>Together</i><span>Table flowers from them, a mention from you. They get a standing order; you get a room that photographs well.</span></p></div>
+    </div>
+  </div>
+
+  <div class="cl-rv" style="animation-delay: 0.8s; display: flex; align-items: center; justify-content: space-between; margin-top: 22px;">
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="cl-dot" type="button" aria-label="Slide 1" data-on="{{ on0 }}" onClick="{{ go0 }}"></button>
+      <button class="cl-dot" type="button" aria-label="Slide 2" data-on="{{ on1 }}" onClick="{{ go1 }}"></button>
+      <button class="cl-dot" type="button" aria-label="Slide 3" data-on="{{ on2 }}" onClick="{{ go2 }}"></button>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button class="cl-arrow" type="button" aria-label="Previous" onClick="{{ prev }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F6F3EE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+      <button class="cl-arrow" type="button" aria-label="Next" onClick="{{ next }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F6F3EE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;interval&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:8,&quot;min&quot;:3,&quot;max&quot;:15,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Carousel&quot;},&quot;pauseOnHover&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Carousel&quot;}}">
+class Component extends DCLogic {
+  state = { i: 0, paused: false, seen: false };
+  names = ['Saturday Market', 'Tom Ashby', 'Hollow Lane'];
+  outerRef = React.createRef();
+  stageRef = React.createRef();
+  componentDidMount() { this.wire(); }
+  componentDidUpdate() { if (!this._wired) this.wire(); }
+  wire() {
+    const o = this.outerRef.current || document.querySelector('[data-cl-outer]');
+    const stage = this.stageRef.current || document.querySelector('[data-cl-stage]');
+    if (!o || !stage) { this._raf = requestAnimationFrame(() => this.wire()); return; }
+    this._wired = true;
+    {
+      const fit = () => {
+        if (window.innerWidth <= 760) { stage.style.transform = 'none'; o.style.height = 'auto'; return; }
+        const w = o.clientWidth || o.parentElement.clientWidth;
+        if (!w) { requestAnimationFrame(fit); return; }
+        const s = Math.min(1, w / 1440);
+        stage.style.transform = 'scale(' + s + ')';
+        const nh = Math.round(Math.max(800, stage.scrollHeight) * s) + 'px';
+        if (o.style.height !== nh) o.style.height = nh;
+      };
+      this._fit = fit;
+      fit();
+      setTimeout(fit, 400);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+      this._ro = new ResizeObserver(() => requestAnimationFrame(fit));
+      this._ro.observe(o.parentElement);
+      window.addEventListener('resize', fit);
+      const reveal = () => {
+        if (this.state.seen) return;
+        stage.classList.add('seen'); this.setState({ seen: true }); this.restart();
+        if (this._io) this._io.disconnect();
+        window.removeEventListener('scroll', check);
+      };
+      const check = () => {
+        const r = o.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.85 && r.bottom > 0) reveal();
+      };
+      if ('IntersectionObserver' in window) {
+        this._io = new IntersectionObserver((es) => { if (es.some(e => e.isIntersecting)) reveal(); }, { threshold: 0.2 });
+        this._io.observe(o);
+      }
+      window.addEventListener('scroll', check, { passive: true });
+      this._check = check;
+      setTimeout(check, 300);
+    }
+  }
+  componentWillUnmount() { cancelAnimationFrame(this._raf); if (this._ro) this._ro.disconnect(); if (this._io) this._io.disconnect(); if (this._check) window.removeEventListener('scroll', this._check); if (this._fit) window.removeEventListener('resize', this._fit); clearInterval(this._t); }
+  restart() {
+    clearInterval(this._t);
+    const ms = (this.props.interval ?? 8) * 1000;
+    this._t = setInterval(() => { if (!this.state.paused) this.step(1); }, ms);
+  }
+  step(d) { this.setState(s => ({ i: (s.i + d + 3) % 3 })); this.restart(); }
+  go(n) { this.setState({ i: n }); this.restart(); }
+  renderVals() {
+    const { i, seen } = this.state;
+    const on = (n) => seen && i === n ? '1' : '0';
+    return {
+      on0: on(0), on1: on(1), on2: on(2),
+      activeName: this.names[i],
+      next: () => this.step(1), prev: () => this.step(-1),
+      go0: () => this.go(0), go1: () => this.go(1), go2: () => this.go(2),
+      pause: () => { if (this.props.pauseOnHover ?? true) this.setState({ paused: true }); },
+      resume: () => this.setState({ paused: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>

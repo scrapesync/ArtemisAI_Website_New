@@ -1,0 +1,763 @@
+/* The Art E conversation on the hero phone.
+ *
+ * One 11-second loop, started 4.8s after mount, drives everything: the typed question, the
+ * thinking dots, a scan across twelve thumbnails, two result cards and three suggestion chips.
+ * It is pure CSS — React renders the markup once and never re-renders it.
+ *
+ * Messages open with `grid-template-rows: 0fr → 1fr`, which animates auto height without
+ * measuring anything.
+ */
+
+.screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 62px 16px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(120% 60% at 50% -10%, rgba(59, 185, 143, 0.28), rgba(59, 185, 143, 0) 60%),
+    var(--ground-screen-deep);
+}
+
+.glow {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: -30%;
+  height: 60%;
+  opacity: 0.7;
+  background: var(--glow-screen);
+  animation: breathe 4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes breathe {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+
+/* ── Header ───────────────────────────────────────────────────────── */
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-pill);
+  background: var(--fill-strong);
+  color: var(--ink);
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--mint-light), var(--mint-deep) 70%);
+  box-shadow: 0 0 0 2px var(--mint-25);
+  color: var(--ground-screen-deep);
+  flex-shrink: 0;
+}
+
+.who b {
+  display: block;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-heading);
+  line-height: 1.1;
+}
+
+.who small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-medium);
+  color: rgba(246, 243, 238, 0.55);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* ── Thread ───────────────────────────────────────────────────────── */
+
+.chat {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  mask-image: var(--mask-thread-top);
+  -webkit-mask-image: var(--mask-thread-top);
+}
+
+.stack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* A message. Closed is `0fr`; the keyframes open it to `1fr`. */
+.message {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.message > * {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.fromMe > * {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* The shared clock. Every animated element in the thread carries this. */
+.animated {
+  animation-duration: 11s;
+  animation-timing-function: var(--ease-reveal);
+  animation-iteration-count: infinite;
+  animation-delay: 4.8s;
+  animation-fill-mode: backwards;
+}
+
+.userBubble {
+  width: fit-content;
+  padding: 10px 14px;
+  border-radius: 18px 18px 5px 18px;
+  background: var(--ink);
+  color: var(--ink-on-mint);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.01em;
+}
+
+/* The question types itself in, 29 characters wide, with a caret that fades at the end. */
+.typed {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: bottom;
+  border-right: 2px solid var(--mint-deep);
+  width: 0;
+  animation-timing-function: steps(30, end);
+}
+
+.thinking {
+  width: fit-content;
+  margin-left: 32px;
+  display: flex;
+  gap: 5px;
+  padding: 14px;
+  background: var(--fill-strong);
+  border-radius: 5px 18px 18px 18px;
+}
+
+.thinking i {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--ink-60);
+  animation: pulse 1.1s ease-in-out infinite;
+}
+
+.thinking i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.thinking i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.msgRow {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: flex-start;
+}
+
+.msgAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--mint-light), var(--mint-deep) 70%);
+  color: var(--ground-screen-deep);
+  flex-shrink: 0;
+}
+
+.msgText {
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  color: rgba(246, 243, 238, 0.85);
+}
+
+.msgText b {
+  color: var(--ink);
+  font-weight: var(--fw-bold);
+}
+
+/* ── Thumbnail scan ───────────────────────────────────────────────── */
+
+.thumbGrid {
+  display: flex;
+  gap: 6px;
+  margin-top: var(--sp-3);
+}
+
+.thumb {
+  flex: 1;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: rgba(246, 243, 238, 0.1);
+  border: 1.5px solid transparent;
+  animation-timing-function: linear;
+}
+
+@keyframes scan {
+  0%,
+  16.5% {
+    background: rgba(246, 243, 238, 0.1);
+  }
+  17.5% {
+    background: rgba(246, 243, 238, 0.5);
+  }
+  19.5%,
+  100% {
+    background: rgba(246, 243, 238, 0.1);
+  }
+}
+
+/* The twelfth tile is the match: it stays lit and outlined once the sweep reaches it. */
+@keyframes scanHit {
+  0%,
+  16.5% {
+    background: rgba(246, 243, 238, 0.1);
+    border-color: transparent;
+  }
+  17.5%,
+  21% {
+    background: rgba(246, 243, 238, 0.5);
+    border-color: transparent;
+  }
+  23%,
+  94% {
+    background: rgba(246, 243, 238, 0.22);
+    border-color: var(--ink);
+  }
+  100% {
+    background: rgba(246, 243, 238, 0.1);
+    border-color: transparent;
+  }
+}
+
+.caption {
+  margin-top: 6px;
+  text-align: right;
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0;
+}
+
+@keyframes captionIn {
+  0%,
+  24% {
+    opacity: 0;
+  }
+  26%,
+  94% {
+    opacity: 1;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Result cards ─────────────────────────────────────────────────── */
+
+.card {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--r-card);
+  background: linear-gradient(
+    165deg,
+    rgba(59, 185, 143, 0.2) 0%,
+    rgba(59, 185, 143, 0.05) 55%,
+    rgba(246, 243, 238, 0.03) 100%
+  );
+  box-shadow: inset 0 0 0 1px rgba(246, 243, 238, 0.06);
+}
+
+/* The "under your average" card drops the mint tint — it is not good news. */
+.cardWarn {
+  background: linear-gradient(
+    165deg,
+    rgba(246, 243, 238, 0.1) 0%,
+    rgba(246, 243, 238, 0.04) 55%,
+    rgba(246, 243, 238, 0.02) 100%
+  );
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.1);
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.cardHead b {
+  display: block;
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.01em;
+}
+
+.cardHead small {
+  display: block;
+  font-size: 10.5px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(246, 243, 238, 0.55);
+}
+
+.cardHead small em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+/* On the warn card the emphasis reads warm white, not mint. */
+.cardWarn .cardHead small em {
+  color: var(--ink);
+}
+
+.chevron {
+  margin-left: auto;
+  color: var(--ink-60);
+  flex-shrink: 0;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sp-5);
+  margin-top: var(--sp-3);
+}
+
+.big {
+  font-size: 46px;
+  font-weight: var(--fw-regular);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.big sup {
+  font-size: 18px;
+  vertical-align: top;
+  margin-left: 2px;
+}
+
+.bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 58px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.bars i {
+  width: 8px;
+  border-radius: 4px;
+  background: var(--ink);
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+.bars i.dim {
+  background: var(--ink-35);
+}
+
+.bars i.peak {
+  background: var(--mint);
+}
+
+@keyframes grow2 {
+  0%,
+  32% {
+    transform: scaleY(0);
+  }
+  40%,
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes grow3 {
+  0%,
+  45% {
+    transform: scaleY(0);
+  }
+  53%,
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding-left: 90px;
+  font-size: 10px;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.08em;
+  color: var(--ink-45);
+}
+
+.axis strong {
+  font-weight: var(--fw-semibold);
+  color: rgba(246, 243, 238, 0.85);
+}
+
+.axis em {
+  font-style: normal;
+  font-weight: var(--fw-semibold);
+  color: var(--mint);
+}
+
+.cardFoot {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  color: rgba(246, 243, 238, 0.85);
+}
+
+.cardFoot b {
+  color: var(--ink);
+  font-weight: var(--fw-bold);
+}
+
+/* ── Composer ─────────────────────────────────────────────────────── */
+
+.suggestions {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chip {
+  flex-shrink: 0;
+  padding: 8px 13px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  color: var(--ink-80);
+  background: rgba(246, 243, 238, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(246, 243, 238, 0.1);
+  opacity: 0;
+}
+
+@keyframes chipIn {
+  0%,
+  56% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  60%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  97%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  margin-top: var(--sp-3);
+  padding: 0 8px 0 18px;
+  border-radius: var(--r-pill);
+  background: var(--fill-strong);
+  font-size: var(--fs-body-sm);
+  color: var(--ink-45);
+  flex-shrink: 0;
+}
+
+.send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--ground-screen-deep);
+  flex-shrink: 0;
+}
+
+.disclaimer {
+  text-align: center;
+  margin: var(--sp-3) 0 30px;
+  font-size: var(--fs-kicker);
+  color: var(--ink-35);
+  flex-shrink: 0;
+}
+
+/* ── The 11s script ───────────────────────────────────────────────── */
+
+@keyframes u1 {
+  0%,
+  1% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+  3%,
+  92% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-bottom: 12px;
+  }
+  97%,
+  100% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes t1 {
+  0%,
+  3% {
+    width: 0;
+    border-right-color: var(--mint-deep);
+  }
+  9% {
+    width: 29ch;
+    border-right-color: var(--mint-deep);
+  }
+  12%,
+  100% {
+    width: 29ch;
+    border-right-color: transparent;
+  }
+}
+
+@keyframes th {
+  0%,
+  10% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+  11.5%,
+  14% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-bottom: 12px;
+  }
+  15.5%,
+  100% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes a1 {
+  0%,
+  15.5% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+  17.5%,
+  92% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-bottom: 12px;
+  }
+  97%,
+  100% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes a2 {
+  0%,
+  29% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+  32%,
+  92% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-bottom: 12px;
+  }
+  97%,
+  100% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes a3 {
+  0%,
+  42% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+  45%,
+  92% {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-bottom: 12px;
+  }
+  97%,
+  100% {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Animation-name hooks.
+   CSS Modules scopes @keyframes names, so the name must be applied from inside this file —
+   an inline `animationName` in the TSX would reference an identifier that no longer exists
+   after the build. Per-element *delays* are values, not names, so those stay inline. */
+.animU1 {
+  animation-name: u1;
+}
+.animT1 {
+  animation-name: t1;
+}
+.animTh {
+  animation-name: th;
+}
+.animA1 {
+  animation-name: a1;
+}
+.animA2 {
+  animation-name: a2;
+}
+.animA3 {
+  animation-name: a3;
+}
+.animScan {
+  animation-name: scan;
+}
+.animScanHit {
+  animation-name: scanHit;
+}
+.animCaption {
+  animation-name: captionIn;
+}
+.animChip {
+  animation-name: chipIn;
+}
+.animGrow2 {
+  animation-name: grow2;
+}
+.animGrow3 {
+  animation-name: grow3;
+}
+
+/* Reduced motion: park the loop at 8s of 11s — mid-conversation, everything on screen.
+   Letting it run to its 100% frame would leave the phone blank, which is worse than motion. */
+@media (prefers-reduced-motion: reduce) {
+  .glow,
+  .liveDot,
+  .thinking i {
+    animation: none;
+  }
+
+  .animated,
+  .thumb,
+  .chip,
+  .bars i,
+  .caption,
+  .typed {
+    animation-play-state: paused !important;
+    animation-delay: -8s !important;
+  }
+}

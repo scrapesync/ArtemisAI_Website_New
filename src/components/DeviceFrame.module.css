@@ -1,0 +1,133 @@
+/* The phone.
+ *
+ * Authored at its true 424×896 and scaled as a single unit via `--device-scale`. That is a
+ * deliberate exception to the "reflow, don't scale" rule: the device is a self-contained
+ * illustration of a product, and its screen holds decorative mock UI rather than page copy.
+ * The page's own text (headlines, leads, body) reflows properly and is never scaled.
+ *
+ * The wrapper's box is computed arithmetically from the scale — never measured, never a
+ * constant — so the silent clipping bug the handoff warns about cannot occur here.
+ */
+
+.root {
+  --device-w: 424px;
+  --device-h: 896px;
+
+  position: relative;
+  flex-shrink: 0;
+  /* `--device-scale` is left unset here so a section can override it at a breakpoint;
+     the prop only supplies the default. */
+  --scale: var(--device-scale, var(--device-scale-default, 0.72));
+
+  width: calc(var(--device-w) * var(--scale));
+  height: calc(var(--device-h) * var(--scale));
+}
+
+.bezel {
+  position: relative;
+  width: var(--device-w);
+  height: var(--device-h);
+  padding: 11px;
+  border-radius: var(--r-bezel-lg);
+  transform: scale(var(--scale));
+  transform-origin: top left;
+  box-shadow: var(--shadow-device);
+}
+
+/* Two machined finishes. The hero catches more light down its left edge; the Connect Once
+   device sits flatter. Kept distinct because the handoff asks that the two never converge. */
+.hero {
+  background: linear-gradient(
+    150deg,
+    #5a5956 0%,
+    #23231f 22%,
+    var(--ground-bezel-core) 50%,
+    #2e2d2a 78%,
+    #0e0e0c 100%
+  );
+}
+
+.connect {
+  background: linear-gradient(160deg, #3a3936 0%, #141413 40%, #0c0c0b 100%);
+}
+
+/* The hairline where the glass meets the frame. */
+.bezel::before {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border-radius: 60px;
+  box-shadow: var(--shadow-screen-inset);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.button {
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #4a4946, #1a1a18);
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-screen);
+  overflow: hidden;
+  background: var(--ground-screen-deep);
+  color: var(--ink);
+}
+
+/* ── Chrome: only the Connect Once device wears it ─────────────────── */
+
+.island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 126px;
+  height: 37px;
+  border-radius: 24px;
+  background: #000;
+  z-index: 50;
+}
+
+.statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 21px 34px 19px;
+  pointer-events: none;
+}
+
+.statusTime {
+  font-family: -apple-system, 'SF Pro', system-ui, sans-serif;
+  font-weight: 590;
+  font-size: 17px;
+  line-height: 22px;
+}
+
+.statusIcons {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.homeIndicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 139px;
+  height: 5px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 60;
+  pointer-events: none;
+}

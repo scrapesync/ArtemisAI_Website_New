@@ -1,0 +1,102 @@
+/* Page-level ground. The handoff's base.css already sets body background/colour/font from
+   tokens; this adds the page glow and the typographic defaults the sections assume. */
+
+html {
+  background: var(--ground-raised);
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  overflow-x: hidden;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-rendering: optimizeLegibility;
+}
+
+/* The single brand "light source": one mint glow off the top of the page. */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1200px;
+  background: var(--glow-page);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--fw-bold);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Big numbers count up; tabular figures stop them jittering mid-animation. */
+:where([data-numeric]) {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The handoff's base.css rounds every focus ring to a pill, which is wrong for cards and
+   inputs. Keep the colour and offset, let the element's own radius win. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── The page's base gesture ───────────────────────────────────────────
+   Every section reveals the same way: opacity 0→1 plus translateY(18px)→0 over 700ms on
+   --ease-reveal, with siblings staggered by an inline `transition-delay`.
+
+   The prototype redefined this identically under five different class prefixes (.rv, .co-rv,
+   .bl-rv, .cl-rv, .ff-rv). Here it is one global utility, so a section only has to flip the
+   attribute: <p data-reveal={seen ? 'in' : undefined} style={{ transitionDelay: '90ms' }}> */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--rise));
+  transition:
+    opacity var(--dur-reveal) var(--ease-reveal),
+    transform var(--dur-reveal) var(--ease-reveal);
+}
+
+[data-reveal='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    transition-delay: 0ms !important;
+  }
+
+  /* NOTE: looping animations are deliberately NOT killed globally here.
+     Most of this page's loops return to their *hidden* frame at 100%, so forcing them to the
+     end state would render an empty phone screen and a blank diagram. Each section instead
+     parks its own loop at a frame that reads — the prototype's trick of a negative
+     `animation-delay` with `animation-play-state: paused`. See each section module's own
+     `prefers-reduced-motion` block. */
+
+  html {
+    scroll-behavior: auto;
+  }
+}

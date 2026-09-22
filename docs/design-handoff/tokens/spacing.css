@@ -1,0 +1,23 @@
+:root {
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 10px;
+  --sp-4: 14px;
+  --sp-5: 18px;
+  --sp-6: 22px;
+  --sp-7: 28px;
+  --sp-8: 34px;
+  --sp-9: 44px;
+  --sp-10: 56px;
+  --sp-12: 72px;
+  --sp-14: 104px;
+  --sp-16: 140px;          /* gap between page sections */
+
+  /* Page frame */
+  --page-max: 1440px;
+  --page-pad: 130px;       /* desktop gutter */
+  --page-pad-md: 56px;     /* ≤1200px */
+  --page-pad-sm: 20px;     /* ≤760px */
+  --measure-copy: 480px;   /* body paragraph max width */
+  --measure-head: 554px;   /* display heading max width */
+}

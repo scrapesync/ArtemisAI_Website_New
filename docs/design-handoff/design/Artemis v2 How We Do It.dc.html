@@ -1,0 +1,269 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap">
+  <style>
+    .hw-lab { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(246,243,238,0.45); }
+    .hw-card { position: absolute; background: rgba(246,243,238,0.035); border: 1px solid rgba(246,243,238,0.12); border-radius: 16px; box-sizing: border-box; }
+
+    /* the cube, centre stage, bigger */
+    .hw-scene { position: absolute; left: 380px; top: 0; width: 420px; height: 420px; perspective: 1000px; display: flex; align-items: center; justify-content: center; }
+    .hw-cube { position: relative; width: 0; height: 0; transform-style: preserve-3d; animation: turn 30s linear infinite; }
+    @keyframes turn { from { transform: rotateX(-22deg) rotateY(0deg); } to { transform: rotateX(-22deg) rotateY(360deg); } }
+    .hw-c { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 999px; background: rgba(246,243,238,0.2);
+         translate: var(--x) var(--y) var(--z); rotate: y 0deg; transform: rotateX(22deg); /* dots always face you */
+         animation-duration: 12s, 12s, 30s; animation-timing-function: ease-in-out, cubic-bezier(0.65, 0, 0.35, 1), linear; animation-iteration-count: infinite, infinite, infinite; }
+    .hw-c.hw-u { animation-name: usualA, gather, bill; }
+    .hw-c.hw-t { animation-name: tonightA, gather, bill; }
+    @keyframes bill { from { rotate: y 0deg; } to { rotate: y -360deg; } }
+    /* your usual: 20 dots brighten first */
+    @keyframes usualA  { 0%, 27% { opacity: 1; background: rgba(246,243,238,0.2); scale: 1; box-shadow: none; } 30%, 46% { background: rgba(246,243,238,0.9); scale: 1.6; box-shadow: none; } 49%, 58% { opacity: 1; background: #3BB98F; scale: 1.3; box-shadow: 0 0 8px rgba(59,185,143,0.7); } 61%, 66% { opacity: 0; background: #3BB98F; scale: 1; } 70% { opacity: 0; background: rgba(246,243,238,0.2); scale: 1; box-shadow: none; } 78%, 100% { opacity: 1; background: rgba(246,243,238,0.2); scale: 1; box-shadow: none; } }
+    /* tonight: everything else floods green, in a wave */
+    @keyframes tonightA { 0%, 36% { opacity: 1; background: rgba(246,243,238,0.2); box-shadow: none; } 39%, 58% { opacity: 1; background: #3BB98F; box-shadow: 0 0 8px rgba(59,185,143,0.7); } 61%, 66% { opacity: 0; background: #3BB98F; } 70% { opacity: 0; background: rgba(246,243,238,0.2); box-shadow: none; } 78%, 100% { opacity: 1; background: rgba(246,243,238,0.2); box-shadow: none; } }
+    /* then all of it collapses to one point, and quietly re-forms once the reply is on its way */
+    @keyframes gather { 0%, 48% { translate: var(--x) var(--y) var(--z); } 57%, 68% { translate: 0 0 0; } 78%, 100% { translate: var(--x) var(--y) var(--z); } }
+    .hw-one { position: absolute; left: 583px; top: 203px; width: 14px; height: 14px; border-radius: 999px; background: #3BB98F; opacity: 0; animation: oneA 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+    @keyframes oneA { 0%, 56% { opacity: 0; transform: translate(0, 0) scale(0.6); } 58%, 62% { opacity: 1; transform: translate(0, 0) scale(1); } 66% { opacity: 1; transform: translate(330px, -70px) scale(0.7); } 67%, 100% { opacity: 0; transform: translate(330px, -70px) scale(0.7); } }
+
+    /* comments */
+    .hw-deck, .hw-pill { position: absolute; width: 180px; height: 42px; box-sizing: border-box; padding: 7px 11px; border-radius: 11px; background: #121211; border: 1px solid rgba(246,243,238,0.14); display: flex; align-items: center; gap: 8px; overflow: hidden; }
+    .hw-av { width: 18px; height: 18px; border-radius: 999px; background: rgba(246,243,238,0.14); flex-shrink: 0; }
+    .hw-ct { min-width: 0; } .hw-hd { font-size: 10px; line-height: 12px; color: rgba(246,243,238,0.42); } .hw-tx { font-size: 12px; line-height: 15px; color: rgba(246,243,238,0.78); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hw-pill { border-color: rgba(246,243,238,0.18); transform-origin: center; animation: leave 12s cubic-bezier(0.5, 0, 0.2, 1) infinite backwards; }
+    @keyframes leave { 0% { opacity: 1; transform: translate(0,0) scale(1); } 1% { border-color: #3BB98F; } 7% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(0.08); border-color: #3BB98F; } 8%, 90% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.08); } 94%, 100% { opacity: 1; transform: translate(0,0) scale(1); } }
+
+    /* the one line under the cube, and the five words */
+    .hw-line { position: absolute; left: 300px; top: 432px; width: 580px; text-align: center; font-size: 22px; font-weight: 700; letter-spacing: -0.024em; color: #F6F3EE; opacity: 0; }
+    .hw-line em { font-style: normal; color: #3BB98F; }
+    .hw-l1 { animation: l1 12s ease-in-out infinite; } .hw-l2 { animation: l2 12s ease-in-out infinite; } .hw-l3 { animation: l3 12s ease-in-out infinite; } .hw-l4 { animation: l4 12s ease-in-out infinite; } .hw-l5 { animation: l5 12s ease-in-out infinite; }
+    @keyframes l1 { 0%, 3% { opacity: 0; } 6%, 24% { opacity: 1; } 27%, 100% { opacity: 0; } }
+    @keyframes l2 { 0%, 28% { opacity: 0; } 31%, 36% { opacity: 1; } 38%, 100% { opacity: 0; } }
+    @keyframes l3 { 0%, 39% { opacity: 0; } 42%, 47% { opacity: 1; } 49%, 100% { opacity: 0; } }
+    @keyframes l4 { 0%, 51% { opacity: 0; } 54%, 62% { opacity: 1; } 65%, 100% { opacity: 0; } }
+    @keyframes l5 { 0%, 67% { opacity: 0; } 70%, 92% { opacity: 1; } 96%, 100% { opacity: 0; } }
+    .hw-keys { position: absolute; left: 300px; top: 482px; width: 580px; display: flex; justify-content: center; gap: 8px; }
+    .hw-key { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(246,243,238,0.12); color: rgba(246,243,238,0.35); }
+    @keyframes key0 { 0%, 10.0% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } 12.0%, 30% { color: #3BB98F; border-color: #3BB98F; } 34%, 100% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } }
+    .hw-key0 { animation: key0 12s linear infinite; }
+    @keyframes key1 { 0%, 14.2% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } 16.2%, 30% { color: #3BB98F; border-color: #3BB98F; } 34%, 100% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } }
+    .hw-key1 { animation: key1 12s linear infinite; }
+    @keyframes key2 { 0%, 18.4% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } 20.4%, 30% { color: #3BB98F; border-color: #3BB98F; } 34%, 100% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } }
+    .hw-key2 { animation: key2 12s linear infinite; }
+    @keyframes key3 { 0%, 22.6% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } 24.6%, 30% { color: #3BB98F; border-color: #3BB98F; } 34%, 100% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } }
+    .hw-key3 { animation: key3 12s linear infinite; }
+    @keyframes key4 { 0%, 26.8% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } 28.8%, 30% { color: #3BB98F; border-color: #3BB98F; } 34%, 100% { color: rgba(246,243,238,0.35); border-color: rgba(246,243,238,0.12); } }
+    .hw-key4 { animation: key4 12s linear infinite; }
+
+    /* the reply, right */
+    .hw-reply { left: 900px; top: 96px; width: 280px; padding: 20px 22px; opacity: 0; transform: scale(0.96); animation: replyA 12s ease-in-out infinite; }
+    @keyframes replyA { 0%, 65% { opacity: 0; transform: scale(0.96); } 68%, 84% { opacity: 1; transform: scale(1); } 87%, 100% { opacity: 0; transform: scale(0.96); } }
+    .hw-send { position: relative; display: inline-block; background: #3BB98F; color: #161512; font-size: 13px; font-weight: 700; padding: 9px 20px; border-radius: 999px; overflow: hidden; }
+    .hw-send .hw-a { animation: sentA 12s linear infinite; } .hw-send .hw-b { position: absolute; left: 0; right: 0; top: 9px; text-align: center; opacity: 0; animation: sentB 12s linear infinite; }
+    @keyframes sentA { 0%, 78% { opacity: 1; } 80%, 100% { opacity: 0; } }
+    @keyframes sentB { 0%, 78% { opacity: 0; } 80%, 100% { opacity: 1; } }
+    .hw-back { position: absolute; left: 905px; top: 150px; width: 10px; height: 10px; border-radius: 999px; background: #3BB98F; opacity: 0; animation: backA 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+    @keyframes backA { 0%, 84% { opacity: 0; transform: translate(0,0); } 85% { opacity: 1; } 90% { opacity: 1; transform: translate(-760px, 50px); } 91%, 100% { opacity: 0; transform: translate(-760px, 50px); } }
+    .hw-replied { position: absolute; left: 18px; bottom: 16px; display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px; background: rgba(59,185,143,0.14); font-size: 12px; font-weight: 700; color: #3BB98F; opacity: 0; animation: repA 12s linear infinite; }
+    @keyframes repA { 0%, 90% { opacity: 0; } 92%, 100% { opacity: 1; } }
+    .hw-meta { animation: metaA 12s linear infinite; }
+    @keyframes metaA { 0%, 90% { opacity: 1; } 92%, 100% { opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) { [data-hwdi-stage] * { animation-play-state: paused !important; animation-delay: -5.4s !important; } }
+    .hw-swipe { display: none; }
+
+    /* mobile: the same story told top to bottom, inside one screen */
+    .hw-m { display: none; }
+    @keyframes mfly { 0% { opacity: 0; transform: translateY(12px) scale(0.97); } 2%, 11% { opacity: 1; transform: none; }
+                      16% { opacity: 0; transform: translateY(-46px) scale(0.5); } 17%, 96% { opacity: 0; transform: translateY(-46px) scale(0.5); }
+                      100% { opacity: 0; transform: translateY(12px) scale(0.97); } }
+    @keyframes mgather { 0%, 48% { transform: scale(1); opacity: 1; } 57%, 68% { transform: scale(0.1); opacity: 0.7; } 78%, 100% { transform: scale(1); opacity: 1; } }
+    @keyframes mone { 0%, 56% { opacity: 0; transform: translateY(0) scale(0.6); } 58%, 62% { opacity: 1; transform: translateY(0) scale(1); }
+                      66% { opacity: 1; transform: translateY(104px) scale(0.7); } 67%, 100% { opacity: 0; transform: translateY(104px) scale(0.7); } }
+    @keyframes hw-caret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes hw-qshow { 0% { opacity: 0; } 2%, 31% { opacity: 1; } 33%, 100% { opacity: 0; } }
+    @keyframes hw-t3a { 0% { width: 0; } 10%, 29% { width: 16ch; } 31%, 100% { width: 0; } }
+    @keyframes hw-t3b { 0% { width: 0; } 10%, 29% { width: 19ch; } 31%, 100% { width: 0; } }
+    @keyframes hw-t3c { 0% { width: 0; } 10%, 29% { width: 21ch; } 31%, 100% { width: 0; } }
+    @keyframes hw-apane { 0% { opacity: 0; transform: translateY(10px); } 3%, 30% { opacity: 1; transform: none; } 33%, 100% { opacity: 0; transform: translateY(-6px); } }
+    @keyframes hw-srcin { 0%, 9% { opacity: 0; transform: translateY(6px); } 15%, 30% { opacity: 1; transform: none; } 33%, 100% { opacity: 0; } }
+    @keyframes hw-srcbar { 0%, 9% { transform: scaleX(0); } 24%, 100% { transform: scaleX(1); } }
+
+    @media (max-width: 760px) {
+      .hw-head { padding: 0 20px !important; }
+      .hw-head h2 { font-size: 26px !important; letter-spacing: -0.03em !important; }
+      .hw-head p { white-space: normal !important; font-size: 14px !important; }
+      [data-hwdi-outer] { display: none !important; }
+      .hw-m { display: flex !important; flex-direction: column; align-items: stretch; padding: 30px 20px 0; box-sizing: border-box; }
+      .hw-m:not(.go) *, .hw-m:not(.go) { animation-play-state: paused !important; }
+      .hw-ibar { position: relative; height: 52px; }
+      .hw-iq { position: absolute; left: 0; right: 0; top: 0; opacity: 0; animation: hw-qshow 12s linear infinite; }
+      .hw-istage { position: relative; min-height: 280px; margin-top: 30px; }
+      .hw-ians { position: absolute; left: 0; right: 0; top: 0; opacity: 0; animation: hw-apane 12s ease-in-out infinite; }
+      .hw-isrc { margin-top: 20px; animation: hw-srcin 12s ease-in-out infinite; }
+      .hw-ilab { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(246,243,238,0.45); }
+      .hw-ifoot { margin-top: 14px; font-size: 11px; line-height: 1.5; color: rgba(246,243,238,0.4); text-align: center; }
+    }
+  </style>
+</helmet>
+
+<div data-hwdi-band="1" style="width: 100%; background: #000; overflow: hidden; display: flex; justify-content: center;">
+<div style="width: 100%; max-width: 1440px; color: #F6F3EE; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif;">
+
+  <div class="hw-head" style="display: flex; flex-direction: column; gap: 20px; padding: 0 130px; box-sizing: border-box;">
+    <h2 style="margin: 0; font-size: 60px; font-weight: 700; line-height: 1.02; letter-spacing: -0.038em;">How does it know?</h2>
+    <p style="margin: 0; max-width: 760px; font-size: 16px; line-height: 1.55; color: rgba(246,243,238,0.6); white-space: nowrap;">It reads every comment for <b style="color: #F6F3EE; font-weight: 600;">sentiment, emotion, topic, intent and toxicity</b>, then checks it against two years of your page.</p>
+    <div class="hw-swipe">Swipe to follow the flow &rarr;</div>
+  </div>
+
+  <!-- mobile: ask it one of the three questions, and see what it read -->
+  <div class="hw-m" ref="{{ mRef }}">
+
+    <div class="hw-ibar">
+      <div class="hw-iq" style="animation-delay: 0s;">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; background: rgba(246,243,238,0.05); box-shadow: inset 0 0 0 1px rgba(246,243,238,0.12);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(246,243,238,0.45)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path></svg>
+          <div style="display: flex; align-items: center; min-width: 0;">
+            <span style="display: inline-block; overflow: hidden; white-space: nowrap; font-size: 15px; font-family: inherit; animation: hw-t3a 12s steps(16, end) infinite 0s;">What do I reply?</span>
+            <i style="width: 2px; height: 17px; margin-left: 2px; background: #3BB98F; animation: hw-caret 1s steps(1, end) infinite;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="hw-iq" style="animation-delay: -4s;">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; background: rgba(246,243,238,0.05); box-shadow: inset 0 0 0 1px rgba(246,243,238,0.12);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(246,243,238,0.45)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path></svg>
+          <div style="display: flex; align-items: center; min-width: 0;">
+            <span style="display: inline-block; overflow: hidden; white-space: nowrap; font-size: 15px; font-family: inherit; animation: hw-t3b 12s steps(19, end) infinite -4s;">When should I post?</span>
+            <i style="width: 2px; height: 17px; margin-left: 2px; background: #3BB98F; animation: hw-caret 1s steps(1, end) infinite;"></i>
+          </div>
+        </div>
+      </div>
+      <div class="hw-iq" style="animation-delay: -8s;">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-radius: 999px; background: rgba(246,243,238,0.05); box-shadow: inset 0 0 0 1px rgba(246,243,238,0.12);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(246,243,238,0.45)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path></svg>
+          <div style="display: flex; align-items: center; min-width: 0;">
+            <span style="display: inline-block; overflow: hidden; white-space: nowrap; font-size: 15px; font-family: inherit; animation: hw-t3c 12s steps(21, end) infinite -8s;">Will this draft land?</span>
+            <i style="width: 2px; height: 17px; margin-left: 2px; background: #3BB98F; animation: hw-caret 1s steps(1, end) infinite;"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hw-istage">
+      <div class="hw-ians" style="animation-delay: 0s;">
+        <div style="font-size: 22px; font-weight: 700; line-height: 1.28; letter-spacing: -0.028em; text-wrap: pretty;"><span style="color: #3BB98F;">118</span> of tonight&rsquo;s 142 comments ask the same thing. One reply covers them all.</div>
+        <div class="hw-isrc" style="animation-delay: 0s;">
+          <div class="hw-ilab">Read from</div>
+          <div style="margin-top: 8px; font-size: 13px; line-height: 1.5; color: rgba(246,243,238,0.6); text-wrap: pretty;">Every comment on tonight&rsquo;s post, read for sentiment, emotion, topic, intent and toxicity &mdash; plus two years of your own replies for the voice.</div>
+          <div style="margin-top: 12px; height: 3px; border-radius: 3px; background: rgba(246,243,238,0.1); overflow: hidden;"><i style="display: block; height: 3px; width: 83%; border-radius: 3px; background: #3BB98F; transform: scaleX(0); transform-origin: left; animation: hw-srcbar 12s cubic-bezier(0.2,0.7,0.2,1) infinite 0s;"></i></div>
+          <div style="margin-top: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: rgba(246,243,238,0.4);">118 of 142 matched</div>
+        </div>
+      </div>
+      <div class="hw-ians" style="animation-delay: -4s;">
+        <div style="font-size: 22px; font-weight: 700; line-height: 1.28; letter-spacing: -0.028em; text-wrap: pretty;">Post next at <span style="color: #3BB98F;">7:40pm</span>. That&rsquo;s <span style="color: #3BB98F;">3.1&times;</span> the reach of your usual 2pm.</div>
+        <div class="hw-isrc" style="animation-delay: -4s;">
+          <div class="hw-ilab">Read from</div>
+          <div style="margin-top: 8px; font-size: 13px; line-height: 1.5; color: rgba(246,243,238,0.6); text-wrap: pretty;">Two years of your posts and when your people actually turned up for them. Not an industry average.</div>
+          <div style="margin-top: 12px; height: 3px; border-radius: 3px; background: rgba(246,243,238,0.1); overflow: hidden;"><i style="display: block; height: 3px; width: 100%; border-radius: 3px; background: #3BB98F; transform: scaleX(0); transform-origin: left; animation: hw-srcbar 12s cubic-bezier(0.2,0.7,0.2,1) infinite -4s;"></i></div>
+          <div style="margin-top: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: rgba(246,243,238,0.4);">104 weeks of your own posts</div>
+        </div>
+      </div>
+      <div class="hw-ians" style="animation-delay: -8s;">
+        <div style="font-size: 22px; font-weight: 700; line-height: 1.28; letter-spacing: -0.028em; text-wrap: pretty;">Your draft scores <span style="color: #3BB98F;">78</span> out of 100. Trim two lines and it clears <span style="color: #3BB98F;">85</span>.</div>
+        <div class="hw-isrc" style="animation-delay: -8s;">
+          <div class="hw-ilab">Read from</div>
+          <div style="margin-top: 8px; font-size: 13px; line-height: 1.5; color: rgba(246,243,238,0.6); text-wrap: pretty;">The draft against everything of yours that landed before it, scored line by line before it goes out.</div>
+          <div style="margin-top: 12px; height: 3px; border-radius: 3px; background: rgba(246,243,238,0.1); overflow: hidden;"><i style="display: block; height: 3px; width: 78%; border-radius: 3px; background: #3BB98F; transform: scaleX(0); transform-origin: left; animation: hw-srcbar 12s cubic-bezier(0.2,0.7,0.2,1) infinite -8s;"></i></div>
+          <div style="margin-top: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: rgba(246,243,238,0.4);">Hook 82 &middot; Length 64 &middot; Timing 91</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+<div data-hwdi-outer="1" style="width: 100%; height: 600px; overflow: hidden;">
+<div data-hwdi-stage="1" style="width: 1440px; height: 600px; transform-origin: 0 0; color: #F6F3EE; font-family: Archivo, 'Helvetica Neue', Arial, sans-serif; overflow: hidden; padding: 40px 130px 0 130px; box-sizing: border-box;">
+
+  <div style="position: relative; width: 1180px; height: 530px;">
+
+    <!-- your post, small -->
+    <div class="hw-card" style="left: 0; top: 60px; width: 240px; height: 160px; padding: 16px 18px;">
+      <div style="display: flex; align-items: center; gap: 9px;">
+        <div style="width: 26px; height: 26px; border-radius: 999px; background: rgba(246,243,238,0.14);"></div>
+        <div><div style="font-size: 12px; font-weight: 700;">Corner Eatery</div><div style="font-size: 10px; color: rgba(246,243,238,0.45);">Facebook &middot; 6:20pm</div></div>
+        <div style="margin-left: auto; width: 22px; height: 22px; border-radius: 6px; background: rgba(246,243,238,0.08); border: 1px solid rgba(246,243,238,0.14); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: rgba(246,243,238,0.8);">f</div>
+      </div>
+      <div style="margin-top: 12px; font-size: 13px; line-height: 1.45; color: rgba(246,243,238,0.8);">Spring hours are back. Open till 8pm from Monday.</div>
+      <div class="hw-meta" style="position: absolute; left: 18px; bottom: 16px; font-size: 11px; color: rgba(246,243,238,0.45);">142 comments &nbsp;&darr;</div>
+      <div class="hw-replied"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3BB98F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.2 5.2L20 6.9"></path></svg>Replied &middot; 6:43pm</div>
+    </div>
+    <div class="hw-deck" style="left: 36px; top: 266px;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@rob.h</div><div class="hw-tx">is the garden open?</div></div></div><div class="hw-deck" style="left: 35px; top: 262px;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@mia.l</div><div class="hw-tx">open Sunday?</div></div></div><div class="hw-deck" style="left: 34px; top: 258px;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@ben.w</div><div class="hw-tx">best pizza in town</div></div></div><div class="hw-deck" style="left: 33px; top: 254px;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@zoe.c</div><div class="hw-tx">open tonight?</div></div></div><div class="hw-deck" style="left: 32px; top: 250px;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@ali.r</div><div class="hw-tx">do you take bookings?</div></div></div><div class="hw-deck" style="left: 31px; top: 246px;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@finn.o</div><div class="hw-tx">what time do you shut?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 0.50s; z-index: 20;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@sarah.m</div><div class="hw-tx">what time do you shut tonight?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 0.77s; z-index: 19;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@tomk</div><div class="hw-tx">open on the bank holiday?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 1.04s; z-index: 18;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@dan.cooks</div><div class="hw-tx">love the new menu</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 1.31s; z-index: 17;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@priya.k</div><div class="hw-tx">doing Sunday roast?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 1.58s; z-index: 16;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@jay.edits</div><div class="hw-tx">what time do you close?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 1.85s; z-index: 15;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@lena.runs</div><div class="hw-tx">booked for Friday!</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 2.12s; z-index: 14;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@marcus.t</div><div class="hw-tx">is parking free after 6?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 2.39s; z-index: 13;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@ella.paints</div><div class="hw-tx">open Monday?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 2.66s; z-index: 12;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@amara.s</div><div class="hw-tx">closing time?</div></div></div><div class="hw-pill" style="left: 30px; top: 246px; --dx: 470px; --dy: -57px; animation-delay: 2.93s; z-index: 11;"><div class="hw-av"></div><div class="hw-ct"><div class="hw-hd">@kai.moves</div><div class="hw-tx">can we bring the dog?</div></div></div>
+
+    <!-- Artemis -->
+    <div class="hw-scene"><div class="hw-cube"><div class="hw-c hw-u" style="--x:-92px; --y:-92px; --z:-92px; animation-delay: 0.00s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:-92px; --y:-92px; --z:-46px; animation-delay: 0.10s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-92px; --z:0px; animation-delay: 0.20s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-92px; --z:46px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-92px; --z:92px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-46px; --z:-92px; animation-delay: 0.10s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-46px; --z:-46px; animation-delay: 0.20s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-46px; --z:0px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-46px; --z:46px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:-46px; --z:92px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:0px; --z:-92px; animation-delay: 0.20s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:0px; --z:-46px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:0px; --z:0px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:0px; --z:46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:0px; --z:92px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:46px; --z:-92px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:46px; --z:-46px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:46px; --z:0px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:46px; --z:46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:46px; --z:92px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:92px; --z:-92px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:-92px; --y:92px; --z:-46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:92px; --z:0px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:-92px; --y:92px; --z:46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-92px; --y:92px; --z:92px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-92px; --z:-92px; animation-delay: 0.10s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-92px; --z:-46px; animation-delay: 0.20s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:-46px; --y:-92px; --z:0px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-92px; --z:46px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-92px; --z:92px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:-46px; --y:-46px; --z:-92px; animation-delay: 0.20s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-46px; --z:-46px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-46px; --z:0px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-46px; --z:46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:-46px; --z:92px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:0px; --z:-92px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:-46px; --y:0px; --z:-46px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:0px; --z:0px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:0px; --z:46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:0px; --z:92px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:46px; --z:-92px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:46px; --z:-46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:46px; --z:0px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:46px; --z:46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:46px; --z:92px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:92px; --z:-92px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:92px; --z:-46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:92px; --z:0px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:92px; --z:46px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:-46px; --y:92px; --z:92px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-92px; --z:-92px; animation-delay: 0.20s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-92px; --z:-46px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-92px; --z:0px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:0px; --y:-92px; --z:46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-92px; --z:92px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-46px; --z:-92px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-46px; --z:-46px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-46px; --z:0px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-46px; --z:46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:-46px; --z:92px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:0px; --y:0px; --z:-92px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:0px; --y:0px; --z:-46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:0px; --z:0px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:0px; --z:46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:0px; --y:0px; --z:92px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:0px; --y:46px; --z:-92px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:46px; --z:-46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:0px; --y:46px; --z:0px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:46px; --z:46px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:46px; --z:92px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:92px; --z:-92px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:92px; --z:-46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:92px; --z:0px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:92px; --z:46px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:0px; --y:92px; --z:92px; animation-delay: 1.00s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-92px; --z:-92px; animation-delay: 0.30s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-92px; --z:-46px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-92px; --z:0px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-92px; --z:46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-92px; --z:92px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-46px; --z:-92px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:46px; --y:-46px; --z:-46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-46px; --z:0px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-46px; --z:46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:-46px; --z:92px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:0px; --z:-92px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:0px; --z:-46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:0px; --z:0px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:46px; --y:0px; --z:46px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:0px; --z:92px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:46px; --z:-92px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:46px; --z:-46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:46px; --z:0px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:46px; --z:46px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:46px; --z:92px; animation-delay: 1.00s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:92px; --z:-92px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:92px; --z:-46px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:92px; --z:0px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:92px; --z:46px; animation-delay: 1.00s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:46px; --y:92px; --z:92px; animation-delay: 1.10s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:92px; --y:-92px; --z:-92px; animation-delay: 0.40s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:92px; --y:-92px; --z:-46px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:-92px; --z:0px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:92px; --y:-92px; --z:46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:-92px; --z:92px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:-46px; --z:-92px; animation-delay: 0.50s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:-46px; --z:-46px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:92px; --y:-46px; --z:0px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:-46px; --z:46px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:-46px; --z:92px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:0px; --z:-92px; animation-delay: 0.60s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:0px; --z:-46px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:0px; --z:0px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:0px; --z:46px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:0px; --z:92px; animation-delay: 1.00s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:46px; --z:-92px; animation-delay: 0.70s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:46px; --z:-46px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:46px; --z:0px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:46px; --z:46px; animation-delay: 1.00s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:46px; --z:92px; animation-delay: 1.10s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:92px; --z:-92px; animation-delay: 0.80s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:92px; --z:-46px; animation-delay: 0.90s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:92px; --z:0px; animation-delay: 1.00s, 0s, 0s;"></div><div class="hw-c hw-u" style="--x:92px; --y:92px; --z:46px; animation-delay: 1.10s, 0s, 0s;"></div><div class="hw-c hw-t" style="--x:92px; --y:92px; --z:92px; animation-delay: 1.20s, 0s, 0s;"></div></div></div>
+    <div class="hw-one"></div>
+
+    <div class="hw-line hw-l1">Reads every one of them, <em>five ways</em>.</div>
+    <div class="hw-line hw-l2">Your usual Tuesday: <em>20</em>.</div>
+    <div class="hw-line hw-l3">Tonight: <em>142</em>. That's a storm.</div>
+    <div class="hw-line hw-l4">Most are the same question. <em>One reply.</em></div>
+    <div class="hw-line hw-l5">Nothing goes out <em>until you say so</em>.</div>
+    <div class="hw-keys"><span class="hw-key hw-key0">Sentiment</span><span class="hw-key hw-key1">Emotion</span><span class="hw-key hw-key2">Topic</span><span class="hw-key hw-key3">Intent</span><span class="hw-key hw-key4">Toxicity</span></div>
+
+    <!-- the reply -->
+    <div class="hw-card hw-reply">
+      <div class="hw-lab" style="color: #3BB98F;">Drafted &middot; 6:41pm</div>
+      <div style="margin-top: 10px; font-size: 14px; line-height: 1.5; color: rgba(246,243,238,0.9);">Thanks all &mdash; we're open till 8pm from Monday. Same kitchen, longer evenings.</div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-top: 16px;">
+        <span class="hw-send"><span class="hw-a">Send</span><span class="hw-b">Sent &#10003;</span></span>
+        <span style="border: 1px solid rgba(246,243,238,0.22); font-size: 12px; font-weight: 500; padding: 8px 14px; border-radius: 999px;">Change it</span>
+      </div>
+    </div>
+    <div class="hw-back"></div>
+
+  </div>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  mRef = React.createRef();
+  componentDidMount() {
+    const m = this.mRef.current;
+    if (m) {
+      this.mio = new IntersectionObserver((es) => {
+        if (es.some(e => e.isIntersecting)) { m.classList.add('go'); this.mio.disconnect(); this.mio = null; }
+      }, { threshold: 0.2 });
+      this.mio.observe(m);
+    }
+    const outer = document.querySelector('[data-hwdi-outer]');
+    const stage = document.querySelector('[data-hwdi-stage]');
+    if (!outer || !stage) return;
+    const fit = () => {
+      const mob = window.innerWidth <= 760;
+      const s = mob ? 0.8 : Math.min(1, outer.clientWidth / 1440);
+      stage.style.transform = 'scale(' + s + ')';
+      stage.style.marginRight = mob ? -Math.round(1440 * (1 - s)) + 'px' : '';
+      outer.style.overflowX = mob ? 'auto' : 'hidden';
+      outer.style.height = Math.round(600 * s) + 'px';
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    this._fit = fit;
+    this._ro = new ResizeObserver(fit);
+    this._ro.observe(outer);
+  }
+  componentWillUnmount() { if (this._ro) this._ro.disconnect(); if (this._fit) window.removeEventListener('resize', this._fit); if (this.mio) this.mio.disconnect(); }
+  renderVals() { return { mRef: this.mRef }; }
+}
+</script>
+</body>
+</html>

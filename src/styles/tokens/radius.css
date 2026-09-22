@@ -1,0 +1,10 @@
+:root {
+  --r-pill: 999px;         /* buttons, chips, inputs, status labels */
+  --r-card: 22px;          /* content cards, wrapped mobile forms */
+  --r-card-sm: 18px;
+  --r-tile: 10px;          /* platform mark tiles, small icon buttons */
+  --r-tile-sm: 9px;
+  --r-screen: 50px;        /* device screen */
+  --r-bezel: 62px;         /* device bezel */
+  --r-bezel-lg: 68px;
+}
