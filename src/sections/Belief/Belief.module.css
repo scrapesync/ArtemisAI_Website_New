@@ -1,0 +1,448 @@
+/* "Why we do it" — three principles, each proven by a photo with a real UI artefact over it.
+ *
+ * The track bleeds past the right gutter so the next card is always partly visible. The
+ * prototype hard-codes the three shift offsets for a 1440px viewport with 130px gutters;
+ * because we reflow rather than scale, they are measured instead (see useTrackOffsets).
+ */
+
+.section {
+  overflow: hidden;
+}
+
+.title {
+  margin: 0;
+  max-width: 980px;
+  font-size: var(--fs-display-lg);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-display);
+  line-height: var(--lh-display);
+}
+
+/* Negative margins pull the viewport out to the full page width; the track's own padding
+   puts the first card back on the gutter. */
+.view {
+  position: relative;
+  margin: var(--sp-10) calc(var(--page-pad) * -1) 0;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  gap: var(--sp-6);
+  padding-left: var(--page-pad);
+  width: max-content;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.cell {
+  flex: none;
+  width: 690px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #121211;
+  border: 1px solid rgba(246, 243, 238, 0.1);
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 11, 10, 0.05) 0%,
+    rgba(10, 11, 10, 0.2) 45%,
+    rgba(10, 11, 10, 0.84) 100%
+  );
+}
+
+/* ── The glass artefact ───────────────────────────────────────────── */
+
+.glass {
+  position: absolute;
+  left: var(--sp-6);
+  bottom: var(--sp-6);
+  box-sizing: border-box;
+  border-radius: var(--sp-4);
+  background: rgba(18, 18, 17, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(246, 243, 238, 0.08);
+}
+
+.seen .glass,
+.seen .thread {
+  animation: glassPop 0.6s var(--ease-reveal) 0.5s both;
+}
+
+@keyframes glassPop {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Card 1 — a notification */
+
+.note {
+  width: 292px;
+  padding: var(--sp-3) 12px 11px;
+}
+
+.noteHead {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.noteIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  flex: none;
+}
+
+.noteApp {
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  color: var(--ink-80);
+}
+
+.noteTime {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--ink-45);
+}
+
+.noteTitle {
+  margin: 6px 0 0;
+  font-size: var(--fs-fine);
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.noteBody {
+  margin: 2px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-70);
+}
+
+/* Card 2 — a comment and its draft reply */
+
+.thread {
+  position: absolute;
+  left: var(--sp-6);
+  bottom: var(--sp-6);
+  width: 272px;
+}
+
+.question {
+  padding: 0 4px 7px 6px;
+  font-size: 11.5px;
+  color: var(--ink-70);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.question b {
+  color: var(--ink);
+  font-weight: var(--fw-semibold);
+}
+
+/* Inside the thread the glass card is a normal block, not pinned to the card corner. */
+.comment {
+  position: static;
+  display: flex;
+  gap: var(--sp-2);
+  align-items: flex-start;
+  padding: 9px 11px;
+  border-radius: 13px;
+}
+
+.commentAvatar {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  flex: none;
+}
+
+.commentBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.commentName {
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+}
+
+.commentName span {
+  margin-left: 6px;
+  color: var(--mint);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 9px;
+}
+
+.commentText {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: rgba(246, 243, 238, 0.85);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: var(--sp-2);
+}
+
+.send {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 6px 13px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+}
+
+.ghost {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 5px 11px;
+  border: 1px solid rgba(246, 243, 238, 0.25);
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-medium);
+}
+
+/* Card 3 — an introduction */
+
+.intro {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 380px;
+  padding: var(--sp-3) 12px;
+}
+
+.introAvatars {
+  position: relative;
+  width: 36px;
+  height: 24px;
+  flex: none;
+}
+
+.introAvatars i {
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-pill);
+}
+
+.introAvatars i:first-child {
+  left: 0;
+  background: rgba(246, 243, 238, 0.2);
+}
+
+.introAvatars i:last-child {
+  left: 12px;
+  background: var(--mint);
+  border: 2px solid #121211;
+  box-sizing: border-box;
+}
+
+.introTitle {
+  font-size: 12.5px;
+  font-weight: var(--fw-bold);
+  color: var(--ink);
+}
+
+.introBody {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--ink-70);
+}
+
+/* ── Captions and controls ────────────────────────────────────────── */
+
+.caption {
+  margin: var(--sp-6) 0 0;
+  max-width: 620px;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: rgba(246, 243, 238, 0.55);
+}
+
+.caption b {
+  font-weight: var(--fw-semibold);
+  color: var(--ink);
+}
+
+.arrows {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.1);
+  color: var(--ink);
+  transition:
+    opacity 0.4s var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out);
+}
+
+.arrow:hover {
+  background: var(--fill-hover);
+}
+
+.arrow:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ── Reflow ───────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .view {
+    margin-inline: calc(var(--page-pad-md) * -1);
+  }
+
+  .track {
+    padding-left: var(--page-pad-md);
+  }
+
+  .title {
+    font-size: var(--fs-display-md);
+  }
+
+  .cell {
+    width: 560px;
+  }
+
+  .card {
+    height: 420px;
+  }
+}
+
+@media (max-width: 760px) {
+  /* A real scroll container, so the cards can be swiped. The prototype kept a transform here
+     and hid the arrows, which left mobile visitors with no way to move the track by hand. */
+  .view {
+    margin: var(--sp-8) calc(var(--page-pad-sm) * -1) 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .view::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cell {
+    scroll-snap-align: start;
+  }
+
+  .track {
+    transform: none !important;
+    transition: none;
+  }
+
+  .track {
+    padding-left: var(--page-pad-sm);
+    gap: var(--sp-4);
+  }
+
+  .title {
+    font-size: var(--fs-display-xs);
+    letter-spacing: var(--ls-display-tight);
+  }
+
+  .cell {
+    width: 84vw;
+  }
+
+  .card {
+    height: 330px;
+  }
+
+  .glass,
+  .thread {
+    left: 16px;
+    bottom: 16px;
+  }
+
+  .note,
+  .thread,
+  .intro {
+    width: calc(84vw - 48px);
+    max-width: 292px;
+  }
+
+  .caption {
+    margin-top: 16px;
+    font-size: var(--fs-caption);
+  }
+
+  /* Swipe replaces the arrows. */
+  .arrows {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+
+  .seen .glass,
+  .seen .thread {
+    animation: none;
+  }
+}
