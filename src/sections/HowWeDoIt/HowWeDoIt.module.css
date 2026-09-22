@@ -1,0 +1,1124 @@
+/* "How does it know?" — the credibility section.
+ *
+ * The desktop diagram is entirely CSS. One 12-second master clock (the cube's own spin runs
+ * on 30s) sequences every part: a post card, ten comments flying into a 5x5x5 lattice of
+ * dots, five lines of narration, five analysis keys lighting in turn, and a drafted reply
+ * that sends. React renders the markup once and never touches it again.
+ *
+ * This is the one place we keep the prototype's fixed-canvas scale-to-fit. It is a diagram
+ * rather than a text layout, and its height is a constant 600px, so the fragile height
+ * bookkeeping the handoff warns about does not arise.
+ */
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.head h2,
+.head p {
+  max-width: 760px;
+}
+
+.head h2 {
+  margin: 0;
+  font-size: var(--fs-display-lg);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+
+.head p {
+  margin: 0;
+  max-width: 760px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-caption);
+  color: var(--ink-60);
+}
+
+.head b {
+  color: var(--ink);
+  font-weight: var(--fw-semibold);
+}
+
+.outer {
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+}
+
+.stage {
+  width: 1440px;
+  height: 600px;
+  transform-origin: 0 0;
+  padding: 40px var(--page-pad) 0;
+  box-sizing: border-box;
+}
+
+.canvas {
+  position: relative;
+  width: 1180px;
+  height: 530px;
+}
+
+.card {
+  position: absolute;
+  background: rgba(246, 243, 238, 0.035);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+/* ── The post ─────────────────────────────────────────────────────── */
+
+.post {
+  left: 0;
+  top: 60px;
+  width: 240px;
+  height: 160px;
+  padding: 16px 18px;
+}
+
+.postHead {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.postAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.14);
+  flex: none;
+}
+
+.postName {
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+}
+
+.postMeta {
+  font-size: 10px;
+  color: var(--ink-45);
+}
+
+.postTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  border-radius: 6px;
+  background: var(--fill-strong);
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: var(--fw-black);
+  color: var(--ink-80);
+}
+
+.postBody {
+  margin: 12px 0 0;
+  font-size: var(--fs-fine);
+  line-height: 1.45;
+  color: var(--ink-80);
+}
+
+.count {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  font-size: var(--fs-kicker);
+  color: var(--ink-45);
+  animation: countOut 12s linear infinite;
+}
+
+@keyframes countOut {
+  0%,
+  90% {
+    opacity: 1;
+  }
+  92%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.replied {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border-radius: var(--r-pill);
+  background: var(--mint-14);
+  font-size: 12px;
+  font-weight: var(--fw-bold);
+  color: var(--mint);
+  animation: repliedIn 12s linear infinite;
+}
+
+@keyframes repliedIn {
+  0%,
+  90% {
+    opacity: 0;
+  }
+  92%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ── Comment chips ────────────────────────────────────────────────── */
+
+.chip,
+.flyer {
+  position: absolute;
+  width: 180px;
+  height: 42px;
+  box-sizing: border-box;
+  padding: 7px 11px;
+  border-radius: 11px;
+  background: #121211;
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  overflow: hidden;
+}
+
+.chipAvatar {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.14);
+  flex-shrink: 0;
+}
+
+.chipHandle {
+  font-size: 10px;
+  line-height: 12px;
+  color: rgba(246, 243, 238, 0.42);
+}
+
+.chipText {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--ink-78, rgba(246, 243, 238, 0.78));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Each flyer shrinks to a point at the cube, one after another. */
+.flyer {
+  left: 30px;
+  top: 246px;
+  border-color: var(--line-strong);
+  transform-origin: center;
+  animation: fly 12s cubic-bezier(0.5, 0, 0.2, 1) infinite backwards;
+}
+
+@keyframes fly {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  1% {
+    border-color: var(--mint);
+  }
+  7% {
+    opacity: 1;
+    transform: translate(470px, -57px) scale(0.08);
+    border-color: var(--mint);
+  }
+  8%,
+  90% {
+    opacity: 0;
+    transform: translate(470px, -57px) scale(0.08);
+  }
+  94%,
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* ── The cube ─────────────────────────────────────────────────────── */
+
+.scene {
+  position: absolute;
+  left: 380px;
+  top: 0;
+  width: 420px;
+  height: 420px;
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cube {
+  position: relative;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  animation: turn 30s linear infinite;
+}
+
+@keyframes turn {
+  from {
+    transform: rotateX(-22deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(-22deg) rotateY(360deg);
+  }
+}
+
+.cell {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.2);
+  translate: var(--x) var(--y) var(--z);
+  rotate: y 0deg;
+  /* Cancels the cube's own X tilt so every dot faces the viewer. */
+  transform: rotateX(22deg);
+  animation-duration: 12s, 12s, 30s;
+  animation-timing-function: ease-in-out, cubic-bezier(0.65, 0, 0.35, 1), linear;
+  animation-iteration-count: infinite, infinite, infinite;
+}
+
+.cellUsual {
+  animation-name: usualLight, gather, billboard;
+}
+
+.cellTonight {
+  animation-name: tonightLight, gather, billboard;
+}
+
+/* Counter-spin, so the dots billboard instead of turning edge-on. */
+@keyframes billboard {
+  from {
+    rotate: y 0deg;
+  }
+  to {
+    rotate: y -360deg;
+  }
+}
+
+/* "Your usual Tuesday: 20" — these twenty brighten first, then go mint. */
+@keyframes usualLight {
+  0%,
+  27% {
+    opacity: 1;
+    background: rgba(246, 243, 238, 0.2);
+    scale: 1;
+    box-shadow: none;
+  }
+  30%,
+  46% {
+    background: rgba(246, 243, 238, 0.9);
+    scale: 1.6;
+    box-shadow: none;
+  }
+  49%,
+  58% {
+    opacity: 1;
+    background: var(--mint);
+    scale: 1.3;
+    box-shadow: 0 0 8px rgba(59, 185, 143, 0.7);
+  }
+  61%,
+  66% {
+    opacity: 0;
+    background: var(--mint);
+    scale: 1;
+  }
+  70% {
+    opacity: 0;
+    background: rgba(246, 243, 238, 0.2);
+    scale: 1;
+    box-shadow: none;
+  }
+  78%,
+  100% {
+    opacity: 1;
+    background: rgba(246, 243, 238, 0.2);
+    scale: 1;
+    box-shadow: none;
+  }
+}
+
+/* "Tonight: 142. That's a storm." — everything else floods mint. */
+@keyframes tonightLight {
+  0%,
+  36% {
+    opacity: 1;
+    background: rgba(246, 243, 238, 0.2);
+    box-shadow: none;
+  }
+  39%,
+  58% {
+    opacity: 1;
+    background: var(--mint);
+    box-shadow: 0 0 8px rgba(59, 185, 143, 0.7);
+  }
+  61%,
+  66% {
+    opacity: 0;
+    background: var(--mint);
+  }
+  70% {
+    opacity: 0;
+    background: rgba(246, 243, 238, 0.2);
+    box-shadow: none;
+  }
+  78%,
+  100% {
+    opacity: 1;
+    background: rgba(246, 243, 238, 0.2);
+    box-shadow: none;
+  }
+}
+
+/* The lattice collapses to a point — the many becoming one reply — then re-forms. */
+@keyframes gather {
+  0%,
+  48% {
+    translate: var(--x) var(--y) var(--z);
+  }
+  57%,
+  68% {
+    translate: 0 0 0;
+  }
+  78%,
+  100% {
+    translate: var(--x) var(--y) var(--z);
+  }
+}
+
+/* The single reply leaving the cube for the draft card. */
+.emitted {
+  position: absolute;
+  left: 583px;
+  top: 203px;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  opacity: 0;
+  animation: emit 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes emit {
+  0%,
+  56% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.6);
+  }
+  58%,
+  62% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  66% {
+    opacity: 1;
+    transform: translate(330px, -70px) scale(0.7);
+  }
+  67%,
+  100% {
+    opacity: 0;
+    transform: translate(330px, -70px) scale(0.7);
+  }
+}
+
+/* ── Narration ────────────────────────────────────────────────────── */
+
+.line {
+  position: absolute;
+  left: 300px;
+  top: 432px;
+  width: 580px;
+  text-align: center;
+  font-size: var(--sp-6);
+  font-weight: var(--fw-bold);
+  letter-spacing: -0.024em;
+  color: var(--ink);
+  opacity: 0;
+  margin: 0;
+  animation-duration: 12s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.line em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+.line1 {
+  animation-name: line1;
+}
+.line2 {
+  animation-name: line2;
+}
+.line3 {
+  animation-name: line3;
+}
+.line4 {
+  animation-name: line4;
+}
+.line5 {
+  animation-name: line5;
+}
+
+@keyframes line1 {
+  0%,
+  3% {
+    opacity: 0;
+  }
+  6%,
+  24% {
+    opacity: 1;
+  }
+  27%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes line2 {
+  0%,
+  28% {
+    opacity: 0;
+  }
+  31%,
+  36% {
+    opacity: 1;
+  }
+  38%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes line3 {
+  0%,
+  39% {
+    opacity: 0;
+  }
+  42%,
+  47% {
+    opacity: 1;
+  }
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes line4 {
+  0%,
+  51% {
+    opacity: 0;
+  }
+  54%,
+  62% {
+    opacity: 1;
+  }
+  65%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes line5 {
+  0%,
+  67% {
+    opacity: 0;
+  }
+  70%,
+  92% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── The five keys ────────────────────────────────────────────────── */
+
+.keys {
+  position: absolute;
+  left: 300px;
+  top: 482px;
+  width: 580px;
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.key {
+  padding: 7px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(246, 243, 238, 0.12);
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-35);
+  animation-duration: 12s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.key0 {
+  animation-name: key0;
+}
+.key1 {
+  animation-name: key1;
+}
+.key2 {
+  animation-name: key2;
+}
+.key3 {
+  animation-name: key3;
+}
+.key4 {
+  animation-name: key4;
+}
+
+/* Each key lights 4.2% (≈500ms) after the one before, then all five drop together. */
+@keyframes key0 {
+  0%,
+  10% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+  12%,
+  30% {
+    color: var(--mint);
+    border-color: var(--mint);
+  }
+  34%,
+  100% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+}
+@keyframes key1 {
+  0%,
+  14.2% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+  16.2%,
+  30% {
+    color: var(--mint);
+    border-color: var(--mint);
+  }
+  34%,
+  100% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+}
+@keyframes key2 {
+  0%,
+  18.4% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+  20.4%,
+  30% {
+    color: var(--mint);
+    border-color: var(--mint);
+  }
+  34%,
+  100% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+}
+@keyframes key3 {
+  0%,
+  22.6% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+  24.6%,
+  30% {
+    color: var(--mint);
+    border-color: var(--mint);
+  }
+  34%,
+  100% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+}
+@keyframes key4 {
+  0%,
+  26.8% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+  28.8%,
+  30% {
+    color: var(--mint);
+    border-color: var(--mint);
+  }
+  34%,
+  100% {
+    color: var(--ink-35);
+    border-color: rgba(246, 243, 238, 0.12);
+  }
+}
+
+/* ── The drafted reply ────────────────────────────────────────────── */
+
+.reply {
+  left: 900px;
+  top: 96px;
+  width: 280px;
+  padding: 20px 22px;
+  opacity: 0;
+  transform: scale(0.96);
+  animation: replyIn 12s ease-in-out infinite;
+}
+
+@keyframes replyIn {
+  0%,
+  65% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  68%,
+  84% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  87%,
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.replyLabel {
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-kicker);
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+.replyBody {
+  margin: var(--sp-3) 0 0;
+  font-size: var(--fs-caption);
+  line-height: 1.5;
+  color: rgba(246, 243, 238, 0.9);
+}
+
+.replyActions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: 16px;
+}
+
+.send {
+  position: relative;
+  display: inline-block;
+  padding: 9px 20px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  font-size: var(--fs-fine);
+  font-weight: var(--fw-bold);
+  overflow: hidden;
+}
+
+/* "Send" swaps for "Sent ✓" in place, without the pill resizing. */
+.sendIdle {
+  animation: sendIdle 12s linear infinite;
+}
+
+.sendDone {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 9px;
+  text-align: center;
+  opacity: 0;
+  animation: sendDone 12s linear infinite;
+}
+
+@keyframes sendIdle {
+  0%,
+  78% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes sendDone {
+  0%,
+  78% {
+    opacity: 0;
+  }
+  80%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.changeIt {
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: var(--fw-medium);
+  color: var(--ink);
+}
+
+/* The confirmation travelling back to the post. */
+.returning {
+  position: absolute;
+  left: 905px;
+  top: 150px;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  opacity: 0;
+  animation: returnDot 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes returnDot {
+  0%,
+  84% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  85% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-760px, 50px);
+  }
+  91%,
+  100% {
+    opacity: 0;
+    transform: translate(-760px, 50px);
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Freeze the whole clock at 45% — the moment the cube is mint, the keys are lit and the
+     narration reads "Tonight: 142. That's a storm." An end state would show an empty stage. */
+  .canvas *,
+  .canvas *::before,
+  .canvas *::after {
+    animation-play-state: paused !important;
+    animation-delay: -5.4s !important;
+  }
+}
+
+/* ── Mobile: the diagram is dropped for a question-and-answer loop ──
+   Three questions type themselves into a search pill, each answered by a card that names
+   what the answer was read from. Same 12s clock, three 4s phases. */
+
+.mobile {
+  display: none;
+  flex-direction: column;
+  padding: 30px var(--page-pad-sm) 0;
+  box-sizing: border-box;
+}
+
+.searchBar {
+  position: relative;
+  height: 52px;
+}
+
+.query {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-pill);
+  background: rgba(246, 243, 238, 0.05);
+  box-shadow: inset 0 0 0 1px var(--line);
+  opacity: 0;
+  animation: queryShow 12s linear infinite;
+}
+
+@keyframes queryShow {
+  0% {
+    opacity: 0;
+  }
+  2%,
+  31% {
+    opacity: 1;
+  }
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.queryIcon {
+  color: var(--ink-45);
+  flex: none;
+}
+
+.typed {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: var(--fs-body-sm);
+  animation-duration: 12s;
+  animation-iteration-count: infinite;
+}
+
+.caret {
+  width: 2px;
+  height: 17px;
+  margin-left: 2px;
+  background: var(--mint);
+  animation: caret 1s steps(1, end) infinite;
+}
+
+@keyframes caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.type16 {
+  animation-name: type16;
+  animation-timing-function: steps(16, end);
+}
+.type19 {
+  animation-name: type19;
+  animation-timing-function: steps(19, end);
+}
+.type21 {
+  animation-name: type21;
+  animation-timing-function: steps(21, end);
+}
+
+@keyframes type16 {
+  0% {
+    width: 0;
+  }
+  10%,
+  29% {
+    width: 16ch;
+  }
+  31%,
+  100% {
+    width: 0;
+  }
+}
+@keyframes type19 {
+  0% {
+    width: 0;
+  }
+  10%,
+  29% {
+    width: 19ch;
+  }
+  31%,
+  100% {
+    width: 0;
+  }
+}
+@keyframes type21 {
+  0% {
+    width: 0;
+  }
+  10%,
+  29% {
+    width: 21ch;
+  }
+  31%,
+  100% {
+    width: 0;
+  }
+}
+
+.answerStage {
+  position: relative;
+  min-height: 300px;
+  margin-top: 30px;
+}
+
+.answer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  animation: answerIn 12s ease-in-out infinite;
+}
+
+@keyframes answerIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  3%,
+  30% {
+    opacity: 1;
+    transform: none;
+  }
+  33%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.answerHead {
+  margin: 0;
+  font-size: var(--sp-6);
+  font-weight: var(--fw-bold);
+  line-height: 1.28;
+  letter-spacing: -0.028em;
+}
+
+.answerHead em {
+  font-style: normal;
+  color: var(--mint);
+}
+
+.source {
+  margin-top: 20px;
+  animation: sourceIn 12s ease-in-out infinite;
+}
+
+@keyframes sourceIn {
+  0%,
+  9% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  15%,
+  30% {
+    opacity: 1;
+    transform: none;
+  }
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.sourceLabel {
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+
+.sourceBody {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-fine);
+  line-height: 1.5;
+  color: var(--ink-60);
+}
+
+.sourceTrack {
+  margin-top: 12px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(246, 243, 238, 0.1);
+  overflow: hidden;
+}
+
+.sourceTrack i {
+  display: block;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--mint);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: sourceBar 12s var(--ease-reveal) infinite;
+}
+
+@keyframes sourceBar {
+  0%,
+  9% {
+    transform: scaleX(0);
+  }
+  24%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.footnote {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.08em;
+  color: var(--ink-40);
+}
+
+/* ── Breakpoints ──────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .head h2 {
+    font-size: var(--fs-display-md);
+  }
+}
+
+@media (max-width: 760px) {
+  .head h2 {
+    font-size: var(--fs-display-xs);
+    letter-spacing: var(--ls-display-tight);
+  }
+
+  .head p {
+    font-size: var(--fs-caption);
+  }
+
+  /* The diagram is 1180px of absolutely-positioned geometry; it cannot usefully reflow. */
+  .outer {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile *,
+  .mobile *::before,
+  .mobile *::after {
+    animation-play-state: paused !important;
+    animation-delay: -2.4s !important;
+  }
+}
