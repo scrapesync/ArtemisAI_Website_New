@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+# A second push to the same branch makes the first run's answer worthless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Typecheck, lint, test, build, audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches the engines pin in package.json.
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # `tsc -b` rather than `--noEmit`: the root tsconfig is project references only, so
+      # --noEmit against it type-checks nothing at all and passes vacuously.
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      # No prettier --check here on purpose: the design-token CSS aligns its trailing comments
+      # into readable columns, and prettier collapses that. `npm run format` stays available
+      # for anyone who wants it, but it is not a gate.
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # The audit drives a real browser over the built site. This container has a preinstalled
+      # Chromium that scripts/chromium.mjs points at; a runner has none, so fetch one and let
+      # that helper fall through to Playwright's own resolution.
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      # Contrast floor, hit targets, keyboard traversal, animation budget, horizontal overflow
+      # and reduced motion. This is what caught the 22fps regression — it belongs in CI.
+      - name: Accessibility and performance audit
+        run: npm run audit
+
+      - name: Upload build output
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
