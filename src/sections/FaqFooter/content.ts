@@ -25,4 +25,8 @@ export const FAQ = [
 export const FOOTER_BLURB =
   'We build tools for the people who actually run the page. Artemis reads every post and comment across your accounts, drafts the reply and finds the window. You review, you decide.'
 
-export const LEGAL = 'ArtemisAI Ltd · Made in the UK · © 2026'
+/**
+ * Evaluated in the visitor's browser on load, so the year is never stale. The handoff hard-codes
+ * 2026; that was its build year, not a copy decision.
+ */
+export const LEGAL = `ArtemisAI Ltd · Made in the UK · © ${new Date().getFullYear()}`
