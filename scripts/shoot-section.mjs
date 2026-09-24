@@ -1,5 +1,6 @@
 /** Screenshots one element by selector. node scripts/shoot-section.mjs <selector> <width> <out> [waitMs] */
 import { chromium } from 'playwright'
+import { launchOptions } from './chromium.mjs'
 import { createServer } from 'node:http'
 import { readFile } from 'node:fs/promises'
 import { extname, join } from 'node:path'
@@ -17,7 +18,7 @@ const srv = createServer(async (q, r) => {
   } catch { r.writeHead(404); r.end() }
 }).listen(0)
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' })
+const browser = await chromium.launch(launchOptions())
 const page = await browser.newPage({ viewport: { width: Number(width), height: 900 } })
 await page.goto(`http://localhost:${srv.address().port}/`, { waitUntil: 'networkidle' })
 await page.evaluate(() => document.fonts.ready)

@@ -5,6 +5,7 @@
  *   npm run build && node scripts/audit.mjs
  */
 import { chromium } from 'playwright'
+import { launchOptions } from './chromium.mjs'
 import { createServer } from 'node:http'
 import { readFile } from 'node:fs/promises'
 import { extname, join } from 'node:path'
@@ -18,7 +19,7 @@ const srv = createServer(async (q, r) => {
 }).listen(0)
 
 const url = `http://localhost:${srv.address().port}/`
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' })
+const browser = await chromium.launch(launchOptions())
 let failures = 0
 const report = (ok, label, detail = '') => {
   if (!ok) failures++

@@ -6,11 +6,11 @@
  * until real brand assets land. Re-run with: node scripts/make-brand-assets.mjs
  */
 import { chromium } from 'playwright'
+import { launchOptions } from './chromium.mjs'
 import { writeFile } from 'node:fs/promises'
 
 // This image ships a Chromium build older than the playwright package pins, so point at it
 // directly rather than triggering a download that the network policy would block anyway.
-const EXECUTABLE = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 
 const MINT = '#3BB98F'
 const GROUND = '#080908'
@@ -53,7 +53,7 @@ const card = `<!doctype html><meta charset="utf-8">
 <h1>Change the way you build on <em>social media</em>.</h1>
 <p>What to reply. When to post. Whether it'll land — read from two years of your own history.</p>`
 
-const browser = await chromium.launch({ executablePath: EXECUTABLE })
+const browser = await chromium.launch(launchOptions())
 
 for (const [file, html, size] of [
   ['public/favicon-96.png', icon(96, 21, 10), 96],

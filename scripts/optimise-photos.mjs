@@ -8,9 +8,9 @@
  *   node scripts/optimise-photos.mjs
  */
 import { chromium } from 'playwright'
+import { launchOptions } from './chromium.mjs'
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 
-const EXECUTABLE = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 const SRC = 'docs/design-handoff/design/icons'
 const OUT = 'src/assets/photos'
 const NAMES = ['belief-cafe', 'belief-thumb', 'belief-owners']
@@ -18,7 +18,7 @@ const NAMES = ['belief-cafe', 'belief-thumb', 'belief-owners']
 const WIDTHS = [690, 1380]
 
 await mkdir(OUT, { recursive: true })
-const browser = await chromium.launch({ executablePath: EXECUTABLE })
+const browser = await chromium.launch(launchOptions())
 const page = await browser.newPage()
 await page.goto('about:blank')
 

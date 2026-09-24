@@ -6,11 +6,11 @@
  * Serves `dist/` so what is captured is exactly what Netlify would publish.
  */
 import { chromium } from 'playwright'
+import { launchOptions } from './chromium.mjs'
 import { createServer } from 'node:http'
 import { readFile, mkdir } from 'node:fs/promises'
 import { extname, join } from 'node:path'
 
-const EXECUTABLE = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 const TYPES = {
   '.html': 'text/html',
   '.js': 'text/javascript',
@@ -50,7 +50,7 @@ const server = createServer(async (req, res) => {
 const port = server.address().port
 await mkdir(outDir, { recursive: true })
 
-const browser = await chromium.launch({ executablePath: EXECUTABLE })
+const browser = await chromium.launch(launchOptions())
 
 for (const width of widths) {
   const page = await browser.newPage({
