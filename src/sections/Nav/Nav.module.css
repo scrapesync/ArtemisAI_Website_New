@@ -27,7 +27,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sp-3);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-heading);
   color: var(--ink);
@@ -203,7 +203,7 @@
   display: flex;
   align-items: center;
   min-height: 56px;
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-display-tight);
   color: var(--ink);

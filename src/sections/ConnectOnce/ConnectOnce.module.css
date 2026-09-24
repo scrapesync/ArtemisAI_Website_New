@@ -172,7 +172,7 @@
 .chip i {
   font-style: normal;
   font-family: var(--font-mono);
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   color: var(--ink-35);
   z-index: 1;
   transition: color var(--dur-swap) var(--ease-out);
@@ -230,7 +230,7 @@
 
 .stepCopy h3 {
   margin: 0;
-  font-size: var(--sp-6);
+  font-size: 1.375rem;
   font-weight: var(--fw-black);
   letter-spacing: var(--ls-display-tight);
   color: var(--ink);
@@ -371,7 +371,7 @@
 
 .who b {
   display: block;
-  font-size: var(--fs-body);
+  font-size: var(--fs-screen-body);
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-heading);
   line-height: 1.1;
@@ -381,7 +381,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-medium);
   color: rgba(246, 243, 238, 0.55);
 }
@@ -516,7 +516,7 @@
 
 .kicker h4 {
   margin: 0;
-  font-size: var(--fs-display-xs);
+  font-size: var(--fs-screen-display-xs);
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-display-tight);
   line-height: 1.05;
@@ -625,7 +625,7 @@
 }
 
 .big sup {
-  font-size: var(--fs-body-lg);
+  font-size: var(--fs-screen-body-lg);
   vertical-align: top;
   color: var(--ink-60);
 }
@@ -778,7 +778,7 @@
 
 .quote {
   padding: 9px 0;
-  font-size: var(--fs-fine);
+  font-size: var(--fs-screen-fine);
   line-height: 1.45;
   color: rgba(246, 243, 238, 0.85);
 }
@@ -860,7 +860,7 @@
   padding: 0 8px 0 18px;
   border-radius: var(--r-pill);
   background: var(--fill-strong);
-  font-size: var(--fs-body-sm);
+  font-size: var(--fs-screen-body-sm);
   color: var(--ink-45);
 }
 
@@ -924,7 +924,7 @@
   }
 
   .stepCopy h3 {
-    font-size: 19px;
+    font-size: 1.1875rem;
   }
 
   .stepCopy {
@@ -938,7 +938,7 @@
   }
 
   .chip b {
-    font-size: var(--fs-fine);
+    font-size: var(--fs-screen-fine);
   }
 
   .chip i {

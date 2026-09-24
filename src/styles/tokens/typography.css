@@ -4,21 +4,40 @@
   --font-body: Archivo, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 
+  /* ── Page type ──────────────────────────────────────────────────────────────
+     In rem, so the page honours a reader who has raised their browser's default
+     font size. At the default 16px root every value below is exactly the pixel
+     size the handoff specifies — the comments give it. */
+
   /* Display sizes (marketing) */
-  --fs-display-xl: 72px;   /* hero, desktop */
-  --fs-display-lg: 60px;   /* section heads, desktop */
-  --fs-display-md: 46px;   /* section heads, 1200px down */
-  --fs-display-sm: 40px;   /* mobile hero */
-  --fs-display-xs: 26px;   /* mobile section head */
+  --fs-display-xl: 4.5rem;    /* 72px — hero, desktop */
+  --fs-display-lg: 3.75rem;   /* 60px — section heads, desktop */
+  --fs-display-md: 2.875rem;  /* 46px — section heads, 1200px down */
+  --fs-display-sm: 2.5rem;    /* 40px — mobile hero */
+  --fs-display-xs: 1.625rem;  /* 26px — mobile section head */
 
   /* Text sizes */
-  --fs-lead: 21px;         /* hero subhead */
-  --fs-body-lg: 18px;
-  --fs-body: 16px;
-  --fs-body-sm: 15px;
-  --fs-caption: 14px;
-  --fs-fine: 13px;
-  --fs-kicker: 11px;       /* mono/uppercase eyebrow */
+  --fs-lead: 1.3125rem;       /* 21px — hero subhead */
+  --fs-body-lg: 1.125rem;     /* 18px */
+  --fs-body: 1rem;            /* 16px */
+  --fs-body-sm: 0.9375rem;    /* 15px */
+  --fs-caption: 0.875rem;     /* 14px */
+  --fs-fine: 0.8125rem;       /* 13px */
+  --fs-kicker: 0.6875rem;     /* 11px — mono/uppercase eyebrow */
+
+  /* ── Screen type ────────────────────────────────────────────────────────────
+     Text inside a device mock or the fixed diagram canvas. These are pixels of a
+     picture, not page copy: the phone is a 402x874 frame and the How-we-do-it
+     diagram a 1440x600 canvas, so type that grew with the root font size would
+     overflow its own frame rather than becoming easier to read. Same values as
+     the page scale, deliberately pinned. */
+  --fs-screen-display-xs: 26px;
+  --fs-screen-body-lg: 18px;
+  --fs-screen-body: 16px;
+  --fs-screen-body-sm: 15px;
+  --fs-screen-caption: 14px;
+  --fs-screen-fine: 13px;
+  --fs-screen-kicker: 11px;
 
   /* Weights */
   --fw-regular: 400;

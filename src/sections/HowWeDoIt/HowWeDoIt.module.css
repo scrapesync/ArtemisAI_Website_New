@@ -121,7 +121,7 @@
 
 .postBody {
   margin: 12px 0 0;
-  font-size: var(--fs-fine);
+  font-size: var(--fs-screen-fine);
   line-height: 1.45;
   color: var(--ink-80);
 }
@@ -130,7 +130,7 @@
   position: absolute;
   left: 18px;
   bottom: 16px;
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   color: var(--ink-45);
   animation: countOut 12s linear infinite;
 }
@@ -567,7 +567,7 @@
   padding: 7px 12px;
   border-radius: var(--r-pill);
   border: 1px solid rgba(246, 243, 238, 0.12);
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-bold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -711,7 +711,7 @@
 }
 
 .replyLabel {
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-semibold);
   letter-spacing: var(--ls-kicker);
   text-transform: uppercase;
@@ -720,7 +720,7 @@
 
 .replyBody {
   margin: var(--sp-3) 0 0;
-  font-size: var(--fs-caption);
+  font-size: var(--fs-screen-caption);
   line-height: 1.5;
   color: rgba(246, 243, 238, 0.9);
 }
@@ -739,7 +739,7 @@
   border-radius: var(--r-pill);
   background: var(--mint);
   color: var(--ink-on-mint);
-  font-size: var(--fs-fine);
+  font-size: var(--fs-screen-fine);
   font-weight: var(--fw-bold);
   overflow: hidden;
 }
@@ -890,7 +890,7 @@
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
-  font-size: var(--fs-body-sm);
+  font-size: var(--fs-screen-body-sm);
   animation-duration: 12s;
   animation-iteration-count: infinite;
 }
@@ -1044,7 +1044,7 @@
 
 .sourceBody {
   margin: var(--sp-2) 0 0;
-  font-size: var(--fs-fine);
+  font-size: var(--fs-screen-fine);
   line-height: 1.5;
   color: var(--ink-62);
 }

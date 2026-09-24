@@ -86,7 +86,7 @@
 
 .who b {
   display: block;
-  font-size: var(--fs-body);
+  font-size: var(--fs-screen-body);
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-heading);
   line-height: 1.1;
@@ -96,7 +96,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-medium);
   color: rgba(246, 243, 238, 0.55);
 }
@@ -172,7 +172,7 @@
   border-radius: 18px 18px 5px 18px;
   background: var(--ink);
   color: var(--ink-on-mint);
-  font-size: var(--fs-body-sm);
+  font-size: var(--fs-screen-body-sm);
   font-weight: var(--fw-semibold);
   letter-spacing: -0.01em;
 }
@@ -234,7 +234,7 @@
 }
 
 .msgText {
-  font-size: var(--fs-caption);
+  font-size: var(--fs-screen-caption);
   line-height: 1.4;
   color: rgba(246, 243, 238, 0.85);
 }
@@ -369,7 +369,7 @@
 
 .cardHead b {
   display: block;
-  font-size: var(--fs-body);
+  font-size: var(--fs-screen-body);
   font-weight: var(--fw-semibold);
   letter-spacing: -0.01em;
 }
@@ -493,7 +493,7 @@
 
 .cardFoot {
   margin-top: var(--sp-3);
-  font-size: var(--fs-caption);
+  font-size: var(--fs-screen-caption);
   line-height: 1.4;
   color: rgba(246, 243, 238, 0.85);
 }
@@ -552,7 +552,7 @@
   padding: 0 8px 0 18px;
   border-radius: var(--r-pill);
   background: var(--fill-strong);
-  font-size: var(--fs-body-sm);
+  font-size: var(--fs-screen-body-sm);
   color: var(--ink-45);
   flex-shrink: 0;
 }
@@ -572,7 +572,7 @@
 .disclaimer {
   text-align: center;
   margin: var(--sp-3) 0 30px;
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   color: var(--ink-35);
   flex-shrink: 0;
 }

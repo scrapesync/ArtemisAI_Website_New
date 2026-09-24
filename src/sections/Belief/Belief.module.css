@@ -127,7 +127,7 @@
 }
 
 .noteApp {
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-semibold);
   color: var(--ink-80);
 }
@@ -140,7 +140,7 @@
 
 .noteTitle {
   margin: 6px 0 0;
-  font-size: var(--fs-fine);
+  font-size: var(--fs-screen-fine);
   font-weight: var(--fw-bold);
   color: var(--ink);
   line-height: 1.3;
@@ -202,7 +202,7 @@
 }
 
 .commentName {
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-bold);
   color: var(--ink);
 }
@@ -237,7 +237,7 @@
   border-radius: var(--r-pill);
   background: var(--mint);
   color: var(--ink-on-mint);
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-bold);
 }
 
@@ -248,7 +248,7 @@
   border: 1px solid rgba(246, 243, 238, 0.25);
   border-radius: var(--r-pill);
   color: var(--ink);
-  font-size: var(--fs-kicker);
+  font-size: var(--fs-screen-kicker);
   font-weight: var(--fw-medium);
 }
 
