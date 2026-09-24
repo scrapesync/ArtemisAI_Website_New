@@ -1,0 +1,85 @@
+/*
+ * The fallback shown when the app fails to render. It is deliberately plain: no animation, no
+ * device frame, nothing that could itself throw. Everything here is tokens and static CSS, so
+ * it stays up even when whatever broke the page is still broken.
+ */
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 12vh var(--sp-5);
+  background: var(--ground-raised);
+}
+
+.inner {
+  max-width: 42rem;
+}
+
+.kicker {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-kicker);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-kicker);
+  text-transform: uppercase;
+  color: var(--mint);
+}
+
+.head {
+  margin: var(--sp-4) 0 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-display-sm);
+  font-weight: var(--fw-black);
+  letter-spacing: var(--ls-display);
+  line-height: var(--lh-display);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.body {
+  margin: var(--sp-5) 0 0;
+  font-size: var(--fs-body-lg);
+  line-height: 1.6;
+  color: var(--ink-62);
+}
+
+.link {
+  color: var(--mint);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.action {
+  margin-top: var(--sp-7);
+  padding: var(--sp-5) 30px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--ink-on-mint);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  transition: background-color var(--dur-hover) var(--ease-out);
+}
+
+.action:hover {
+  background: var(--mint-hover);
+}
+
+/* The page's two-colour palette is fill-only, and forced-colors replaces fills — without a
+   border this button loses every cue that it is a button. Same fix as global.css. */
+@media (forced-colors: active) {
+  .action {
+    border: 1px solid ButtonText;
+  }
+}
+
+@media (max-width: 760px) {
+  .head {
+    font-size: var(--fs-display-xs);
+  }
+
+  .body {
+    font-size: var(--fs-body);
+  }
+}
