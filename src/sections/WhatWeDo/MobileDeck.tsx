@@ -50,7 +50,11 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
       >
         What to reply. When to post. Whether <em>it&rsquo;ll land.</em>
       </h2>
-      <p className={s.sub} data-reveal={seen ? 'in' : undefined} style={{ transitionDelay: '0.28s' }}>
+      <p
+        className={s.sub}
+        data-reveal={seen ? 'in' : undefined}
+        style={{ transitionDelay: '0.28s' }}
+      >
         Artemis works all three out every minute. You only ever see the answers.
       </p>
 
@@ -83,14 +87,14 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
           <div className={s.stats}>
             <div>
               <div className={s.number} data-numeric>
-                {comments}
+                <span ref={comments}>142</span>
               </div>
               <div className={s.caption}>comments</div>
             </div>
             <div>
               <div className={s.number} data-numeric>
-                {minutes}
-                <span>min</span>
+                <span ref={minutes}>20</span>
+                <span className={s.unit}>min</span>
               </div>
               <div className={s.caption}>to caught</div>
             </div>

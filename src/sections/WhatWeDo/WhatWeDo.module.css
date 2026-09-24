@@ -270,7 +270,9 @@
   font-size: 56px;
 }
 
-.stat .big span {
+/* The unit suffix beside the counted number. Its own class rather than a bare `span`, because
+   the number itself now sits in a span too so the count-up hook can write to it directly. */
+.stat .big .unit {
   font-size: var(--sp-6);
   letter-spacing: 0;
   margin-left: 3px;

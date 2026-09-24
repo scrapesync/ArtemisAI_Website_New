@@ -1,3 +1,5 @@
+import type { RefObject } from 'react'
+
 import { ArtemisGlyph } from '../../components/Icons'
 import {
   DAYS,
@@ -11,7 +13,13 @@ import {
 import s from './WhatWeDo.module.css'
 
 /** Pane 1 — a comment storm caught, and one reply that covers it. */
-export function StormPane({ comments, minutes }: { comments: number; minutes: number }) {
+export function StormPane({
+  comments,
+  minutes,
+}: {
+  comments: RefObject<HTMLSpanElement | null>
+  minutes: RefObject<HTMLSpanElement | null>
+}) {
   return (
     <>
       <div className={s.stormLeft}>
@@ -28,14 +36,14 @@ export function StormPane({ comments, minutes }: { comments: number; minutes: nu
         <div className={s.stats}>
           <div className={s.stat}>
             <div className={s.big} data-numeric>
-              {comments}
+              <span ref={comments}>142</span>
             </div>
             <div className={s.statCaption}>comments</div>
           </div>
           <div className={s.stat}>
             <div className={s.big} data-numeric>
-              {minutes}
-              <span>min</span>
+              <span ref={minutes}>20</span>
+              <span className={s.unit}>min</span>
             </div>
             <div className={s.statCaption}>from first to caught</div>
           </div>

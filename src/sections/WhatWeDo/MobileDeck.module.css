@@ -144,7 +144,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-.number span {
+/* See WhatWeDo.module.css — the number has its own span now, so the suffix needs a class. */
+.number .unit {
   font-size: var(--fs-body-sm);
   letter-spacing: 0;
   margin-left: 2px;
