@@ -50,7 +50,7 @@ export function HowWeDoIt() {
     <section
       ref={ref}
       id="how"
-      className={page.section}
+      className={`${page.section} ${s.section}`}
       data-animate={inView ? 'running' : 'paused'}
     >
       <div className={`${page.frame} ${s.head}`}>
@@ -73,9 +73,9 @@ export function HowWeDoIt() {
 
       <div className={s.outer} ref={outerRef} aria-hidden="true">
         <div className={s.stage} ref={stageRef}>
-          <div className={s.canvas} data-surface="mock">
+          <div className={s.canvas}>
             {/* The post that set it off */}
-            <div data-surface="mock" className={`${s.card} ${s.post}`}>
+            <div className={`${s.card} ${s.post}`}>
               <div className={s.postHead}>
                 <span className={s.postAvatar} />
                 <span>
@@ -171,7 +171,7 @@ export function HowWeDoIt() {
             </div>
 
             {/* The draft, and you sending it */}
-            <div data-surface="mock" className={`${s.card} ${s.reply}`}>
+            <div className={`${s.card} ${s.reply}`}>
               <span className={s.replyLabel}>Drafted · 6:41pm</span>
               <p className={s.replyBody}>
                 Thanks all, we&rsquo;re open till 8pm from Monday. Same kitchen, longer

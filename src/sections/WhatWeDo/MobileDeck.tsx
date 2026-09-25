@@ -66,7 +66,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
         style={{ transitionDelay: '0.45s' }}
       >
         {/* 01 — Catch the storm */}
-        <article data-surface="mock" className={`${s.card} ${live(0)}`}>
+        <article className={`${s.card} ${live(0)}`}>
           <span className={s.cardIndex}>{TABS[0].index}</span>
           <h3 className={s.cardTitle}>{TABS[0].title}</h3>
           <p className={s.cardSentence}>
@@ -112,14 +112,14 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
             <path
               className={s.spark}
               d={MINI_LINE}
-              stroke="var(--mint)"
+              stroke="var(--wwd-graphic, var(--mint))"
               strokeWidth="2"
               strokeLinejoin="round"
             />
             <defs>
               <linearGradient id="miniFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#3BB98F" stopOpacity="0.22" />
-                <stop offset="1" stopColor="#3BB98F" stopOpacity="0" />
+                <stop offset="0" stopColor="var(--wwd-graphic, #3BB98F)" stopOpacity="0.22" />
+                <stop offset="1" stopColor="var(--wwd-graphic, #3BB98F)" stopOpacity="0" />
               </linearGradient>
             </defs>
           </svg>
@@ -138,7 +138,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
         </article>
 
         {/* 02 — Find the window */}
-        <article data-surface="mock" className={`${s.card} ${live(1)}`}>
+        <article className={`${s.card} ${live(1)}`}>
           <span className={s.cardIndex}>{TABS[1].index}</span>
           <h3 className={s.cardTitle}>{TABS[1].title}</h3>
           <p className={s.cardSentence}>{TABS[1].sentence}</p>
@@ -152,9 +152,11 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
                   key={`${r}-${c}`}
                   className={s.heatCell}
                   style={{
-                    background: `rgba(59, 185, 143, ${alpha})`,
+                    background: `rgba(var(--wwd-heat-rgb, 59, 185, 143), ${alpha})`,
                     animationDelay: `${0.1 + r * 0.12}s`,
-                    ...(alpha > 0.5 ? { boxShadow: '0 0 0 1px var(--mint)' } : null),
+                    ...(alpha > 0.5
+                      ? { boxShadow: '0 0 0 1px var(--wwd-graphic, var(--mint))' }
+                      : null),
                   }}
                 />
               )),
@@ -177,7 +179,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
         </article>
 
         {/* 03 — Score the draft */}
-        <article data-surface="mock" className={`${s.card} ${live(2)}`}>
+        <article className={`${s.card} ${live(2)}`}>
           <span className={s.cardIndex}>{TABS[2].index}</span>
           <h3 className={s.cardTitle}>{TABS[2].title}</h3>
           <p className={s.cardSentence}>
@@ -206,7 +208,8 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
           <div className={s.draftBlock}>
             <span className={s.label}>The draft</span>
             <p className={s.draftText}>
-              Spring hours are back. Open till 8pm from Monday, same kitchen and longer evenings.
+              Spring hours are back. Open till 8pm from Monday, same kitchen and longer
+              evenings.
             </p>
           </div>
 

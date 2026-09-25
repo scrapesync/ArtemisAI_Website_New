@@ -112,7 +112,6 @@ export function WhatWeDo() {
 
         <div
           className={`${s.panel} ${flash ? s.flash : ''}`}
-          data-surface="mock"
           data-reveal={seen ? 'in' : undefined}
           style={{ transitionDelay: '1.1s' }}
         >

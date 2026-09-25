@@ -62,7 +62,7 @@
   top: 0;
   width: 100%;
   height: 2px;
-  background: rgba(246, 243, 238, 0.12);
+  background: var(--line-12);
   overflow: hidden;
 }
 
@@ -130,9 +130,30 @@
 /* On a light page this tint has no dark ground to sit on and washes out, so give it one.
    The dark theme is untouched — there the tint still composites over the black page exactly
    as before, which is what keeps the dark rendering pixel-identical. */
+/* The pane is a light grey plate on the warm-white page. Everything inside it was written
+   for a black ground, so rather than rewrite ~40 declarations the pane re-values the ramp
+   locally: the tokens keep their names, the numbers suit the new ground, and the dark theme
+   never sees any of it.
+
+   --wwd-graphic and --wwd-heat-rgb are read by the SVG trend line and the inline heatmap in
+   panes.tsx. They are deliberately left undeclared for dark, so those call sites fall through
+   to their existing literals and dark stays byte-identical. */
 :global([data-theme='light']) .panel {
-  background-color: var(--surface-mock);
-  background-image: linear-gradient(rgba(246, 243, 238, 0.035), rgba(246, 243, 238, 0.035));
+  background: #edeae3;
+  border-color: var(--line-18);
+  color: var(--ink);
+
+  --ink-80: rgba(22, 21, 18, 0.88);
+  --ink-70: rgba(22, 21, 18, 0.82);
+  --ink-62: rgba(22, 21, 18, 0.78);
+  --ink-40: rgba(22, 21, 18, 0.52);
+  --ink-35: rgba(22, 21, 18, 0.46);
+
+  /* Deeper than the page's --mint-ink: #1C5743 is 7.01:1 on this grey, under the floor. */
+  --mint-ink: #14503c;
+  --mint-12: rgba(59, 185, 143, 0.2);
+  --wwd-graphic: var(--mint-deep);
+  --wwd-heat-rgb: 15, 138, 95;
 }
 
 /* A mint pulse confirms a manual pick landed. */
@@ -143,14 +164,18 @@
   border-radius: var(--r-card-sm);
   pointer-events: none;
   z-index: 5;
+  /* A keyframe cannot be re-declared per theme, so its two colours are read from custom
+     properties. These are the dark values; the light block at the end of the file swaps them. */
+  --flash-edge: rgba(59, 185, 143, 0.7);
+  --flash-glow: rgba(59, 185, 143, 0.3);
   animation: panelFlash 1.2s var(--ease-reveal) both;
 }
 
 @keyframes panelFlash {
   from {
     box-shadow:
-      inset 0 0 0 1px rgba(59, 185, 143, 0.7),
-      0 0 90px rgba(59, 185, 143, 0.3);
+      inset 0 0 0 1px var(--flash-edge),
+      0 0 90px var(--flash-glow);
   }
   to {
     box-shadow:
@@ -224,7 +249,7 @@
   display: flex;
   flex-direction: column;
   padding: 36px 40px;
-  border-right: 1px solid rgba(246, 243, 238, 0.1);
+  border-right: 1px solid var(--line-10);
 }
 
 .stormHead {
@@ -656,7 +681,7 @@
   position: relative;
   height: 5px;
   border-radius: 3px;
-  background: rgba(246, 243, 238, 0.12);
+  background: var(--line-12);
 }
 
 .trackFill {
@@ -782,7 +807,7 @@
 
   .stormLeft {
     border-right: 0;
-    border-bottom: 1px solid rgba(246, 243, 238, 0.1);
+    border-bottom: 1px solid var(--line-10);
   }
 }
 
@@ -861,4 +886,62 @@
   .panel.flash::after {
     animation: none;
   }
+}
+
+/* ── Light theme ──────────────────────────────────────────────────────────────
+   What the local ramp above cannot reach: opaque card grounds, mint graphics that fall to
+   ~2:1 on a light plate, and a keyframe (which cannot be re-declared per theme, so its two
+   colours are lifted into custom properties instead). */
+
+/* White keeps the reply card raised off the grey plate. */
+:global([data-theme='light']) .replyCard {
+  background:
+    linear-gradient(
+      165deg,
+      rgba(59, 185, 143, 0.2) 0%,
+      rgba(59, 185, 143, 0.06) 55%,
+      rgba(255, 255, 255, 1) 100%
+    ),
+    #ffffff;
+  box-shadow:
+    inset 0 0 0 1px rgba(22, 21, 18, 0.1),
+    0 12px 24px -8px rgba(22, 21, 18, 0.14);
+  --ink-70: rgba(22, 21, 18, 0.86);
+}
+
+:global([data-theme='light']) .replyBody {
+  color: rgba(22, 21, 18, 0.88);
+}
+
+:global([data-theme='light']) .draftText {
+  color: rgba(22, 21, 18, 0.8);
+}
+
+:global([data-theme='light']) .pillGhost {
+  border-color: var(--line-strong);
+}
+
+/* Brand mint is 2.05:1 on this plate; the deep mint clears the 3:1 floor for a graphic. */
+:global([data-theme='light']) .liveDot,
+:global([data-theme='light']) .trackFill,
+:global([data-theme='light']) .rail i {
+  background: var(--mint-deep);
+}
+
+:global([data-theme='light']) .coverPill {
+  box-shadow: inset 0 0 0 1px rgba(15, 138, 95, 0.45);
+}
+
+:global([data-theme='light']) .coverPill i {
+  background: var(--mint-deep);
+  box-shadow: 0 0 0 3px rgba(15, 138, 95, 0.22);
+}
+
+:global([data-theme='light']) .marker {
+  border-left-color: rgba(15, 138, 95, 0.7);
+}
+
+:global([data-theme='light']) .panel.flash::after {
+  --flash-edge: rgba(15, 138, 95, 0.85);
+  --flash-glow: rgba(15, 138, 95, 0.18);
 }

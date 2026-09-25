@@ -37,7 +37,10 @@ export const KEYS = ['Sentiment', 'Emotion', 'Topic', 'Intent', 'Toxicity'] as c
 export const MOBILE_QA = [
   {
     question: 'What do I reply?',
-    answer: ['118', ' of tonight’s 142 comments ask the same thing. One reply covers them all.'],
+    answer: [
+      '118',
+      ' of tonight’s 142 comments ask the same thing. One reply covers them all.',
+    ],
     source:
       'Every comment on tonight’s post, read for sentiment, emotion, topic, intent and toxicity, plus two years of your own replies for the voice.',
     progress: 83,
@@ -68,10 +71,26 @@ export const MOBILE_QA = [
 export const CUBE_AXIS = [-92, -46, 0, 46, 92] as const
 
 const USUAL = new Set([
-  '-92,-92,-92', '-92,-92,-46', '-92,92,-46', '-92,92,46', '-46,-92,0',
-  '-46,-46,-92', '-46,0,-46', '0,-92,46', '0,0,-92', '0,0,-46',
-  '0,0,92', '0,46,-92', '0,46,0', '46,-46,-46', '46,0,46',
-  '92,-92,-92', '92,-92,-46', '92,-92,46', '92,-46,0', '92,92,46',
+  '-92,-92,-92',
+  '-92,-92,-46',
+  '-92,92,-46',
+  '-92,92,46',
+  '-46,-92,0',
+  '-46,-46,-92',
+  '-46,0,-46',
+  '0,-92,46',
+  '0,0,-92',
+  '0,0,-46',
+  '0,0,92',
+  '0,46,-92',
+  '0,46,0',
+  '46,-46,-46',
+  '46,0,46',
+  '92,-92,-92',
+  '92,-92,-46',
+  '92,-92,46',
+  '92,-46,0',
+  '92,92,46',
 ])
 
 export interface CubeCell {

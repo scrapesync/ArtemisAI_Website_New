@@ -61,14 +61,14 @@ export function StormPane({
             <path
               className={s.spark}
               d={STORM_LINE}
-              stroke="var(--mint)"
+              stroke="var(--wwd-graphic, var(--mint))"
               strokeWidth="2.5"
               strokeLinejoin="round"
             />
             <defs>
               <linearGradient id="stormFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#3BB98F" stopOpacity="0.22" />
-                <stop offset="1" stopColor="#3BB98F" stopOpacity="0" />
+                <stop offset="0" stopColor="var(--wwd-graphic, #3BB98F)" stopOpacity="0.22" />
+                <stop offset="1" stopColor="var(--wwd-graphic, #3BB98F)" stopOpacity="0" />
               </linearGradient>
             </defs>
           </svg>
@@ -140,10 +140,12 @@ export function WindowPane() {
                 key={`${r}-${c}`}
                 className={s.heatCell}
                 style={{
-                  background: `rgba(59, 185, 143, ${alpha})`,
+                  background: `rgba(var(--wwd-heat-rgb, 59, 185, 143), ${alpha})`,
                   // A diagonal wipe: 60ms per column, 60ms per row.
                   animationDelay: `${(r + c) * 0.06}s`,
-                  ...(alpha > 0.5 ? { boxShadow: '0 0 0 1px var(--mint)' } : null),
+                  ...(alpha > 0.5
+                    ? { boxShadow: '0 0 0 1px var(--wwd-graphic, var(--mint))' }
+                    : null),
                 }}
               />
             )),
