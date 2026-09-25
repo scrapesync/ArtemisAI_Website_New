@@ -1,6 +1,12 @@
 /** The site's one conversion action. Every CTA on the page routes here. */
 export const SIGNUP_ANCHOR = 'trial-signup'
 
+/* The Netlify form these submissions join. Deliberately the name the live site already uses:
+   Netlify keys submissions and notifications by form name, so posting to a new one would
+   start a second, empty stream and silently stop any existing alert from firing.
+   Must stay identical to the static twin's name in index.html. */
+export const NETLIFY_FORM = 'pilot-waitlist'
+
 /** Copy that appears in more than one place. Verbatim from the handoff — do not rewrite. */
 export const CTA_LABEL = 'Join 14-day free trial'
 export const CONNECT_LABEL = 'Connect now'

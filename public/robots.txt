@@ -1,4 +1,26 @@
+# artemisai.co.uk serves its whole repository root, so the internal tooling (admin panel, QA
+# dashboards, sprint trackers, data files) sits at the same level as the marketing page.
+#
+# This list therefore works the safe way round: block everything, then name what is public.
+# Anything added later is private by default rather than exposed by an oversight.
+#
+# A crawler directive is not access control. It asks well-behaved search engines not to index
+# these paths; it does not stop anyone who has the URL. The internal pages still need real
+# authentication.
+
 User-agent: *
-Allow: /
+Disallow: /
+
+# The public marketing site.
+Allow: /$
+Allow: /privacy
+Allow: /privacy.html
+Allow: /assets/
+Allow: /fonts/
+Allow: /og.png
+Allow: /favicon.svg
+Allow: /favicon-96.png
+Allow: /apple-touch-icon.png
+Allow: /site.webmanifest
 
 Sitemap: https://artemisai.co.uk/sitemap.xml

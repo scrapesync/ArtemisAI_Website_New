@@ -5,6 +5,7 @@ import { PLATFORM_LABEL } from '../../components/platforms'
 import {
   CONTACT_EMAIL,
   CTA_LABEL,
+  NETLIFY_FORM,
   PENDING_LINKS,
   SIGNUP_ANCHOR,
   type SocialPlatform,
@@ -147,8 +148,10 @@ function SignupForm({ seen }: { seen: boolean }) {
   const [saved, setSaved] = useState('')
   const [sending, setSending] = useState(false)
 
-  const submit = async (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    /* Captured before the first await: React clears currentTarget once the handler returns. */
+    const form = e.currentTarget
     const address = email.trim()
 
     if (!EMAIL.test(address)) {
@@ -158,10 +161,21 @@ function SignupForm({ seen }: { seen: boolean }) {
 
     setSending(true)
     try {
+      /* Built from the form itself rather than from a hand-written object, so every field the
+         markup declares is actually submitted. That matters for the honeypot: Netlify only
+         sees the fields in the POST body, and a hardcoded value would never carry what a bot
+         typed, leaving the trap catching nothing. */
+      const body = new URLSearchParams()
+      new FormData(form).forEach((value, key) => {
+        if (typeof value === 'string') body.append(key, value)
+      })
+      body.set('form-name', NETLIFY_FORM)
+      body.set('email', address)
+
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ 'form-name': 'trial-signup', email: address }).toString(),
+        body: body.toString(),
       })
       if (!response.ok) throw new Error(String(response.status))
       setSaved(address)
@@ -188,7 +202,7 @@ function SignupForm({ seen }: { seen: boolean }) {
     <form
       id={SIGNUP_ANCHOR}
       className={s.form}
-      name="trial-signup"
+      name={NETLIFY_FORM}
       method="POST"
       data-netlify="true"
       onSubmit={submit}
@@ -196,7 +210,7 @@ function SignupForm({ seen }: { seen: boolean }) {
       style={{ transitionDelay: '0.65s' }}
       noValidate
     >
-      <input type="hidden" name="form-name" value="trial-signup" />
+      <input type="hidden" name="form-name" value={NETLIFY_FORM} />
       <label className={s.honeypot}>
         Leave this field empty
         <input name="bot-field" tabIndex={-1} autoComplete="off" />
