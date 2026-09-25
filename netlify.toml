@@ -17,6 +17,14 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# The privacy notice is a legal record. It must never be served stale after an update.
+# Served as a directory index so /privacy resolves on any static host, not just where
+# .html extensions are stripped for us.
+[[headers]]
+  for = "/privacy/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[headers]]
   for = "/*"
   [headers.values]

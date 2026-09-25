@@ -6,7 +6,10 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
 }
-a { color: var(--mint); text-decoration: none; }
+/* --mint-ink, not --mint. In dark the two are the same value, so this moves no dark pixel;
+   in light, raw #3BB98F as TEXT measures 2.23:1 on warm white, far under the floor. Every
+   bare anchor on the site inherits this, so the token has to be the text-role one. */
+a { color: var(--mint-ink); text-decoration: none; }
 a:hover { color: var(--mint-light); }
 ::selection { background: var(--mint-14); color: var(--ink); }
 :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: var(--r-pill); }

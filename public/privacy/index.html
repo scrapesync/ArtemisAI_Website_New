@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!--
+      Same no-flash theme bootstrap as index.html, reading the same 'artemis-theme' key, so
+      arriving here from the site keeps whichever mode the visitor chose. Inline and synchronous
+      on purpose: anything deferred runs after the first paint, which is the flash this avoids.
+    -->
+    <script>
+      ;(function () {
+        try {
+          var theme = localStorage.getItem('artemis-theme') === 'light' ? 'light' : 'dark'
+          var root = document.documentElement
+          root.setAttribute('data-theme', theme)
+          root.style.colorScheme = theme
+          if (theme === 'light') {
+            var meta = document.querySelector('meta[name="theme-color"]')
+            if (meta) meta.setAttribute('content', '#f6f3ee')
+          }
+        } catch (e) {
+          /* No storage: the designed default stands. */
+        }
+      })()
+    </script>
+
+    <title>Privacy notice · Artemis</title>
+    <meta
+      name="description"
+      content="How ArtemisAI Ltd collects and uses personal data: what we hold, why we hold it, how long we keep it, and the rights you have over it."
+    />
+    <link rel="canonical" href="https://artemisai.co.uk/privacy" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-96.png" sizes="96x96" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <style>
+      /* One variable face per family. The per-weight files in /fonts are byte-identical
+         copies of the same variable font, so a single src with a weight range is enough. */
+      @font-face {
+        font-family: 'Archivo';
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url('/fonts/archivo-400-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+          U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+          U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'Archivo';
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url('/fonts/archivo-400-latin-ext.woff2') format('woff2');
+        unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+          U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0,
+          U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+
+      /* Values mirror src/styles/tokens/colors.css. Kept literal rather than imported so the
+         notice renders standalone, with no build step and no dependency on the app's CSS. */
+      :root {
+        --ground: #080908;
+        --raised: rgba(246, 243, 238, 0.03);
+        --ink: #f6f3ee;
+        --ink-80: rgba(246, 243, 238, 0.8);
+        --ink-62: rgba(246, 243, 238, 0.7); /* 8.88:1 — the 0.62 step sits on the floor */
+        --mint-ink: #3bb98f;
+        --line: rgba(246, 243, 238, 0.14);
+        --line-soft: rgba(246, 243, 238, 0.08);
+        --focus: rgba(59, 185, 143, 0.6);
+        --todo-bg: rgba(224, 112, 95, 0.16);
+        --todo-ink: #f0a99d;
+      }
+      :root[data-theme='light'] {
+        --ground: #f6f3ee;
+        --raised: rgba(22, 21, 18, 0.03);
+        --ink: #161512;
+        --ink-80: rgba(22, 21, 18, 0.88);
+        --ink-62: rgba(22, 21, 18, 0.75);
+        --mint-ink: #1c5743;
+        --line: rgba(22, 21, 18, 0.14);
+        --line-soft: rgba(22, 21, 18, 0.08);
+        --focus: rgba(28, 87, 67, 0.55);
+        --todo-bg: rgba(117, 59, 50, 0.12);
+        --todo-ink: #753b32;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--ground);
+        color: var(--ink-80);
+        font-family: Archivo, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 1.0625rem;
+        line-height: 1.68;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .wrap {
+        max-width: 44rem;
+        margin: 0 auto;
+        padding: 0 20px 6rem;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding: 2rem 0 3.5rem;
+        border-bottom: 1px solid var(--line-soft);
+        margin-bottom: 3rem;
+      }
+      .brand {
+        font-size: 1.0625rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .back {
+        font-size: 0.9375rem;
+        font-weight: 600;
+        color: var(--mint-ink);
+        text-decoration: none;
+      }
+      .back:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 2.75rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1.12;
+        color: var(--ink);
+        margin: 0 0 1rem;
+      }
+      .updated {
+        font-size: 0.875rem;
+        color: var(--ink-62);
+        margin: 0 0 3rem;
+      }
+      h2 {
+        font-size: 1.375rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.25;
+        color: var(--ink);
+        margin: 3rem 0 0.875rem;
+      }
+      h3 {
+        font-size: 1.0625rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 2rem 0 0.5rem;
+      }
+      p,
+      li {
+        margin: 0 0 1rem;
+      }
+      ul {
+        padding-left: 1.25rem;
+      }
+      li::marker {
+        color: var(--mint-ink);
+      }
+      a {
+        color: var(--mint-ink);
+      }
+      strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 3px;
+        border-radius: 3px;
+      }
+
+      .card {
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+      }
+      .card > :last-child {
+        margin-bottom: 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+        font-size: 0.9375rem;
+      }
+      th,
+      td {
+        text-align: left;
+        vertical-align: top;
+        padding: 0.75rem 0.75rem 0.75rem 0;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      th {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* Unfilled legal identifiers. Deliberately loud: shipping one of these is a defect,
+         and the pre-launch check greps the build for this class. */
+      .todo {
+        background: var(--todo-bg);
+        color: var(--todo-ink);
+        font-weight: 600;
+        padding: 0.1em 0.4em;
+        border-radius: 4px;
+      }
+
+      footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--line-soft);
+        font-size: 0.875rem;
+        color: var(--ink-62);
+      }
+
+      @media (max-width: 560px) {
+        body {
+          font-size: 1rem;
+        }
+        header {
+          padding-top: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a class="brand" href="/">Artemis</a>
+        <a class="back" href="/">Back to the site</a>
+      </header>
+
+      <main>
+        <h1>Privacy notice</h1>
+        <p class="updated">Last updated 25 September 2026</p>
+
+        <p>
+          This notice explains what personal data ArtemisAI Ltd collects, why we collect it, how
+          long we keep it and what you can do about it. It covers this website and the Artemis
+          product.
+        </p>
+
+        <div class="card">
+          <h3 style="margin-top: 0">The short version</h3>
+          <p>
+            If you join the pilot, we hold your email address so we can set you up and tell you
+            when things change. If you connect a page, we read that page so Artemis can answer
+            questions about it. We do not sell your data, we do not pool it with other accounts,
+            and we do not use it to train shared models. You can ask us to delete any of it at
+            any time.
+          </p>
+        </div>
+
+        <h2>Who we are</h2>
+        <p>
+          ArtemisAI Ltd is the data controller for the information described in this notice. We
+          are a company registered in England and Wales.
+        </p>
+        <table>
+          <tr>
+            <th scope="row">Company</th>
+            <td>ArtemisAI Ltd</td>
+          </tr>
+          <tr>
+            <th scope="row">Company number</th>
+            <td><span class="todo">[TO ADD: registered company number]</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Registered office</th>
+            <td><span class="todo">[TO ADD: registered office address]</span></td>
+          </tr>
+          <tr>
+            <th scope="row">ICO registration</th>
+            <td><span class="todo">[TO ADD: ICO registration number]</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Contact</th>
+            <td><a href="mailto:hello@artemisai.co.uk">hello@artemisai.co.uk</a></td>
+          </tr>
+        </table>
+
+        <h2>When you join the pilot</h2>
+        <p>
+          The signup form on our home page asks for one thing: your email address. We use it to
+          set up your account, to send you the reads you have asked for, and to tell you about
+          changes to the pilot.
+        </p>
+        <table>
+          <tr>
+            <th scope="row">What we collect</th>
+            <td>Your email address, and the date you signed up.</td>
+          </tr>
+          <tr>
+            <th scope="row">Why</th>
+            <td>To set you up on the pilot and to contact you about it.</td>
+          </tr>
+          <tr>
+            <th scope="row">Lawful basis</th>
+            <td>
+              Taking steps at your request before entering a contract, under Article 6(1)(b) of
+              the UK GDPR.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">How long</th>
+            <td>
+              <span class="todo">[TO CONFIRM: 24 months]</span> from your last contact with us,
+              unless you ask us to delete it sooner.
+            </td>
+          </tr>
+        </table>
+        <p>
+          Giving us your email address is entirely up to you. Without it we cannot set you up,
+          but nothing else on this site requires it.
+        </p>
+        <p>
+          We will only email you about Artemis. If we ever want to send you something else, we
+          will ask first, and every email we send has an unsubscribe link.
+        </p>
+
+        <h2>When you connect a page</h2>
+        <p>
+          Artemis works by reading the social pages you connect to it. You connect a page through
+          the platform's own permission screen, which means we never see or store your password,
+          and you can withdraw our access from the platform at any time without asking us.
+        </p>
+        <p>Once a page is connected, we read:</p>
+        <ul>
+          <li>Your posts, and the engagement figures the platform reports for them.</li>
+          <li>Comments and messages on those posts.</li>
+          <li>
+            Up to two years of your page's history, so the comparisons Artemis draws are against
+            your own audience rather than an industry average.
+          </li>
+        </ul>
+        <p>We use that content to do four things, and nothing else:</p>
+        <ul>
+          <li>Answer your questions about your page.</li>
+          <li>Draft replies for you to approve.</li>
+          <li>Suggest when to post.</li>
+          <li>Estimate how a draft is likely to perform.</li>
+        </ul>
+
+        <div class="card">
+          <h3 style="margin-top: 0">Four things we commit to</h3>
+          <ul style="margin-bottom: 0">
+            <li>Your page data is used to answer questions about your page and nothing else.</li>
+            <li>It is never pooled with other accounts.</li>
+            <li>It is never used to train shared models.</li>
+            <li>You can delete it at any time, and we will action that within 30 days.</li>
+          </ul>
+        </div>
+
+        <p>
+          For the content on a page you connect, we act as a <strong>processor</strong> on your
+          behalf. You decide what is on your page and why; we handle it under your instructions.
+          For your account details and your email address, we are the
+          <strong>controller</strong>.
+        </p>
+
+        <h2>People who comment on your page</h2>
+        <p>
+          When Artemis reads a connected page, it necessarily reads comments and messages written
+          by other people. Those people are not our customers and have no direct relationship
+          with us. We handle that content only to do the four things listed above, we do not use
+          it to build profiles of those people, and we do not use it to contact them.
+        </p>
+        <p>
+          If you are a member of the public and believe a business is using Artemis to handle
+          something you wrote, contact that business first, because they decide what happens on
+          their page. You are also welcome to contact us at
+          <a href="mailto:hello@artemisai.co.uk">hello@artemisai.co.uk</a> and we will help.
+        </p>
+
+        <h2>Who else sees your data</h2>
+        <p>
+          We keep this list short on purpose. We do not sell personal data, and we do not share it
+          for anyone else's marketing.
+        </p>
+        <table>
+          <tr>
+            <th scope="row">Netlify</th>
+            <td>Hosts this website and receives signup form submissions. United States.</td>
+          </tr>
+          <tr>
+            <th scope="row">Email provider</th>
+            <td>
+              <span class="todo">[TO ADD: provider name and country]</span> sends the email we
+              write to you.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">AI provider</th>
+            <td>
+              <span class="todo">[TO ADD: provider name and country]</span> runs the model that
+              drafts replies and answers questions about your page.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Social platforms</th>
+            <td>
+              The platforms you connect, such as Meta, under their own terms and their own
+              privacy notices.
+            </td>
+          </tr>
+        </table>
+        <p>
+          We may also disclose data where the law requires it, or to establish or defend a legal
+          claim.
+        </p>
+
+        <h2>Sending data outside the UK</h2>
+        <p>
+          Some of the providers above are based outside the United Kingdom, mainly in the United
+          States. Where data leaves the UK we rely on the UK's International Data Transfer
+          Addendum to the European Commission's standard contractual clauses, or on UK adequacy
+          regulations where they apply. You can ask us for a copy of the safeguards we use.
+        </p>
+
+        <h2>How long we keep things</h2>
+        <ul>
+          <li>
+            <strong>Signup email:</strong> <span class="todo">[TO CONFIRM: 24 months]</span> from
+            your last contact with us.
+          </li>
+          <li>
+            <strong>Connected page content:</strong> for as long as the page stays connected. If
+            you disconnect a page or close your account, we delete it within 30 days.
+          </li>
+          <li>
+            <strong>Records we must keep by law,</strong> such as accounting records: for as long
+            as the law requires.
+          </li>
+        </ul>
+
+        <h2>Your rights</h2>
+        <p>Under the UK GDPR you can ask us to:</p>
+        <ul>
+          <li>Give you a copy of the personal data we hold about you.</li>
+          <li>Correct anything that is wrong.</li>
+          <li>Delete it.</li>
+          <li>Stop or restrict how we use it.</li>
+          <li>Send it to you, or to someone else, in a portable format.</li>
+          <li>Stop using it where we have relied on a legitimate interest.</li>
+        </ul>
+        <p>
+          Where we rely on your consent, you can withdraw it at any time. That does not affect
+          anything we did before you withdrew it.
+        </p>
+        <p>
+          Email <a href="mailto:hello@artemisai.co.uk">hello@artemisai.co.uk</a> and we will
+          respond within one month. There is no charge.
+        </p>
+        <p>
+          If you are unhappy with how we have handled your data, you can complain to the
+          Information Commissioner's Office at
+          <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">ico.org.uk</a>, by phone
+          on 0303 123 1113, or by post to Wycliffe House, Water Lane, Wilmslow, Cheshire, SK9
+          5AF. We would rather you came to us first so we can put it right.
+        </p>
+
+        <h2>Cookies and browser storage</h2>
+        <p>
+          This site sets no cookies and runs no analytics or advertising trackers. The only thing
+          we store in your browser is your choice of light or dark mode, kept in local storage so
+          the site looks the same when you come back. It never leaves your device and it tells us
+          nothing about you. That is why you are not being asked to dismiss a cookie banner.
+        </p>
+
+        <h2>Keeping data safe</h2>
+        <p>
+          Data is encrypted in transit and at rest, access is limited to the people who need it
+          to do their job, and access to connected pages runs through the platform's own
+          permission system rather than through stored passwords. No system is perfect, and if
+          there is ever a breach that puts your rights at risk we will tell you and the ICO
+          within the timescales the law sets.
+        </p>
+
+        <h2>Children</h2>
+        <p>
+          Artemis is a tool for businesses and is not intended for anyone under 18. We do not
+          knowingly collect data about children.
+        </p>
+
+        <h2>Changes to this notice</h2>
+        <p>
+          If we change how we handle personal data we will update this page and change the date
+          at the top. If the change is significant we will email you about it rather than rely on
+          you noticing.
+        </p>
+
+        <h2>Contact us</h2>
+        <p>
+          Any question about this notice, or about your data, goes to
+          <a href="mailto:hello@artemisai.co.uk">hello@artemisai.co.uk</a>.
+        </p>
+      </main>
+
+      <footer>ArtemisAI Ltd · Made in the UK</footer>
+    </div>
+  </body>
+</html>

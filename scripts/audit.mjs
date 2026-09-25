@@ -262,15 +262,23 @@ const targets = await page.evaluate(() =>
     })
     .map((el) => {
       const r = el.getBoundingClientRect()
+      /* WCAG 2.5.8's Inline exception: a target sitting in a sentence is sized by that
+         sentence's line-height, and padding it out would break the paragraph. Recognised as
+         an inline box whose parent holds text of its own beyond the link. */
+      const inline =
+        getComputedStyle(el).display === 'inline' &&
+        Boolean(el.parentElement) &&
+        el.parentElement.textContent.trim().length > el.textContent.trim().length
       return {
         label: (el.getAttribute('aria-label') || el.textContent || el.tagName)
           .trim()
           .slice(0, 34),
         w: Math.round(r.width),
         h: Math.round(r.height),
+        inline,
       }
     })
-    .filter((t) => t.w > 0 && (t.w < 24 || t.h < 24)),
+    .filter((t) => t.w > 0 && (t.w < 24 || t.h < 24) && !t.inline),
 )
 report(targets.length === 0, `${targets.length} targets under 24x24`)
 for (const t of targets.slice(0, 10)) console.log(`        ${t.w}x${t.h}  "${t.label}"`)

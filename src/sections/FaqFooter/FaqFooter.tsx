@@ -6,6 +6,7 @@ import {
   CONTACT_EMAIL,
   CTA_LABEL,
   PENDING_LINKS,
+  PRIVACY_URL,
   SIGNUP_ANCHOR,
   type SocialPlatform,
 } from '../../lib/constants'
@@ -214,7 +215,11 @@ function SignupForm({ seen }: { seen: boolean }) {
           placeholder="you@yourbusiness.co.uk"
           aria-label="Your email address"
           aria-invalid={Boolean(error)}
-          aria-describedby={error ? `${SIGNUP_ANCHOR}-error` : undefined}
+          aria-describedby={
+            [error && `${SIGNUP_ANCHOR}-error`, `${SIGNUP_ANCHOR}-consent`]
+              .filter(Boolean)
+              .join(' ')
+          }
           autoComplete="email"
         />
         <button type="submit" className={s.submit} disabled={sending}>
@@ -227,6 +232,14 @@ function SignupForm({ seen }: { seen: boolean }) {
           {error}
         </p>
       )}
+
+      {/* UK GDPR Article 13 asks for this at the point of collection, not buried a click away.
+          A statement rather than a tick box: the person is actively asking to be set up, so
+          consent is not the lawful basis and a checkbox would be friction with no legal effect. */}
+      <p className={s.consent} id={`${SIGNUP_ANCHOR}-consent`}>
+        We&rsquo;ll use your email to set you up and tell you how the pilot is going, nothing
+        else. Read our <a href={PRIVACY_URL}>privacy notice</a>.
+      </p>
     </form>
   )
 }
