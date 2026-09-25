@@ -113,8 +113,8 @@
   width: 36px;
   height: 36px;
   border-radius: var(--r-tile);
-  background: #0c0f0d;
-  color: var(--ink);
+  background: var(--platform-hub);
+  color: var(--platform-hub-ink);
   box-shadow:
     0 0 0 3px var(--ground-black),
     0 0 0 4px var(--line-strong);
@@ -160,7 +160,7 @@
   border-radius: var(--r-pill);
   border: 1.5px solid var(--line);
   background: transparent;
-  color: rgba(246, 243, 238, 0.55);
+  color: var(--ink-55);
   font-size: 12px;
   font-weight: var(--fw-bold);
   overflow: hidden;
@@ -172,7 +172,7 @@
 .chip i {
   font-style: normal;
   font-family: var(--font-mono);
-  font-size: var(--fs-screen-kicker);
+  font-size: var(--fs-kicker);
   color: var(--ink-35);
   z-index: 1;
   transition: color var(--dur-swap) var(--ease-out);
@@ -190,6 +190,24 @@
 
 .chip.on i {
   color: var(--mint-ink);
+}
+
+/* On warm white the brand mint loses its grip: the active chip's 1.5px border falls to
+   2.23:1, under the 3:1 floor for a control boundary, and the dwell wash to 1.12:1 — so the
+   "active" state was being carried by the label alone. Both are lifted for light only; the
+   dark theme keeps brand mint untouched. */
+:global([data-theme='light']) .chip.on {
+  border-color: var(--mint-deep);
+}
+
+:global([data-theme='light']) .sweep {
+  background: rgba(59, 185, 143, 0.34);
+}
+
+/* The tiles are a pale grey designed to read against black. On the light ground they need an
+   edge of their own, or the row reads as loose logos floating on the page. */
+:global([data-theme='light']) .tile {
+  box-shadow: inset 0 0 0 1px var(--line);
 }
 
 /* The dwell timer, drawn as a mint wash sweeping the chip. */

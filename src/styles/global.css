@@ -205,6 +205,10 @@ p {
 
   --shadow-card-inset: inset 0 0 0 1px rgba(246, 243, 238, 0.09);
 
+  --platform-tile: #dddfdd;
+  --platform-hub: #0c0f0d;
+  --platform-hub-ink: var(--ink);
+
   color: var(--ink);
 }
 

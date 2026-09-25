@@ -1,31 +1,31 @@
 :root {
   /* ── Grounds (marketing) ───────────────────────────── */
-  --ground-black: #000000;        /* section grounds, hero */
-  --ground-raised: #080908;       /* page background */
-  --ground-screen: #0B0C0B;       /* inside device screens */
-  --ground-screen-deep: #0A0B0A;  /* chat surfaces, status bars */
-  --ground-bezel-core: #16160F;   /* device bezel gradient mid stop */
+  --ground-black: #000000; /* section grounds, hero */
+  --ground-raised: #080908; /* page background */
+  --ground-screen: #0b0c0b; /* inside device screens */
+  --ground-screen-deep: #0a0b0a; /* chat surfaces, status bars */
+  --ground-bezel-core: #16160f; /* device bezel gradient mid stop */
 
   /* ── Ink ───────────────────────────────────────────── */
-  --ink: #F6F3EE;
-  --ink-80: rgba(246, 243, 238, 0.80);
-  --ink-70: rgba(246, 243, 238, 0.70);
+  --ink: #f6f3ee;
+  --ink-80: rgba(246, 243, 238, 0.8);
+  --ink-70: rgba(246, 243, 238, 0.7);
   --ink-62: rgba(246, 243, 238, 0.62);
-  --ink-60: rgba(246, 243, 238, 0.60);
+  --ink-60: rgba(246, 243, 238, 0.6);
   --ink-45: rgba(246, 243, 238, 0.45);
-  --ink-40: rgba(246, 243, 238, 0.40);
+  --ink-40: rgba(246, 243, 238, 0.4);
   --ink-35: rgba(246, 243, 238, 0.35);
-  --ink-on-mint: #161512;         /* text/icons sitting on a mint fill */
+  --ink-on-mint: #161512; /* text/icons sitting on a mint fill */
 
   /* ── Mint (brand accent) ───────────────────────────── */
-  --mint: #3BB98F;
-  --mint-hover: #4CCB9F;
-  --mint-light: #6FD9B5;
-  --mint-deep: #0F8A5F;
-  --mint-14: rgba(59, 185, 143, 0.14);  /* chip fill, dwell sweep */
-  --mint-12: rgba(59, 185, 143, 0.12);  /* page glow */
-  --mint-60: rgba(59, 185, 143, 0.60);  /* focus ring */
-  --mint-25: rgba(59, 185, 143, 0.25);  /* hairline on mint tint */
+  --mint: #3bb98f;
+  --mint-hover: #4ccb9f;
+  --mint-light: #6fd9b5;
+  --mint-deep: #0f8a5f;
+  --mint-14: rgba(59, 185, 143, 0.14); /* chip fill, dwell sweep */
+  --mint-12: rgba(59, 185, 143, 0.12); /* page glow */
+  --mint-60: rgba(59, 185, 143, 0.6); /* focus ring */
+  --mint-25: rgba(59, 185, 143, 0.25); /* hairline on mint tint */
 
   /* Mint doing two different jobs, which light mode forces apart.
      As a FILL it is legible in both themes: #3BB98F carrying --ink-on-mint measures 7.41:1.
@@ -35,7 +35,7 @@
   --mint-ink: var(--mint);
 
   /* ── Semantic ──────────────────────────────────────── */
-  --danger: #E0705F;
+  --danger: #e0705f;
 
   /* ── Lines & fills ─────────────────────────────────── */
   --line: rgba(246, 243, 238, 0.14);
@@ -47,13 +47,15 @@
   --fill-hover: rgba(246, 243, 238, 0.12);
 
   /* ── Platform brand marks (as used in the logo rail) ─ */
-  --brand-meta: #0467DF;
-  --brand-facebook: #0866FF;
-  --brand-instagram: #E4405F;
+  --brand-meta: #0467df;
+  --brand-facebook: #0866ff;
+  --brand-instagram: #e4405f;
   --brand-tiktok: #111111;
-  --brand-youtube: #FF0000;
+  --brand-youtube: #ff0000;
   --brand-x: #111111;
-  --platform-tile: #DDDFDD;       /* the light tile the mark sits on */
+  --platform-tile: #dddfdd; /* the light tile the mark sits on */
+  --platform-hub: #0c0f0d; /* the Artemis terminus the rail passes behind */
+  --platform-hub-ink: var(--ink);
 
   /* ── Semantic aliases ──────────────────────────────── */
   --surface-page: var(--ground-raised);
@@ -101,7 +103,7 @@
   --mint-16: rgba(59, 185, 143, 0.16);
   --mint-08: rgba(59, 185, 143, 0.08);
   --mint-06: rgba(59, 185, 143, 0.06);
-  --mint-active: #2fa87f;        /* the primary CTA held down */
+  --mint-active: #2fa87f; /* the primary CTA held down */
 
   /* Translucent grounds behind the fixed nav and the sticky mobile CTA. */
   --scrim-nav: rgba(0, 0, 0, 0.86);
@@ -119,18 +121,18 @@
    Every value below was measured against its own ground. */
 [data-theme='light'] {
   /* Grounds — the page inverts, the device screens do not */
-  --ground-black: #f6f3ee;        /* section grounds, hero */
-  --ground-raised: #ffffff;       /* raised surfaces */
+  --ground-black: #f6f3ee; /* section grounds, hero */
+  --ground-raised: #ffffff; /* raised surfaces */
 
   /* Ink — near-black warm, the same colour the mint fill already carries */
-  --ink: #161512;                 /* 16.50:1 */
-  --ink-80: rgba(22, 21, 18, 0.88);   /* 11.93:1 */
-  --ink-70: rgba(22, 21, 18, 0.80);   /*  9.19:1 */
-  --ink-62: rgba(22, 21, 18, 0.75);   /*  7.73:1 — body copy, clears the 7.2 floor */
-  --ink-60: rgba(22, 21, 18, 0.71);   /*  6.71:1 */
-  --ink-45: rgba(22, 21, 18, 0.56);   /*  4.04:1 */
-  --ink-40: rgba(22, 21, 18, 0.50);   /*  3.37:1 */
-  --ink-35: rgba(22, 21, 18, 0.44);   /*  2.84:1 */
+  --ink: #161512; /* 16.50:1 */
+  --ink-80: rgba(22, 21, 18, 0.88); /* 11.93:1 */
+  --ink-70: rgba(22, 21, 18, 0.8); /*  9.19:1 */
+  --ink-62: rgba(22, 21, 18, 0.75); /*  7.73:1 — body copy, clears the 7.2 floor */
+  --ink-60: rgba(22, 21, 18, 0.71); /*  6.71:1 */
+  --ink-45: rgba(22, 21, 18, 0.56); /*  4.04:1 */
+  --ink-40: rgba(22, 21, 18, 0.5); /*  3.37:1 */
+  --ink-35: rgba(22, 21, 18, 0.44); /*  2.84:1 */
 
   /* Mint — the fill is unchanged, only mint-as-text moves. Same 160deg hue, dropped in
      value until it clears the floor on warm white: #1C5743 measures 7.61:1. */
@@ -158,17 +160,25 @@
   --fill-hover: rgba(22, 21, 18, 0.12);
 
   /* Page chrome, matched to the dark theme's ratios rather than its alphas */
-  --ink-85: rgba(22, 21, 18, 0.92);   /* 13.50:1 */
-  --ink-78: rgba(22, 21, 18, 0.86);   /* 11.25:1 */
-  --ink-68: rgba(22, 21, 18, 0.78);   /*  8.54:1 */
-  --ink-65: rgba(22, 21, 18, 0.76);   /*  7.98:1 */
-  --ink-55: rgba(22, 21, 18, 0.67);   /*  5.84:1 — matches the dark step's 5.77:1 */
-  --ink-32: rgba(22, 21, 18, 0.4);    /*  2.54:1 */
+  --ink-85: rgba(22, 21, 18, 0.92); /* 13.50:1 */
+  --ink-78: rgba(22, 21, 18, 0.86); /* 11.25:1 */
+  --ink-68: rgba(22, 21, 18, 0.78); /*  8.54:1 */
+  --ink-65: rgba(22, 21, 18, 0.76); /*  7.98:1 */
+  --ink-55: rgba(22, 21, 18, 0.67); /*  5.84:1 — matches the dark step's 5.77:1 */
+  --ink-32: rgba(22, 21, 18, 0.4); /*  2.54:1 */
 
   --line-18: rgba(22, 21, 18, 0.18);
   --line-12: rgba(22, 21, 18, 0.12);
   --line-10: rgba(22, 21, 18, 0.1);
   --fill-faint: rgba(22, 21, 18, 0.03);
+
+  /* The platform rail. On black, a pale tile and a near-black hub both read; on warm white
+     the tile vanishes at 1.21:1 and the hub becomes a hard black square with an unreadable
+     glyph on it. The hub takes the mint fill the handoff asks for, carrying --ink-on-mint,
+     which is already sanctioned at 7.41:1. */
+  --platform-tile: #ffffff;
+  --platform-hub: var(--mint);
+  --platform-hub-ink: var(--ink-on-mint);
 
   --scrim-nav: rgba(246, 243, 238, 0.86);
   --scrim-sticky: rgba(255, 255, 255, 0.9);
