@@ -80,9 +80,12 @@
   --shadow-device:
     inset 0 0 0 1.5px rgba(246, 243, 238, 0.16), 0 40px 80px -28px rgba(22, 21, 18, 0.22),
     0 14px 28px -12px rgba(22, 21, 18, 0.14);
+  /* Lowered, not raised. On black this glow ADDS luminance to the ground and helps the copy;
+     on warm white it SUBTRACTS, so every extra point of alpha costs contrast. At 0.18 the
+     lead paragraph fell to 7.10:1, under the floor. At 0.12 it clears at 7.30:1. */
   --glow-cta: radial-gradient(
     50% 50% at 50% 50%,
-    rgba(59, 185, 143, 0.18),
+    rgba(59, 185, 143, 0.12),
     rgba(246, 243, 238, 0) 70%
   );
 }

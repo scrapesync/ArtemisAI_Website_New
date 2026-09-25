@@ -165,7 +165,11 @@
   --ink-68: rgba(22, 21, 18, 0.78); /*  8.54:1 */
   --ink-65: rgba(22, 21, 18, 0.76); /*  7.98:1 */
   --ink-55: rgba(22, 21, 18, 0.67); /*  5.84:1 — matches the dark step's 5.77:1 */
-  --ink-32: rgba(22, 21, 18, 0.4); /*  2.54:1 */
+  /* Retuned by luminance swing, not by text ratio: --ink-32's only consumer is the closing
+     CTA's dot pattern, so matching the dark step's TEXT contrast was the wrong criterion.
+     The dark dot lifts its ground by 0.076; at 0.40 the light dot dropped it by 0.574, a
+     7.6x larger swing, and any glyph crossing a dot read at 4.29:1. */
+  --ink-32: rgba(22, 21, 18, 0.12);
 
   --line-18: rgba(22, 21, 18, 0.18);
   --line-12: rgba(22, 21, 18, 0.12);

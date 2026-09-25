@@ -202,6 +202,44 @@
   animation: dotsBreathe 13s ease-in-out infinite;
 }
 
+/* ── Light theme ──────────────────────────────────────────────────────────────
+   This block carries the page's heaviest decoration: a dot pattern and a radial glow both
+   painting directly under the copy. On black they lighten the ground; on warm white they
+   darken it, so the section needed a pass of its own rather than just the retuned tokens. */
+
+/* The mask is densest at the centre, which on black reads as a vignette and on warm white
+   puts the strongest darkening behind every glyph. Inverted for light, so the texture lives
+   in the margins and clears the copy. prefers-reduced-motion parks dotsBreathe at opacity 1,
+   so this has to hold at full density, not at the 0.6 trough. */
+:global([data-theme='light']) .dots {
+  mask-image: radial-gradient(
+    ellipse 58% 70% at 50% 50%,
+    transparent 0,
+    rgba(0, 0, 0, 0.35) 58%,
+    #000 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 58% 70% at 50% 50%,
+    transparent 0,
+    rgba(0, 0, 0, 0.35) 58%,
+    #000 100%
+  );
+}
+
+/* A 4%-opaque fill and an 18%-opaque border give the email field no edge and no plate, and
+   let the dot texture run straight through the input and its placeholder. An opaque plate
+   both makes it read as a control and takes the dots out from behind the text in it. */
+:global([data-theme='light']) .pill,
+:global([data-theme='light']) .pill input {
+  background: var(--ground-raised);
+  border-color: var(--line-strong);
+}
+
+/* "you@yourbusiness.co.uk" is copy the visitor reads, and --ink-40 leaves it at 3.37:1. */
+:global([data-theme='light']) .pill input::placeholder {
+  color: var(--ink-62);
+}
+
 @keyframes dotsBreathe {
   0%,
   100% {
