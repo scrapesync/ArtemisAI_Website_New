@@ -15,7 +15,7 @@ Disallow: /
 Allow: /$
 Allow: /privacy
 Allow: /privacy.html
-Allow: /assets/
+Allow: /site-assets/
 Allow: /fonts/
 Allow: /og.png
 Allow: /favicon.svg

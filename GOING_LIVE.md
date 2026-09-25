@@ -27,27 +27,30 @@ I checked each of these individually and they are **untouched**:
 
 ## What happens next, step by step
 
-**Step 1 — You give me access.** Ask me to retry, and approve the permission prompt when it
-appears. That is the only technical thing you need to do.
+**Step 1 — Set the two environment variables** described under "Your internal pages are now
+locked" below. Do this first, otherwise merging locks you out of your own admin panel.
 
-**Step 2 — I open a Pull Request.** This is GitHub's "here is a proposed change" feature.
+**Step 2 — You give me access.** Ask me to retry, and approve the permission prompt when it
+appears.
+
+**Step 3 — I open a Pull Request.** This is GitHub's "here is a proposed change" feature.
 Opening one changes nothing on your live site. Your current page stays exactly as it is.
 
-**Step 3 — Netlify builds a preview.** It automatically builds any Pull Request at its own
+**Step 4 — Netlify builds a preview.** It automatically builds any Pull Request at its own
 temporary web address and posts the link on the PR. Your live site is untouched. Netlify says
 this itself on your dashboard: *"The agent publishes changes in a Preview, your live site won't
 change."*
 
-**Step 4 — You look at the preview.** I will send you the link. Worth checking:
+**Step 5 — You look at the preview.** I will send you the link. Worth checking:
 
 - The page looks right, and the light/dark switcher in the top right works
-- Your admin panel still loads
+- Your admin panel asks for the username and password, and lets you in with them
 - The signup form accepts an email and shows the confirmation
 
-**Step 5 — You click Merge.** One green button on the Pull Request page. Netlify redeploys
+**Step 6 — You click Merge.** One green button on the Pull Request page. Netlify redeploys
 automatically and the new page is live on artemisai.co.uk within a minute or two.
 
-If you do not like it at step 4, click Close instead and nothing ever reaches your live site.
+If you do not like it at step 5, click Close instead and nothing ever reaches your live site.
 
 ## If something looks wrong after it goes live
 
@@ -61,16 +64,30 @@ asks for email only, which is what you chose. Submissions still land in the same
 `pilot-waitlist` list alongside the ones you already have, so nothing is lost and any existing
 notification keeps working. New entries will simply have an email and no name or location.
 
-**Your internal pages are publicly reachable.** This is not caused by this change, and it is
-worth saying plainly before you send launch traffic at the domain. Netlify serves every file in
-your repository root, so `admin_panel.html`, the QA dashboards, the sprint trackers and the
-data files next to them can be opened by anyone who knows the address. The admin login only
-checks things in the browser, which hides the page rather than protecting it.
+**Your internal pages are now locked.** You asked for this, and it is included.
 
-The `robots.txt` I am adding asks search engines not to index any of them, and that is a real
-improvement on having none at all. But it does not stop anyone who has a link. Properly fixing
-it means real login protection on those pages, which is a separate piece of work I would rather
-scope with you than rush in alongside a launch.
+Everything except the public marketing page now sits behind a username and password, checked on
+Netlify's servers before anything is sent to the browser. That covers the admin panel, the QA
+dashboards, the sprint trackers, the JSON data files, `/api/*` and `assets/playbook/`. The old
+admin login only checked things in the browser, which hides a page rather than protecting it:
+the HTML and data could still be fetched directly. This cannot be.
+
+**You must do one thing before merging, or your own tooling locks you out.** In Netlify, go to
+Site configuration > Environment variables and add two:
+
+| Name | Value |
+|---|---|
+| `INTERNAL_USER` | a username you choose |
+| `INTERNAL_PASSWORD` | a strong password you choose |
+
+I cannot set these for you, and they are deliberately not in the code. If they are missing the
+lock stays shut and shows a message explaining what to set, because a security control that
+silently lets everyone through when misconfigured is worse than none.
+
+After that, opening any internal page asks for that username and password once per browser
+session. Everyone on the team uses the same pair, so share it however you normally share a
+password. I checked first that no GitHub Action calls the site over HTTP, so the nightly jobs
+are unaffected.
 
 ## Still outstanding on the site itself
 
