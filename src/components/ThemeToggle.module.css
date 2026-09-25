@@ -1,0 +1,47 @@
+/* 20px glyph inside the handoff's 44px minimum hit area. The visible circle is smaller than
+   the target, the same trick the carousel dots use. */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--r-pill);
+  color: var(--ink-70);
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    background-color var(--dur-hover) var(--ease-out);
+}
+
+.toggle:hover {
+  color: var(--ink);
+  background: var(--fill);
+}
+
+/* The sheet row is a full-width control with its own label, so it drops the square. */
+.labelled {
+  width: 100%;
+  height: auto;
+  justify-content: space-between;
+  padding: var(--sp-4) 0;
+  color: var(--ink);
+}
+
+.labelled:hover {
+  background: none;
+}
+
+.label {
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-semibold);
+}
+
+/* Forced-colors drops backgrounds, and this control is only a glyph — without a border it
+   stops reading as a control at all. Same reasoning as the CTA fix in global.css. */
+@media (forced-colors: active) {
+  .toggle {
+    border: 1px solid ButtonText;
+  }
+}

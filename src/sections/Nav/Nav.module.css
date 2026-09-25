@@ -300,3 +300,11 @@
     transition: none;
   }
 }
+
+/* The appearance row sits between the links and the sheet's two CTAs, separated by the same
+   hairline the links use. */
+.sheetTheme {
+  margin-top: auto;
+  padding: 0 0 var(--sp-2);
+  border-top: 1px solid var(--line-10);
+}

@@ -4,7 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!--
+      Applied before first paint, so someone who chose light last visit never sees a frame of
+      dark first. Deliberately inline and synchronous: a deferred module would run after the
+      first paint, which is exactly the flash this prevents.
+
+      Mirrors read() and applyTheme() in src/lib/useTheme.ts — the storage key and the two
+      theme-color values have to stay in step with that file. Anything but the string 'light'
+      falls back to dark, and the whole thing is wrapped because localStorage itself throws in
+      some privacy modes.
+    -->
+    <script>
+      ;(function () {
+        try {
+          var theme = localStorage.getItem('artemis-theme') === 'light' ? 'light' : 'dark'
+          var root = document.documentElement
+          root.setAttribute('data-theme', theme)
+          root.style.colorScheme = theme
+          if (theme === 'light') {
+            var meta = document.querySelector('meta[name="theme-color"]')
+            if (meta) meta.setAttribute('content', '#f6f3ee')
+          }
+        } catch (e) {
+          /* No storage: the designed default stands. */
+        }
+      })()
+    </script>
 
     <title>Artemis — change the way you build on social media</title>
     <meta

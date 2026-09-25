@@ -207,3 +207,23 @@ p {
 
   color: var(--ink);
 }
+
+/* ── Theme switch ───────────────────────────────────────────────────────────────────────
+   Flipping the theme repaints every ground, ink and hairline at once. Without any easing it
+   reads as a flicker; with a permanent transition on every element it would cost a frame
+   budget this page has already been tuned for, and would drag on unrelated hovers.
+
+   So the transition only exists while the switch is happening: setTheme() sets this
+   attribute, and drops it once the paint has settled. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-theme-switching],
+  [data-theme-switching] *,
+  [data-theme-switching] *::before,
+  [data-theme-switching] *::after {
+    transition:
+      background-color var(--dur-swap) var(--ease-out),
+      border-color var(--dur-swap) var(--ease-out),
+      box-shadow var(--dur-swap) var(--ease-out),
+      color var(--dur-swap) var(--ease-out) !important;
+  }
+}

@@ -178,3 +178,22 @@ export function SearchIcon({ size = 15, ...rest }: IconProps) {
     </Icon>
   )
 }
+
+/** Shown while the page is dark: pressing it goes light. */
+export function MoonIcon({ size = 24, ...rest }: IconProps) {
+  return (
+    <Icon size={size} strokeWidth={1.9} {...rest}>
+      <path d="M20.8 13.4A8.4 8.4 0 1 1 10.6 3.2a6.6 6.6 0 0 0 10.2 10.2Z" />
+    </Icon>
+  )
+}
+
+/** Shown while the page is light: pressing it goes dark. */
+export function SunIcon({ size = 24, ...rest }: IconProps) {
+  return (
+    <Icon size={size} strokeWidth={1.9} {...rest}>
+      <circle cx="12" cy="12" r="4.2" />
+      <path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M6.5 6.5 4.9 4.9M19.1 19.1l-1.6-1.6M17.5 6.5l1.6-1.6M4.9 19.1l1.6-1.6" />
+    </Icon>
+  )
+}

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArtemisMark, CloseIcon } from '../../components/Icons'
 import { PlatformBadges } from '../../components/PlatformBadges'
+import { ThemeToggle } from '../../components/ThemeToggle'
 import { CONNECT_LABEL, CTA_LABEL, NAV_LINKS } from '../../lib/constants'
 import { scrollToSignup } from '../../lib/scrollToSignup'
 import { useFocusTrap } from '../../lib/useFocusTrap'
@@ -50,6 +51,8 @@ export function Nav() {
           ))}
         </nav>
 
+        <ThemeToggle className={styles.desktopOnly} />
+
         <button className={`${styles.connect} ${styles.desktopOnly}`} onClick={goToSignup}>
           <span className={styles.badges}>
             <PlatformBadges size={26} overlap={-7} />
@@ -89,6 +92,10 @@ export function Nav() {
             ))}
           </nav>
 
+          <div className={styles.sheetTheme}>
+            <ThemeToggle withLabel />
+          </div>
+
           <div className={styles.sheetFoot}>
             <button onClick={goToSignup}>
               <PlatformBadges size={22} flat />
@@ -101,7 +108,10 @@ export function Nav() {
         </div>
       )}
 
-      <div className={`${styles.stickyCta} ${scrolled ? styles.stickyOn : ''}`} inert={menuOpen}>
+      <div
+        className={`${styles.stickyCta} ${scrolled ? styles.stickyOn : ''}`}
+        inert={menuOpen}
+      >
         <button onClick={goToSignup} tabIndex={scrolled ? 0 : -1}>
           {CTA_LABEL}
         </button>
