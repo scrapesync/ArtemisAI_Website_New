@@ -53,7 +53,7 @@ export const SITE = {
   name: 'Artemis',
   legalName: 'ArtemisAI Ltd',
   url: 'https://artemisai.co.uk',
-  title: 'Artemis — change the way you build on social media',
+  title: 'Artemis · Change the way you build on social media',
   description:
     'Artemis watches your pages every minute and tells you what to reply, when to post, and whether a draft will land. Read from two years of your own history, not an industry average.',
 } as const

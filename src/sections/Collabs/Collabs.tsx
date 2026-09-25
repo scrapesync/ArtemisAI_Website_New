@@ -40,12 +40,20 @@ export function Collabs() {
         </span>
       </h2>
 
-      <p className={s.sub} data-reveal={inView ? 'in' : undefined} style={{ transitionDelay: '0.4s' }}>
-        Businesses, creators and pages worth working with — who, why it makes sense, who
+      <p
+        className={s.sub}
+        data-reveal={inView ? 'in' : undefined}
+        style={{ transitionDelay: '0.4s' }}
+      >
+        Businesses, creators and pages worth working with. Who they are, why it makes sense, who
         you&rsquo;d reach, and what you could run together.
       </p>
 
-      <div className={s.row} data-reveal={inView ? 'in' : undefined} style={{ transitionDelay: '0.55s' }}>
+      <div
+        className={s.row}
+        data-reveal={inView ? 'in' : undefined}
+        style={{ transitionDelay: '0.55s' }}
+      >
         <div className={s.cell}>
           <div data-surface="mock" className={`${s.panel} ${s.fixedPanel}`}>
             <Placeholder identity={YOU} />
@@ -56,7 +64,12 @@ export function Collabs() {
 
         <div className={s.cell}>
           {MATCHES.map(({ identity }, i) => (
-            <div key={identity.name} data-surface="mock" className={`${s.panel} ${live(i) ? s.on : ''}`} inert={!live(i)}>
+            <div
+              key={identity.name}
+              data-surface="mock"
+              className={`${s.panel} ${live(i) ? s.on : ''}`}
+              inert={!live(i)}
+            >
               <Placeholder identity={identity} />
               <div className={s.scrim} />
               <Tag identity={identity} />
@@ -65,7 +78,11 @@ export function Collabs() {
         </div>
 
         {MATCHES.map(({ identity, reach }, i) => (
-          <div key={identity.name} className={`${s.badge} ${live(i) ? s.on : ''}`} aria-hidden={!live(i)}>
+          <div
+            key={identity.name}
+            className={`${s.badge} ${live(i) ? s.on : ''}`}
+            aria-hidden={!live(i)}
+          >
             {reach}
             <span>new people</span>
           </div>
@@ -78,7 +95,11 @@ export function Collabs() {
         style={{ transitionDelay: '0.7s' }}
       >
         {MATCHES.map(({ identity, caption }, i) => (
-          <div key={identity.name} className={`${s.caption} ${live(i) ? s.on : ''}`} inert={!live(i)}>
+          <div
+            key={identity.name}
+            className={`${s.caption} ${live(i) ? s.on : ''}`}
+            inert={!live(i)}
+          >
             <p>
               <i>Why</i>
               <span>{caption.why}</span>

@@ -47,7 +47,12 @@ export function HowWeDoIt() {
   // The diagram is full-bleed: its own stage carries the gutters, so it must not sit inside
   // the page frame, or it would be padded twice and scaled down for nothing.
   return (
-    <section ref={ref} id="how" className={page.section} data-animate={inView ? 'running' : 'paused'}>
+    <section
+      ref={ref}
+      id="how"
+      className={page.section}
+      data-animate={inView ? 'running' : 'paused'}
+    >
       <div className={`${page.frame} ${s.head}`}>
         <h2 data-reveal={seen ? 'in' : undefined}>How does it know?</h2>
         <p data-reveal={seen ? 'in' : undefined} style={{ transitionDelay: '0.15s' }}>
@@ -60,10 +65,10 @@ export function HowWeDoIt() {
           aria-hidden — which left a screen reader with only the heading and sub-line for the
           whole section. This carries the same narrative in prose, at every width. */}
       <p className="visually-hidden">
-        Artemis reads every one of tonight&rsquo;s comments five ways — for sentiment,
-        emotion, topic, intent and toxicity. A usual Tuesday brings twenty comments; tonight
-        brought a hundred and forty-two, which is a storm. Most of them are the same question,
-        so it drafts one reply that covers them all. Nothing goes out until you say so.
+        Artemis reads every one of tonight&rsquo;s comments five ways: for sentiment, emotion,
+        topic, intent and toxicity. A usual Tuesday brings twenty comments; tonight brought a
+        hundred and forty-two, which is a storm. Most of them are the same question, so it
+        drafts one reply that covers them all. Nothing goes out until you say so.
       </p>
 
       <div className={s.outer} ref={outerRef} aria-hidden="true">
@@ -169,7 +174,7 @@ export function HowWeDoIt() {
             <div data-surface="mock" className={`${s.card} ${s.reply}`}>
               <span className={s.replyLabel}>Drafted · 6:41pm</span>
               <p className={s.replyBody}>
-                Thanks all — we&rsquo;re open till 8pm from Monday. Same kitchen, longer
+                Thanks all, we&rsquo;re open till 8pm from Monday. Same kitchen, longer
                 evenings.
               </p>
               <div className={s.replyActions}>

@@ -259,7 +259,7 @@ function Footer() {
                 <span
                   key={platform}
                   className={s.socialLink}
-                  aria-label={`${PLATFORM_LABEL[platform]} — coming soon`}
+                  aria-label={`${PLATFORM_LABEL[platform]}, coming soon`}
                   aria-disabled="true"
                   role="link"
                 >

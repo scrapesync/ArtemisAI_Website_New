@@ -38,7 +38,7 @@ export function Nav() {
   return (
     <>
       <header className={styles.nav}>
-        <a className={styles.brand} href="#top" aria-label="Artemis — home">
+        <a className={styles.brand} href="#top" aria-label="Artemis, home">
           <ArtemisMark size={18} />
           <span>Artemis</span>
         </a>

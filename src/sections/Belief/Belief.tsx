@@ -189,7 +189,7 @@ function CommentThread() {
             Corner Eatery<span>draft</span>
           </div>
           <p className={s.commentText}>
-            Open till 8pm from Monday — same kitchen, longer evenings.
+            Open till 8pm from Monday. Same kitchen, longer evenings.
           </p>
           <div className={s.actions}>
             <span className={s.send}>Send</span>

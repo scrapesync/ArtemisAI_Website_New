@@ -43,7 +43,7 @@ export const CARDS: BeliefCard[] = [
     },
     caption: (
       <>
-        <b>You always decide.</b> Artemis drafts, scores and suggests — it never posts. Every
+        <b>You always decide.</b> Artemis drafts, scores and suggests. It never posts. Every
         reply and every post waits for you to say so.
       </>
     ),

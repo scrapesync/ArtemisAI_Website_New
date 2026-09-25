@@ -127,7 +127,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
           <div className={s.replyBlock}>
             <span className={s.label}>Reply drafted, in your voice</span>
             <p className={s.replyText}>
-              Thanks all — we&rsquo;re open till 8pm from Monday. Same kitchen, longer evenings.
+              Thanks all, we&rsquo;re open till 8pm from Monday. Same kitchen, longer evenings.
             </p>
           </div>
 
@@ -206,7 +206,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
           <div className={s.draftBlock}>
             <span className={s.label}>The draft</span>
             <p className={s.draftText}>
-              Spring hours are back. Open till 8pm from Monday — same kitchen, longer evenings.
+              Spring hours are back. Open till 8pm from Monday, same kitchen and longer evenings.
             </p>
           </div>
 

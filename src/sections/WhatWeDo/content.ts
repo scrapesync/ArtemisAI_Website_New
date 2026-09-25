@@ -22,8 +22,8 @@ export const TABS = [
 ] as const
 
 export const REPLIES = [
-  "Thanks all — we're open till 8pm from Monday. Same kitchen, longer evenings.",
-  'Yes, open on the bank holiday — 12 till 8. Come hungry.',
+  "Thanks all, we're open till 8pm from Monday. Same kitchen, longer evenings.",
+  'Yes, open on the bank holiday, 12 till 8. Come hungry.',
   "Weekdays stay 6pm this week, then 8pm from Monday. We'll remind you.",
 ] as const
 
@@ -54,4 +54,4 @@ export const SCORE_TRACKS = [
 ] as const
 
 export const DRAFT_TEXT =
-  "Spring hours are back. Open till 8pm from Monday — same kitchen, longer evenings. Come and see what we've done with the place, we think you'll like it."
+  "Spring hours are back. Open till 8pm from Monday, same kitchen and longer evenings. Come and see what we've done with the place, we think you'll like it."
