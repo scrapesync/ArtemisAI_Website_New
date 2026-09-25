@@ -27,6 +27,13 @@
   --mint-60: rgba(59, 185, 143, 0.60);  /* focus ring */
   --mint-25: rgba(59, 185, 143, 0.25);  /* hairline on mint tint */
 
+  /* Mint doing two different jobs, which light mode forces apart.
+     As a FILL it is legible in both themes: #3BB98F carrying --ink-on-mint measures 7.41:1.
+     As TEXT it is only legible on a dark ground — 8.52:1 on black, but 2.23:1 on warm white,
+     nowhere near the 7.2 floor. Everything that sets mint as a colour rather than a
+     background uses --mint-ink, so the light theme can revalue it without touching fills. */
+  --mint-ink: var(--mint);
+
   /* ── Semantic ──────────────────────────────────────── */
   --danger: #E0705F;
 
@@ -57,9 +64,108 @@
   --text-body: var(--ink-62);
   --text-muted: var(--ink-45);
   --text-faint: var(--ink-35);
-  --text-accent: var(--mint);
+  --text-accent: var(--mint-ink);
   --action-bg: var(--mint);
   --action-bg-hover: var(--mint-hover);
   --action-ink: var(--ink-on-mint);
   --focus-ring: var(--mint-60);
+
+  /* Inside a device mock or the diagram canvas. Pinned dark in both themes: these are
+     pictures of a product UI, and a phone on a light desk still has a dark screen. The
+     [data-surface='mock'] rule in global.css restores the dark ink ramp over it. */
+  --surface-mock: var(--ground-screen);
+
+  /* ── Page chrome ────────────────────────────────────────────────────────
+     Steps the page's own chrome had inlined. Named for their alpha and kept at
+     the exact values they already had, so lifting them into tokens cannot move a
+     dark-theme pixel; the light theme restates each at the alpha that lands on
+     the same contrast ratio. */
+  --ink-85: rgba(246, 243, 238, 0.85);
+  --ink-78: rgba(246, 243, 238, 0.78);
+  --ink-68: rgba(246, 243, 238, 0.68);
+  --ink-65: rgba(246, 243, 238, 0.65);
+  --ink-55: rgba(246, 243, 238, 0.55);
+  --ink-32: rgba(246, 243, 238, 0.32);
+
+  --line-18: rgba(246, 243, 238, 0.18);
+  --line-12: rgba(246, 243, 238, 0.12);
+  --line-10: rgba(246, 243, 238, 0.1);
+  --fill-faint: rgba(246, 243, 238, 0.03);
+
+  --mint-50: rgba(59, 185, 143, 0.5);
+  --mint-16: rgba(59, 185, 143, 0.16);
+  --mint-08: rgba(59, 185, 143, 0.08);
+  --mint-06: rgba(59, 185, 143, 0.06);
+  --mint-active: #2fa87f;        /* the primary CTA held down */
+
+  /* Translucent grounds behind the fixed nav and the sticky mobile CTA. */
+  --scrim-nav: rgba(0, 0, 0, 0.86);
+  --scrim-sticky: rgba(10, 10, 9, 0.9);
+  --shadow-sticky: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Light theme ──────────────────────────────────────────────────────────────
+   Set on <html data-theme="light">. Only the values that carry the page are redefined;
+   device grounds, platform marks and the mint fill deliberately stay put.
+
+   The ink ramp is derived to match the DARK theme's contrast RATIOS, not its alpha values.
+   The two ramps are not symmetric — warm-white-on-black and near-black-on-warm-white fall
+   off differently — so copying the alphas across would land body copy under the floor.
+   Every value below was measured against its own ground. */
+[data-theme='light'] {
+  /* Grounds — the page inverts, the device screens do not */
+  --ground-black: #f6f3ee;        /* section grounds, hero */
+  --ground-raised: #ffffff;       /* raised surfaces */
+
+  /* Ink — near-black warm, the same colour the mint fill already carries */
+  --ink: #161512;                 /* 16.50:1 */
+  --ink-80: rgba(22, 21, 18, 0.88);   /* 11.93:1 */
+  --ink-70: rgba(22, 21, 18, 0.80);   /*  9.19:1 */
+  --ink-62: rgba(22, 21, 18, 0.75);   /*  7.73:1 — body copy, clears the 7.2 floor */
+  --ink-60: rgba(22, 21, 18, 0.71);   /*  6.71:1 */
+  --ink-45: rgba(22, 21, 18, 0.56);   /*  4.04:1 */
+  --ink-40: rgba(22, 21, 18, 0.50);   /*  3.37:1 */
+  --ink-35: rgba(22, 21, 18, 0.44);   /*  2.84:1 */
+
+  /* Mint — the fill is unchanged, only mint-as-text moves. Same 160deg hue, dropped in
+     value until it clears the floor on warm white: #1C5743 measures 7.61:1. */
+  --mint-ink: #1c5743;
+  /* The tints stay on the BRAND mint. As a fill or a hairline, #3BB98F still reads as mint
+     against warm white — it was only mint-as-text that failed the floor. Dropping the tints
+     to the deep green as well would turn every chip and glow a muddy grey. The focus ring is
+     the exception: it has to be seen, not felt. */
+  --mint-60: rgba(28, 87, 67, 0.55);
+
+  /* Semantic. The dark #E0705F is only 2.85:1 on warm white. This is 7.81:1, which clears
+     the floor — and is stricter than the dark theme's own danger, measured at 6.65:1 on
+     black. That shortfall is pre-existing and left alone here rather than quietly changing
+     a dark-theme pixel; it belongs with the designer sign-off. */
+  --danger: #753b32;
+
+  /* Lines and fills — same alphas, inverted ink. These carry structure rather than text,
+     so they are matched by weight rather than by contrast ratio. */
+  --line: rgba(22, 21, 18, 0.14);
+  --line-strong: rgba(22, 21, 18, 0.22);
+  --line-soft: rgba(22, 21, 18, 0.08);
+  --fill-soft: rgba(22, 21, 18, 0.04);
+  --fill: rgba(22, 21, 18, 0.06);
+  --fill-strong: rgba(22, 21, 18, 0.09);
+  --fill-hover: rgba(22, 21, 18, 0.12);
+
+  /* Page chrome, matched to the dark theme's ratios rather than its alphas */
+  --ink-85: rgba(22, 21, 18, 0.92);   /* 13.50:1 */
+  --ink-78: rgba(22, 21, 18, 0.86);   /* 11.25:1 */
+  --ink-68: rgba(22, 21, 18, 0.78);   /*  8.54:1 */
+  --ink-65: rgba(22, 21, 18, 0.76);   /*  7.98:1 */
+  --ink-55: rgba(22, 21, 18, 0.67);   /*  5.84:1 — matches the dark step's 5.77:1 */
+  --ink-32: rgba(22, 21, 18, 0.4);    /*  2.54:1 */
+
+  --line-18: rgba(22, 21, 18, 0.18);
+  --line-12: rgba(22, 21, 18, 0.12);
+  --line-10: rgba(22, 21, 18, 0.1);
+  --fill-faint: rgba(22, 21, 18, 0.03);
+
+  --scrim-nav: rgba(246, 243, 238, 0.86);
+  --scrim-sticky: rgba(255, 255, 255, 0.9);
+  --shadow-sticky: 0 10px 30px rgba(22, 21, 18, 0.18);
 }

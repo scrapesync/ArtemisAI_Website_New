@@ -66,7 +66,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
         style={{ transitionDelay: '0.45s' }}
       >
         {/* 01 — Catch the storm */}
-        <article className={`${s.card} ${live(0)}`}>
+        <article data-surface="mock" className={`${s.card} ${live(0)}`}>
           <span className={s.cardIndex}>{TABS[0].index}</span>
           <h3 className={s.cardTitle}>{TABS[0].title}</h3>
           <p className={s.cardSentence}>
@@ -138,7 +138,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
         </article>
 
         {/* 02 — Find the window */}
-        <article className={`${s.card} ${live(1)}`}>
+        <article data-surface="mock" className={`${s.card} ${live(1)}`}>
           <span className={s.cardIndex}>{TABS[1].index}</span>
           <h3 className={s.cardTitle}>{TABS[1].title}</h3>
           <p className={s.cardSentence}>{TABS[1].sentence}</p>
@@ -177,7 +177,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
         </article>
 
         {/* 03 — Score the draft */}
-        <article className={`${s.card} ${live(2)}`}>
+        <article data-surface="mock" className={`${s.card} ${live(2)}`}>
           <span className={s.cardIndex}>{TABS[2].index}</span>
           <h3 className={s.cardTitle}>{TABS[2].title}</h3>
           <p className={s.cardSentence}>

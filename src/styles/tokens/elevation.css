@@ -11,9 +11,29 @@
   --glow-page: radial-gradient(90% 60% at 50% 0%, rgba(59, 185, 143, 0.12), rgba(8, 9, 8, 0) 60%);
   --glow-section: radial-gradient(50% 50% at 50% 45%, rgba(59, 185, 143, 0.14), rgba(0, 0, 0, 0) 70%);
   --glow-screen: radial-gradient(50% 50% at 50% 50%, rgba(59, 185, 143, 0.5), rgba(59, 185, 143, 0) 70%);
+  --glow-cta: radial-gradient(50% 50% at 50% 50%, rgba(59, 185, 143, 0.16), rgba(0, 0, 0, 0) 70%);
 
   /* Edge fades used instead of hard clipping */
   --mask-rail-x: linear-gradient(90deg, transparent 0, #000 18%, #000 82%, transparent 100%);
   --mask-rail-end: linear-gradient(90deg, #000 0, #000 84%, transparent 100%);
   --mask-thread-top: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, #000 22%);
+}
+
+/* ── Light theme ────────────────────────────────────────────────────────────
+   Only what sits on the page is redefined. The device shadows and the screen glow are
+   inside a mock that stays dark in both themes, and the three masks are used solely as
+   mask-image, where alpha is all that matters and the colour never renders. */
+[data-theme='light'] {
+  /* The brand's one light source. Kept, but pulled back: the same mint that reads as a
+     glow against black reads as a green cast against warm white. It also has to fade to
+     the light ground rather than to transparent black, which some engines render as a
+     grey fringe rather than a clean fade. */
+  --glow-page: radial-gradient(90% 60% at 50% 0%, rgba(59, 185, 143, 0.14), rgba(246, 243, 238, 0) 60%);
+  --glow-section: radial-gradient(50% 50% at 50% 45%, rgba(59, 185, 143, 0.16), rgba(246, 243, 238, 0) 70%);
+
+  /* Surfaces — the hairline inverts with the ink; the drop shadow softens, because a
+     0.75 black shadow that reads as depth on black reads as dirt on warm white. */
+  --shadow-card-inset: inset 0 0 0 1px rgba(22, 21, 18, 0.09);
+  --shadow-pop: 0 24px 70px -18px rgba(22, 21, 18, 0.22);
+  --glow-cta: radial-gradient(50% 50% at 50% 50%, rgba(59, 185, 143, 0.18), rgba(246, 243, 238, 0) 70%);
 }

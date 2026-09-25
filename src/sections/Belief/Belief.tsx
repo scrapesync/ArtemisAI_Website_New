@@ -116,7 +116,7 @@ export function Belief() {
         >
           {CARDS.map(({ photo, caption }, i) => (
             <div className={s.cell} key={i}>
-              <div className={s.card}>
+              <div className={s.card} data-surface="mock">
                 <picture>
                   <source
                     type="image/webp"

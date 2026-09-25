@@ -24,7 +24,7 @@
   font-weight: var(--fw-medium);
   letter-spacing: var(--ls-kicker);
   text-transform: uppercase;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .head {
@@ -46,7 +46,7 @@
 }
 
 .link {
-  color: var(--mint);
+  color: var(--mint-ink);
   text-decoration: underline;
   text-underline-offset: 3px;
 }

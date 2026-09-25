@@ -209,7 +209,7 @@
 
 .commentName span {
   margin-left: 6px;
-  color: var(--mint);
+  color: var(--mint-ink);
   font-weight: var(--fw-bold);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -309,7 +309,7 @@
   max-width: 620px;
   font-size: var(--fs-body);
   line-height: 1.5;
-  color: rgba(246, 243, 238, 0.55);
+  color: var(--ink-55);
 }
 
 .caption b {

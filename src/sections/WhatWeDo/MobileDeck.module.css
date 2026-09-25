@@ -17,7 +17,7 @@
 
 .title em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .sub {
@@ -54,12 +54,20 @@
   box-shadow: inset 0 0 0 1px rgba(246, 243, 238, 0.1);
 }
 
+/* On a light page this tint has no dark ground to sit on and washes out, so give it one.
+   The dark theme is untouched — there the tint still composites over the black page exactly
+   as before, which is what keeps the dark rendering pixel-identical. */
+:global([data-theme='light']) .card {
+  background-color: var(--surface-mock);
+  background-image: linear-gradient(rgba(246, 243, 238, 0.03), rgba(246, 243, 238, 0.03));
+}
+
 .cardIndex {
   display: block;
   font-size: var(--fs-kicker);
   font-weight: var(--fw-bold);
   letter-spacing: 0.14em;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .cardTitle {
@@ -87,7 +95,7 @@
 
 .label em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .labelRow {
@@ -109,7 +117,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .live i {
@@ -255,7 +263,7 @@
 }
 
 .dayAxis .hot {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .windowTime {
@@ -269,7 +277,7 @@
   margin: var(--sp-3) 0 0;
   font-size: var(--fs-screen-body-sm);
   font-weight: var(--fw-semibold);
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .windowNote {
@@ -367,7 +375,7 @@
 
 .verdict em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 /* ── Dots and swipe hint ──────────────────────────────────────────── */

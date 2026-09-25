@@ -195,7 +195,7 @@
   font-weight: var(--fw-bold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mint);
+  color: var(--mint-ink);
   white-space: nowrap;
 }
 
@@ -254,7 +254,7 @@
   grid-area: 1 / 1;
   font-size: var(--fs-body);
   line-height: 1.5;
-  color: var(--ink-78, rgba(246, 243, 238, 0.78));
+  color: var(--ink-78);
   opacity: 0;
   transform: translateY(6px);
   transition:
@@ -285,7 +285,7 @@
   font-weight: var(--fw-bold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 /* ── Controls ─────────────────────────────────────────────────────── */

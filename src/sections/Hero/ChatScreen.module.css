@@ -385,7 +385,7 @@
 
 .cardHead small em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 /* On the warn card the emphasis reads warm white, not mint. */
@@ -488,7 +488,7 @@
 .axis em {
   font-style: normal;
   font-weight: var(--fw-semibold);
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .cardFoot {

@@ -68,9 +68,9 @@ export function HowWeDoIt() {
 
       <div className={s.outer} ref={outerRef} aria-hidden="true">
         <div className={s.stage} ref={stageRef}>
-          <div className={s.canvas}>
+          <div className={s.canvas} data-surface="mock">
             {/* The post that set it off */}
-            <div className={`${s.card} ${s.post}`}>
+            <div data-surface="mock" className={`${s.card} ${s.post}`}>
               <div className={s.postHead}>
                 <span className={s.postAvatar} />
                 <span>
@@ -166,7 +166,7 @@ export function HowWeDoIt() {
             </div>
 
             {/* The draft, and you sending it */}
-            <div className={`${s.card} ${s.reply}`}>
+            <div data-surface="mock" className={`${s.card} ${s.reply}`}>
               <span className={s.replyLabel}>Drafted · 6:41pm</span>
               <p className={s.replyBody}>
                 Thanks all — we&rsquo;re open till 8pm from Monday. Same kitchen, longer

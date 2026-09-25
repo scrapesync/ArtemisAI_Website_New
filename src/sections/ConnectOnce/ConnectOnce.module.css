@@ -189,7 +189,7 @@
 }
 
 .chip.on i {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 /* The dwell timer, drawn as a mint wash sweeping the chip. */
@@ -241,7 +241,7 @@
   font-size: var(--fs-body-lg);
   font-weight: var(--fw-medium);
   line-height: var(--lh-body-tight);
-  color: rgba(246, 243, 238, 0.68);
+  color: var(--ink-68);
 }
 
 .stepCopy em {
@@ -511,7 +511,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .kicker h4 {
@@ -596,7 +596,7 @@
 
 .cardHead small em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .cardWarn .cardHead small em {
@@ -717,7 +717,7 @@
 .axis em {
   font-style: normal;
   font-weight: var(--fw-semibold);
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .action {

@@ -47,7 +47,7 @@ export function Collabs() {
 
       <div className={s.row} data-reveal={inView ? 'in' : undefined} style={{ transitionDelay: '0.55s' }}>
         <div className={s.cell}>
-          <div className={`${s.panel} ${s.fixedPanel}`}>
+          <div data-surface="mock" className={`${s.panel} ${s.fixedPanel}`}>
             <Placeholder identity={YOU} />
             <div className={s.scrim} />
             <Tag identity={YOU} />
@@ -56,7 +56,7 @@ export function Collabs() {
 
         <div className={s.cell}>
           {MATCHES.map(({ identity }, i) => (
-            <div key={identity.name} className={`${s.panel} ${live(i) ? s.on : ''}`} inert={!live(i)}>
+            <div key={identity.name} data-surface="mock" className={`${s.panel} ${live(i) ? s.on : ''}`} inert={!live(i)}>
               <Placeholder identity={identity} />
               <div className={s.scrim} />
               <Tag identity={identity} />

@@ -165,3 +165,45 @@ p {
   white-space: nowrap;
   border: 0;
 }
+
+/* ── Mock regions ───────────────────────────────────────────────────────────────────────
+   A device screen or the How-we-do-it canvas is a picture of a product UI, not page chrome:
+   a phone sitting on a light desk still has a dark screen. Marking a container
+   data-surface="mock" restores the dark values of everything the light theme flipped, so the
+   ~160 translucent white values nested inside keep compositing over a dark ground and need
+   no edit of their own.
+
+   Scoped to the light theme so the dark theme's cascade is untouched. */
+[data-theme='light'] [data-surface='mock'] {
+  --ground-black: #000000;
+  --ground-raised: #080908;
+
+  --ink: #f6f3ee;
+  --ink-80: rgba(246, 243, 238, 0.8);
+  --ink-70: rgba(246, 243, 238, 0.7);
+  --ink-62: rgba(246, 243, 238, 0.62);
+  --ink-60: rgba(246, 243, 238, 0.6);
+  --ink-45: rgba(246, 243, 238, 0.45);
+  --ink-40: rgba(246, 243, 238, 0.4);
+  --ink-35: rgba(246, 243, 238, 0.35);
+
+  /* Inside a dark mock, mint is legible as text again. */
+  --mint-ink: var(--mint);
+  --mint-14: rgba(59, 185, 143, 0.14);
+  --mint-12: rgba(59, 185, 143, 0.12);
+  --mint-60: rgba(59, 185, 143, 0.6);
+  --mint-25: rgba(59, 185, 143, 0.25);
+  --danger: #e0705f;
+
+  --line: rgba(246, 243, 238, 0.14);
+  --line-strong: rgba(246, 243, 238, 0.22);
+  --line-soft: rgba(246, 243, 238, 0.08);
+  --fill-soft: rgba(246, 243, 238, 0.04);
+  --fill: rgba(246, 243, 238, 0.06);
+  --fill-strong: rgba(246, 243, 238, 0.09);
+  --fill-hover: rgba(246, 243, 238, 0.12);
+
+  --shadow-card-inset: inset 0 0 0 1px rgba(246, 243, 238, 0.09);
+
+  color: var(--ink);
+}

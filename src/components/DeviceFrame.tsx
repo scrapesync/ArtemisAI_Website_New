@@ -53,6 +53,7 @@ export function DeviceFrame({
         <div
           className={[styles.screen, screenClassName].filter(Boolean).join(' ')}
           data-decorative="device-screen"
+          data-surface="mock"
         >
           {chrome && (
             <>

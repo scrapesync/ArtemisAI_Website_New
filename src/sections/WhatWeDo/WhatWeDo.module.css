@@ -24,7 +24,7 @@
 
 .head h2 em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .sub {
@@ -94,7 +94,7 @@
   font-size: 0.75rem;
   font-weight: var(--fw-bold);
   letter-spacing: 0.14em;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .tabTitle {
@@ -125,6 +125,14 @@
   border: 1px solid var(--line);
   border-radius: var(--r-card-sm);
   overflow: hidden;
+}
+
+/* On a light page this tint has no dark ground to sit on and washes out, so give it one.
+   The dark theme is untouched — there the tint still composites over the black page exactly
+   as before, which is what keeps the dark rendering pixel-identical. */
+:global([data-theme='light']) .panel {
+  background-color: var(--surface-mock);
+  background-image: linear-gradient(rgba(246, 243, 238, 0.035), rgba(246, 243, 238, 0.035));
 }
 
 /* A mint pulse confirms a manual pick landed. */
@@ -186,7 +194,7 @@
 
 .label em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .big {
@@ -238,7 +246,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .liveDot {
@@ -308,7 +316,7 @@
 }
 
 .coverPill b {
-  color: var(--mint);
+  color: var(--mint-ink);
   font-weight: var(--fw-black);
 }
 
@@ -366,7 +374,7 @@
   font-weight: var(--fw-semibold);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .axis {
@@ -382,7 +390,7 @@
 .axis em {
   font-style: normal;
   font-weight: var(--fw-semibold);
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .stormRight {
@@ -581,7 +589,7 @@
 }
 
 .dayAxis .hot {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .windowTime {
@@ -593,7 +601,7 @@
   margin: var(--sp-4) 0 0;
   font-size: 20px;
   font-weight: var(--fw-semibold);
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .windowNote {
@@ -691,7 +699,7 @@
 
 .draftVerdict em {
   font-style: normal;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 /* ── Closer ───────────────────────────────────────────────────────── */
@@ -708,7 +716,7 @@
 }
 
 .closer .accent {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 /* ── Reflow ───────────────────────────────────────────────────────── */
