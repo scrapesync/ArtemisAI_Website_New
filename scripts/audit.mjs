@@ -20,13 +20,41 @@ const srv = createServer(async (q, r) => {
 
 const url = `http://localhost:${srv.address().port}/`
 const browser = await chromium.launch(launchOptions())
+
+/* Which theme to audit. The contrast floor, the hit targets and the overflow widths all have
+   to hold in both, and a light theme that passes every check except contrast is not done — so
+   CI runs this twice rather than trusting that one implies the other.
+
+     node scripts/audit.mjs [--theme=dark|light]
+*/
+const THEME = process.argv.find((a) => a.startsWith('--theme='))?.split('=')[1] ?? 'dark'
+if (!['dark', 'light'].includes(THEME)) {
+  console.error(`unknown theme "${THEME}" — expected dark or light`)
+  process.exit(2)
+}
+console.log(`auditing the ${THEME} theme`)
+
+/* Every page the audit opens gets the theme seeded before first paint, the same way a
+   returning visitor would arrive with it. */
+const openPage = async (opts) => {
+  const p = await browser.newPage(opts)
+  await p.addInitScript((t) => {
+    try {
+      localStorage.setItem('artemis-theme', t)
+    } catch {
+      /* no storage in this context */
+    }
+  }, THEME)
+  return p
+}
+
 let failures = 0
 const report = (ok, label, detail = '') => {
   if (!ok) failures++
   console.log(`${ok ? ' ok ' : 'FAIL'}  ${label}${detail ? ' — ' + detail : ''}`)
 }
 
-const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+const page = await openPage({ viewport: { width: 1440, height: 900 } })
 await page.goto(url, { waitUntil: 'networkidle' })
 await page.evaluate(() => document.fonts.ready)
 // Let every section reveal.
@@ -166,11 +194,23 @@ for (let i = 0; i < Math.min(walk.length + 2, 45); i++) {
     if (!el || el === document.body) return null
     // A focus ring may live on the control itself or on the wrapper that visually *is* the
     // control — the email pill, for instance, rings the pill rather than the bare input.
-    const MINT = '59, 185, 143'
+    // Read the ring colour off the page rather than hard-coding it: --focus-ring is mint in
+    // the dark theme and a deeper green in the light one, and a check that only knows the
+    // dark value reports a perfectly good light-theme ring as missing.
+    // Chrome may compute a custom property to either form — rgba() as authored, or a
+    // minified #rrggbbaa — so accept both and normalise to the "r, g, b" triple that
+    // getComputedStyle reports box-shadow and border-color in.
+    const raw = getComputedStyle(document.documentElement).getPropertyValue('--focus-ring').trim()
+    const hex = raw.match(/^#([0-9a-f]{6})/i)?.[1]
+    const RING =
+      raw.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/)?.[0] ??
+      (hex
+        ? [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(', ')
+        : '59, 185, 143')
     const ringed = (n) => {
       const cs = getComputedStyle(n)
       if (cs.outlineStyle !== 'none' && parseFloat(cs.outlineWidth) > 0) return true
-      return cs.boxShadow.includes(MINT) || cs.borderColor.includes(MINT)
+      return cs.boxShadow.includes(RING) || cs.borderColor.includes(RING)
     }
     let ring = false
     for (let n = el, i = 0; n && i < 3; n = n.parentElement, i++) if (ringed(n)) { ring = true; break }
@@ -194,7 +234,7 @@ console.log('\n— animation budget —')
 // which measured at 22fps on a 4x-throttled CPU against 60fps with them paused. Sections gate
 // their loops on visibility (see [data-animate] in global.css); this is the regression guard.
 {
-  const a = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+  const a = await openPage({ viewport: { width: 1440, height: 900 } })
   await a.goto(url, { waitUntil: 'networkidle' })
   await a.waitForTimeout(1200)
   const top = await a.evaluate(() => document.getAnimations().filter((x) => x.playState === 'running').length)
@@ -220,7 +260,7 @@ console.log('\n— horizontal overflow —')
 // `body { overflow-x: hidden }` absorbs their sub-pixel rounding.
 const WIDTHS = [1920, 1440, 1280, 1200, 1100, 1024, 980, 900, 860, 800, 768, 760, 700, 640, 540, 430, 390, 360, 320]
 for (const width of WIDTHS) {
-  const w = await browser.newPage({ viewport: { width, height: 900 } })
+  const w = await openPage({ viewport: { width, height: 900 } })
   await w.goto(url, { waitUntil: 'networkidle' })
   await w.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 20)) } window.scrollTo(0, 0) })
   await w.waitForTimeout(500)
@@ -254,7 +294,7 @@ for (const width of WIDTHS) {
 }
 
 console.log('\n— reduced motion —')
-const rm = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' })
+const rm = await openPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' })
 await rm.goto(url, { waitUntil: 'networkidle' })
 await rm.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 30)) } window.scrollTo(0, 0) })
 await rm.waitForTimeout(1200)
@@ -271,5 +311,5 @@ await rm.close()
 
 await browser.close()
 srv.close()
-console.log(`\n${failures === 0 ? 'All checks passed.' : failures + ' check(s) failed.'}`)
+console.log(`\n${failures === 0 ? `All checks passed (${THEME}).` : `${failures} check(s) failed (${THEME}).`}`)
 process.exit(failures === 0 ? 0 : 1)

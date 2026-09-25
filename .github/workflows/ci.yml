@@ -53,8 +53,15 @@ jobs:
 
       # Contrast floor, hit targets, keyboard traversal, animation budget, horizontal overflow
       # and reduced motion. This is what caught the 22fps regression — it belongs in CI.
-      - name: Accessibility and performance audit
+      #
+      # Run per theme, not once: the two have different grounds, inks and accent values, so a
+      # pass in one says nothing about contrast in the other. Separate steps so a failure
+      # names the theme it happened in.
+      - name: Audit — dark theme
         run: npm run audit
+
+      - name: Audit — light theme
+        run: npm run audit:light
 
       - name: Upload build output
         if: success()

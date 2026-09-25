@@ -107,6 +107,15 @@
   }
 }
 
+/* The theme toggle is a fourth item in the bar. Above this there is room to spare, but by
+   here the 34px gaps no longer fit beside the Connect pill and the row pushes past the
+   viewport. Tightening the bar's own gaps buys back more than the control costs. */
+@media (max-width: 860px) {
+  .nav {
+    gap: var(--sp-5);
+  }
+}
+
 /* ── Mobile ───────────────────────────────────────────────────────── */
 
 @media (max-width: 760px) {

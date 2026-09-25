@@ -72,8 +72,13 @@
 
   /* Inside a device mock or the diagram canvas. Pinned dark in both themes: these are
      pictures of a product UI, and a phone on a light desk still has a dark screen. The
-     [data-surface='mock'] rule in global.css restores the dark ink ramp over it. */
-  --surface-mock: var(--ground-screen);
+     [data-surface='mock'] rule in global.css restores the dark ink ramp over it.
+
+     Pure black rather than --ground-screen on purpose. The handoff's contrast figures are
+     all computed against #000, and mock copy at --ink-62 measures 7.21:1 there but only
+     7.08:1 over #0B0C0B — under the floor. Holding the mocks on the same ground in both
+     themes keeps their contrast identical to the dark theme's, which is already audited. */
+  --surface-mock: #000000;
 
   /* ── Page chrome ────────────────────────────────────────────────────────
      Steps the page's own chrome had inlined. Named for their alpha and kept at
