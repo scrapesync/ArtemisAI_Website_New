@@ -66,9 +66,20 @@
   object-fit: cover;
 }
 
-/* Placeholder standing in for photography that has not been shot yet. A tonal gradient with
-   a faint texture and an oversized monogram — enough to read as "a picture of this business"
-   without pretending to be one. Swap in an <img> and delete this. */
+/* Standing in for photography that has not been shot yet.
+
+   The previous version was a tonal gradient with the monogram at 6% opacity, which read as an
+   empty panel with a smudge in it. It was reported as a broken image three times, which is a
+   fair reading: a large blank rectangle where a photograph clearly belongs looks like one that
+   failed to load, and nothing about it said otherwise.
+
+   So it now states what it is. The monogram sits inside a ring at a legible weight, which is
+   the same idiom an avatar uses when someone has not uploaded a picture, and a dot grid gives
+   the surface a texture that no failed image would have. Nobody mistakes a monogram tile for a
+   404.
+
+   Swap in an <img> behind this and it composites straight over the top; the ring and grid can
+   go with it. */
 .placeholder {
   position: absolute;
   inset: 0;
@@ -78,6 +89,19 @@
   background:
     radial-gradient(120% 90% at 25% 15%, rgba(246, 243, 238, 0.09), rgba(0, 0, 0, 0) 60%),
     linear-gradient(155deg, var(--tone, #26241f) 0%, #14130f 70%, #0d0d0b 100%);
+}
+
+/* The texture. 22px grid of faint dots, masked so it fades out towards the bottom where the
+   name plate sits, keeping the busiest part of the panel away from the copy. */
+.placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(246, 243, 238, 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 92%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 92%);
+  pointer-events: none;
 }
 
 .placeholder::after {
@@ -92,11 +116,23 @@
   background-size: 7px 7px;
 }
 
+/* The ring makes the monogram deliberate rather than residual. Sized in em so it tracks the
+   font-size when the panel reflows on smaller screens. */
 .placeholderMark {
-  font-size: 128px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 1.55em;
+  height: 1.55em;
+  font-size: 84px;
   font-weight: var(--fw-black);
-  letter-spacing: -0.06em;
-  color: rgba(246, 243, 238, 0.06);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  /* Up from 0.06, which was effectively invisible. Still well below the name plate below it,
+     so it reads as a backdrop rather than competing with the business's actual name. */
+  color: rgba(246, 243, 238, 0.22);
+  border: 2px solid rgba(246, 243, 238, 0.14);
+  border-radius: var(--r-pill);
   user-select: none;
 }
 

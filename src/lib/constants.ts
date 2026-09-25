@@ -7,9 +7,16 @@ export const SIGNUP_ANCHOR = 'trial-signup'
    Must stay identical to the static twin's name in index.html. */
 export const NETLIFY_FORM = 'pilot-waitlist'
 
-/** Copy that appears in more than one place. Verbatim from the handoff — do not rewrite. */
-export const CTA_LABEL = 'Join 14-day free trial'
+/** Copy that appears in more than one place.
+
+    CTA_LABEL is no longer the handoff's wording. The beta is free from 15 December until the
+    main launch, so there is no trial to offer; this matches what the live site already says. */
+export const CTA_LABEL = 'Join the free beta'
 export const CONNECT_LABEL = 'Connect now'
+
+/* The team's way in to the admin panel, which lives in the repository this site deploys into
+   rather than in this one. A real destination, unlike the entries in PENDING_LINKS. */
+export const TEAM_LINK = { href: '/admin_login.html', label: 'Team login' } as const
 
 export const NAV_LINKS = [
   { href: '#what', label: 'What' },
@@ -56,10 +63,10 @@ export const PENDING_LINKS: {
 export const CONTACT_EMAIL = 'hello@artemisai.co.uk'
 
 export const SITE = {
-  name: 'Artemis',
+  name: 'ArtemisAI',
   legalName: 'ArtemisAI Ltd',
   url: 'https://artemisai.co.uk',
-  title: 'Artemis · Change the way you build on social media',
+  title: 'ArtemisAI · Change the way you build on social media',
   description:
-    'Artemis watches your pages every minute and tells you what to reply, when to post, and whether a draft will land. Read from two years of your own history, not an industry average.',
+    'ArtemisAI watches your pages every minute and tells you what to reply, when to post, and whether a draft will land. Read from two years of your own history, not an industry average.',
 } as const

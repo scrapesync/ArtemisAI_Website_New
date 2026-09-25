@@ -54,6 +54,24 @@
   color: var(--mint-ink);
 }
 
+/* Team login. Set apart from the section anchors beside it, because it leaves the page rather
+   than scrolling within it, and it is for the team rather than for visitors. A hairline and a
+   quieter ink do that without turning it into a second call to action.
+
+   The padding is not decoration: at --fs-body-sm this link is 21px tall, and WCAG 2.5.8 wants
+   24. Same reason the footer's legal links carry it. */
+.teamLink {
+  margin-left: var(--sp-2);
+  padding: 5px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+}
+
+.teamLink:hover {
+  border-color: var(--mint-ink);
+}
+
 /* The outlined pill that carries the platform badges. Padding is asymmetric because the
    badge cluster sits tight to the left edge and the label needs room on the right. */
 /* The theme toggle and the Connect CTA travel together at the right-hand end. Deliberately
@@ -100,6 +118,16 @@
 /* Between the mobile breakpoint and roughly 1000px the row — brand, six links and the badge
    pill — is wider than the viewport. Tighten the links and drop the badges from the pill
    before that happens, rather than letting the CTA push off the right edge. */
+/* Team login is the first thing to go when the bar runs out of room. Adding it pushed the
+   Connect pill past the viewport between 768 and 1024px, where the nav was already down to
+   tightened gaps and a badge-less CTA. It is not lost: the footer carries it at every width,
+   and the phone menu below 760px has it too. */
+@media (max-width: 1100px) {
+  .teamLink {
+    display: none;
+  }
+}
+
 @media (max-width: 1000px) {
   .links {
     gap: 20px;

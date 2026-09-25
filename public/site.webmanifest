@@ -1,7 +1,7 @@
 {
-  "name": "Artemis",
-  "short_name": "Artemis",
-  "description": "Artemis watches your pages every minute, so you spend your time on the work instead of the feed.",
+  "name": "ArtemisAI",
+  "short_name": "ArtemisAI",
+  "description": "ArtemisAI watches your pages every minute, so you spend your time on the work instead of the feed.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#080908",

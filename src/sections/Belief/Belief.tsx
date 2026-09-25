@@ -165,7 +165,7 @@ function NotificationCard() {
         <span className={s.noteIcon}>
           <ArtemisGlyph size={12} />
         </span>
-        <span className={s.noteApp}>Artemis</span>
+        <span className={s.noteApp}>ArtemisAI</span>
         <span className={s.noteTime}>now</span>
       </div>
       <p className={s.noteTitle}>3 people asked what time you close tonight</p>

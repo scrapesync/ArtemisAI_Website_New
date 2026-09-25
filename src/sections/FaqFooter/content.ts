@@ -5,7 +5,7 @@ export const FAQ = [
     a: 'No. You sign in through Facebook’s own permission screen, the same one you use for any connected app. We never see or store your password, and you can revoke access from Facebook whenever you want.',
   },
   {
-    q: 'Will Artemis post or reply without asking me?',
+    q: 'Will ArtemisAI post or reply without asking me?',
     a: 'Not unless you turn that on. By default every reply and every scheduled post is a draft that waits in your queue until you approve it. You review, you decide.',
   },
   {
@@ -23,7 +23,7 @@ export const FAQ = [
 ] as const
 
 export const FOOTER_BLURB =
-  'We build tools for the people who actually run the page. Artemis reads every post and comment across your accounts, drafts the reply and finds the window. You review, you decide.'
+  'We build tools for the people who actually run the page. ArtemisAI reads every post and comment across your accounts, drafts the reply and finds the window. You review, you decide.'
 
 /**
  * Evaluated in the visitor's browser on load, so the year is never stale. The handoff hard-codes

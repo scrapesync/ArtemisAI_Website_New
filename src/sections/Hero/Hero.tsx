@@ -93,7 +93,7 @@ export function Hero() {
         </h1>
 
         <p className={`${s.rise} ${s.lead}`}>
-          Artemis watches your pages every minute, so you spend your time on the work instead of
+          ArtemisAI watches your pages every minute, so you spend your time on the work instead of
           the feed.
         </p>
 

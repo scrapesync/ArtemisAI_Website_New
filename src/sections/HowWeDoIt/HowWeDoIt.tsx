@@ -65,7 +65,7 @@ export function HowWeDoIt() {
           aria-hidden — which left a screen reader with only the heading and sub-line for the
           whole section. This carries the same narrative in prose, at every width. */}
       <p className="visually-hidden">
-        Artemis reads every one of tonight&rsquo;s comments five ways: for sentiment, emotion,
+        ArtemisAI reads every one of tonight&rsquo;s comments five ways: for sentiment, emotion,
         topic, intent and toxicity. A usual Tuesday brings twenty comments; tonight brought a
         hundred and forty-two, which is a storm. Most of them are the same question, so it
         drafts one reply that covers them all. Nothing goes out until you say so.
@@ -123,12 +123,28 @@ export function HowWeDoIt() {
               )
             })}
 
-            {/* Ten comments flying into the lattice, 0.27s apart */}
+            {/* Ten comments flying into the lattice, 0.8s apart */}
             {FLYING_CHIPS.map(({ handle, text }, i) => (
               <div
                 key={handle}
                 className={s.flyer}
-                style={{ animationDelay: `${0.5 + i * 0.27}s`, zIndex: 20 - i }}
+                style={
+                  {
+                    /* 0.8s apart, not 0.27s. The flight takes 2.6s, so at the old spacing ten chips
+                       shared a 470px path at once and each one overlapped its neighbours for
+                       most of the journey. At this spacing about three are in flight together,
+                       which is a steady trickle rather than a smear. */
+                    animationDelay: `${0.5 + i * 0.8}s`,
+                    zIndex: 20 - i,
+                    /* Each comment lands somewhere different in the lattice. They used to
+                       share one destination, so every chip holding there stacked on the same
+                       spot and read as one smudged blob — which is what the diagram looked
+                       like in the wild. Scattered deterministically rather than randomly, so
+                       the layout is identical on every render. */
+                    ['--fly-dx' as string]: `${470 + ((i * 53) % 150) - 75}px`,
+                    ['--fly-dy' as string]: `${-57 + ((i * 89) % 110) - 55}px`,
+                  } as React.CSSProperties
+                }
               >
                 <span className={s.chipAvatar} />
                 <span>

@@ -22,7 +22,7 @@ export function ConnectScreen() {
         <span>Step 1 of 3</span>
         <h4>Connect once.</h4>
         <p>
-          Artemis only reads the pages you hand it. Pull any of them back whenever you like.
+          ArtemisAI only reads the pages you hand it. Pull any of them back whenever you like.
         </p>
       </div>
 

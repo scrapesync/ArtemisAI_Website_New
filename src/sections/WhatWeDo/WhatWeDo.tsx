@@ -82,12 +82,12 @@ export function WhatWeDo() {
             data-reveal={seen ? 'in' : undefined}
             style={{ transitionDelay: '0.5s' }}
           >
-            Artemis works all three out every minute, for every page you run. You only ever see
+            ArtemisAI works all three out every minute, for every page you run. You only ever see
             the answers.
           </p>
         </div>
 
-        <div className={s.tabs} role="tablist" aria-label="What Artemis works out">
+        <div className={s.tabs} role="tablist" aria-label="What ArtemisAI works out">
           {TABS.map((tab, i) => (
             <button
               key={tab.index}

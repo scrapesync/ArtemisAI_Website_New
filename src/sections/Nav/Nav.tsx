@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArtemisMark, CloseIcon } from '../../components/Icons'
 import { PlatformBadges } from '../../components/PlatformBadges'
 import { ThemeToggle } from '../../components/ThemeToggle'
-import { CONNECT_LABEL, CTA_LABEL, NAV_LINKS } from '../../lib/constants'
+import { CONNECT_LABEL, CTA_LABEL, NAV_LINKS, TEAM_LINK } from '../../lib/constants'
 import { scrollToSignup } from '../../lib/scrollToSignup'
 import { useFocusTrap } from '../../lib/useFocusTrap'
 import { useLockBodyScroll } from '../../lib/useLockBodyScroll'
@@ -38,9 +38,9 @@ export function Nav() {
   return (
     <>
       <header className={styles.nav}>
-        <a className={styles.brand} href="#top" aria-label="Artemis, home">
+        <a className={styles.brand} href="#top" aria-label="ArtemisAI, home">
           <ArtemisMark size={18} />
-          <span>Artemis</span>
+          <span>ArtemisAI</span>
         </a>
 
         <nav className={`${styles.links} ${styles.desktopOnly}`} aria-label="Sections">
@@ -49,6 +49,10 @@ export function Nav() {
               {label}
             </a>
           ))}
+          {/* Last, and set apart: the others jump within this page, this one leaves it. */}
+          <a className={styles.teamLink} href={TEAM_LINK.href}>
+            {TEAM_LINK.label}
+          </a>
         </nav>
 
         {/* One group, so the bar's space-between distributes around the pair rather than
@@ -94,6 +98,9 @@ export function Nav() {
                 {label}
               </a>
             ))}
+            <a className={styles.teamLink} href={TEAM_LINK.href}>
+              {TEAM_LINK.label}
+            </a>
           </nav>
 
           <div className={styles.sheetTheme}>

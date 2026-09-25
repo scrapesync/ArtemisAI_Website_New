@@ -8,6 +8,7 @@ import {
   NETLIFY_FORM,
   PENDING_LINKS,
   SIGNUP_ANCHOR,
+  TEAM_LINK,
   type SocialPlatform,
 } from '../../lib/constants'
 import { useReveal } from '../../lib/useInView'
@@ -49,8 +50,8 @@ export function FaqFooter() {
             <Words words={["We'll", 'run', 'the', 'numbers.']} accent offset={3} />
           </h2>
           <p className={s.lead} data-reveal={seen ? 'in' : undefined} style={{ transitionDelay: '0.5s' }}>
-            Free while the pilot runs. Leave your email and we&apos;ll be in touch when your
-            spot opens.
+            The beta opens on 15 December and is free until the main launch. Leave your email
+            and we&apos;ll send you the link on the day.
           </p>
           <SignupForm seen={seen} />
         </div>
@@ -252,7 +253,7 @@ function Footer() {
         <div className={s.brandColumn}>
           <span className={s.lockup}>
             <ArtemisMark size={20} />
-            Artemis
+            ArtemisAI
           </span>
           <p className={s.blurb}>{FOOTER_BLURB}</p>
           <div className={s.social}>
@@ -290,6 +291,7 @@ function Footer() {
             <PendingLink href={PENDING_LINKS.company.about}>About us</PendingLink>
             <a href="#how">How it works</a>
             <PendingLink href={PENDING_LINKS.company.careers}>Careers</PendingLink>
+            <a href={TEAM_LINK.href}>{TEAM_LINK.label}</a>
             <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
           </nav>
         </div>

@@ -87,11 +87,18 @@ await page.evaluate(async () => {
 await page.waitForTimeout(1500)
 
 console.log('\n— anchors —')
+/* Only in-page anchors. The nav also carries links that leave this page entirely (Team login
+   goes to the admin panel, which lives in the repository this site deploys into), and those
+   have no element here to resolve against — treating them as fragments reported a failure for
+   a link that is working exactly as intended. */
 const anchors = await page.evaluate(() =>
-  [...document.querySelectorAll('header nav a')].map((a) => {
-    const id = a.getAttribute('href').slice(1)
-    return { id, found: Boolean(document.getElementById(id)) }
-  }),
+  [...document.querySelectorAll('header nav a')]
+    .map((a) => a.getAttribute('href') ?? '')
+    .filter((href) => href.startsWith('#'))
+    .map((href) => {
+      const id = href.slice(1)
+      return { id, found: Boolean(document.getElementById(id)) }
+    }),
 )
 for (const { id, found } of anchors) report(found, `nav link #${id} resolves`)
 

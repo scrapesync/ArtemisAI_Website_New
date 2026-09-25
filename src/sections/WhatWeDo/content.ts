@@ -5,13 +5,13 @@ export const TABS = [
     index: '01',
     title: 'Catch the storm',
     sentence:
-      'When comments spike, Artemis catches it inside twenty minutes and drafts a calm reply in your voice.',
+      'When comments spike, ArtemisAI catches it inside twenty minutes and drafts a calm reply in your voice.',
   },
   {
     index: '02',
     title: 'Find the window',
     sentence:
-      'Two years of your posts, read every minute. Artemis names the hour your audience shows up.',
+      'Two years of your posts, read every minute. ArtemisAI names the hour your audience shows up.',
   },
   {
     index: '03',

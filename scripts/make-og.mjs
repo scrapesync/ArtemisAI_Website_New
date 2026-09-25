@@ -1,6 +1,6 @@
 /* Rebuilds the social share card. Same layout as before; the mark is now the real one and the
    em dash is gone, matching the copy pass that removed them from the page. */
-import pw from '/home/user/ArtemisAI_Website_New/node_modules/playwright/index.js'
+import pw from 'playwright'
 import { writeFile } from 'node:fs/promises'
 const B='http://localhost:4185'
 const MARK = `<svg viewBox="0 0 36 36" width="46" height="46" fill="none" style="color:#3BB98F">
@@ -21,7 +21,7 @@ p{margin-top:36px;margin-bottom:auto;font-size:26px;line-height:1.5;color:rgba(2
 </style></head><body>
 <div class="glow"></div>
 <div class="wrap">
-  <div class="brand">${MARK}<span>Artemis</span></div>
+  <div class="brand">${MARK}<span>ArtemisAI</span></div>
   <h1>Change the way you build on <em>social media</em>.</h1>
   <p>What to reply. When to post. Whether it&rsquo;ll land. Read from two years of your own history.</p>
 </div></body></html>`
@@ -31,6 +31,6 @@ const p = await b.newPage({ viewport:{width:1200,height:630}, deviceScaleFactor:
 await p.setContent(html, { waitUntil:'networkidle' })
 await p.evaluate(()=>document.fonts.ready)
 await p.waitForTimeout(400)
-await writeFile('/home/user/ArtemisAI_Website_New/public/og.png', await p.screenshot())
+await writeFile(new URL('../public/og.png', import.meta.url), await p.screenshot())
 console.log('og.png rebuilt')
 await b.close()

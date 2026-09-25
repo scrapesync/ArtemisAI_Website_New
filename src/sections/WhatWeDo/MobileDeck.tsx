@@ -55,7 +55,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
         data-reveal={seen ? 'in' : undefined}
         style={{ transitionDelay: '0.28s' }}
       >
-        Artemis works all three out every minute. You only ever see the answers.
+        ArtemisAI works all three out every minute. You only ever see the answers.
       </p>
 
       <div
@@ -70,7 +70,7 @@ export function MobileDeck({ className, seen }: MobileDeckProps) {
           <span className={s.cardIndex}>{TABS[0].index}</span>
           <h3 className={s.cardTitle}>{TABS[0].title}</h3>
           <p className={s.cardSentence}>
-            Comments spike, Artemis catches it inside twenty minutes and drafts a calm reply in
+            Comments spike, ArtemisAI catches it inside twenty minutes and drafts a calm reply in
             your voice.
           </p>
 

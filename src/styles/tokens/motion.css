@@ -15,7 +15,7 @@
   /* Sequencing */
   --stagger: 50ms;         /* between revealed siblings */
   --dwell: 5s;             /* how long a carousel step holds */
-  --drift: 26s;            /* platform rail loop */
+  --drift: 12s;            /* platform rail loop — 246px, so ~20px/s */
   --sway: 9s;              /* device tilt loop */
 
   /* Reveal distances */

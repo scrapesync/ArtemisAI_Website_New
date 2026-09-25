@@ -73,7 +73,7 @@ export function StormPane({
             </defs>
           </svg>
           <span className={s.marker} />
-          <span className={s.markerLabel}>Artemis flags it</span>
+          <span className={s.markerLabel}>ArtemisAI flags it</span>
         </div>
 
         {/* A chart axis: decorative, and every value on it is restated in the copy beside

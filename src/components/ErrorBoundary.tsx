@@ -36,7 +36,7 @@ export class ErrorBoundary extends Component<Props, State> {
     // No analytics on this site yet (backlog #27), so the console is the only place this can
     // go. Worth keeping regardless — it is what someone will look at when a visitor reports
     // a blank page from a browser we could not test on.
-    console.error('Artemis: unrecoverable render error', error, info.componentStack)
+    console.error('ArtemisAI: unrecoverable render error', error, info.componentStack)
   }
 
   render(): ReactNode {
@@ -45,7 +45,7 @@ export class ErrorBoundary extends Component<Props, State> {
     return (
       <div className={styles.root} role="alert">
         <div className={styles.inner}>
-          <p className={styles.kicker}>Artemis</p>
+          <p className={styles.kicker}>ArtemisAI</p>
           <h1 className={styles.head}>This page didn’t load properly.</h1>
           <p className={styles.body}>
             Something went wrong on our side, not yours. Reloading usually fixes it.

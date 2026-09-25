@@ -278,30 +278,55 @@
   animation: fly 12s cubic-bezier(0.5, 0, 0.2, 1) infinite backwards;
 }
 
+/* A comment leaving the deck and landing in the lattice.
+
+   The previous timing made this read as broken, and the numbers say why. The chip was visible
+   for 7% of a 12s cycle, which is 0.84 seconds, and in that time shrank to 0.08 scale: a
+   14x3px speck. It then sat invisible from 8% to 90%, so for nearly ten seconds of every
+   twelve the whole diagram was still. Anyone glancing at it saw either nothing at all or an
+   illegible dot in empty space.
+
+   Now the flight takes 22% of the cycle, about 2.6 seconds, which is slow enough to follow,
+   and it arrives at 0.34 scale, where the chip is still a recognisable card rather than a
+   dot. The dead stretch shrinks to 26%-84%, so the section is doing something visible far
+   more often than not. */
 @keyframes fly {
+  /* Invisible at the deck, not merely behind it. Ten flyers share one origin, so any opacity
+     here stacks ten cards in the same 180px box and their text interleaves — the same pile the
+     deck itself used to show. The chip appears only once it is on its way. */
   0% {
-    opacity: 1;
+    opacity: 0;
     transform: translate(0, 0) scale(1);
   }
-  1% {
-    border-color: var(--key-lit);
-  }
-  7% {
+  2% {
     opacity: 1;
-    transform: translate(470px, -57px) scale(0.08);
+    border-color: var(--key-lit);
+    transform: translate(0, 0) scale(1);
+  }
+  22% {
+    opacity: 1;
+    transform: translate(var(--fly-dx, 470px), var(--fly-dy, -57px)) scale(0.34);
     border-color: var(--key-lit);
   }
-  8%,
-  90% {
+  /* A beat where it sits in the lattice before fading. This is the moment the diagram is
+     about, the comment arriving and being taken in; without it the chip vanishes the instant
+     it lands, which reads as a glitch rather than an arrival. */
+  38% {
+    opacity: 1;
+    transform: translate(var(--fly-dx, 470px), var(--fly-dy, -57px)) scale(0.34);
+  }
+  44% {
     opacity: 0;
-    transform: translate(470px, -57px) scale(0.08);
+    transform: translate(var(--fly-dx, 470px), var(--fly-dy, -57px)) scale(0.34);
   }
-  94%,
+  /* Reset happens while invisible, so the journey back is never seen. */
+  45%,
   100% {
-    opacity: 1;
+    opacity: 0;
     transform: translate(0, 0) scale(1);
   }
 }
+
 
 /* ── The cube ─────────────────────────────────────────────────────── */
 

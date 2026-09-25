@@ -21,7 +21,7 @@ const STEPS = [
     title: 'Connect your page',
     line: (
       <>
-        Sign in with Facebook. Artemis reads two years of your history to learn <em>your</em>{' '}
+        Sign in with Facebook. ArtemisAI reads two years of your history to learn <em>your</em>{' '}
         audience.
       </>
     ),
@@ -104,7 +104,7 @@ export function ConnectOnce() {
 
                   The mark is the roundel rather than the prototype's triangle: the roundel is
                   the brand mark (it is the wordmark's glyph and the Art E avatar), and at
-                  19px the triangle reads as a warning sign rather than as Artemis. */}
+                  19px the triangle reads as a warning sign rather than as ArtemisAI. */}
               <span className={s.hub} aria-hidden="true">
                 <ArtemisGlyph size={19} />
               </span>

@@ -43,7 +43,7 @@ export const CARDS: BeliefCard[] = [
     },
     caption: (
       <>
-        <b>You always decide.</b> Artemis drafts, scores and suggests. It never posts. Every
+        <b>You always decide.</b> ArtemisAI drafts, scores and suggests. It never posts. Every
         reply and every post waits for you to say so.
       </>
     ),
@@ -58,7 +58,7 @@ export const CARDS: BeliefCard[] = [
     caption: (
       <>
         <b>Opportunities should find you.</b> Other pages already reach people you never will.
-        Artemis finds them and makes the introduction, so you&rsquo;re not the one hunting.
+        ArtemisAI finds them and makes the introduction, so you&rsquo;re not the one hunting.
       </>
     ),
   },

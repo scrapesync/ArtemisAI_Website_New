@@ -261,9 +261,25 @@
   pointer-events: none;
 }
 
-/* Wider than the FAQ heading's 620px so "We'll run the numbers." holds one line. */
+/* Wider than the FAQ heading's 620px so "We'll run the numbers." holds one line.
+
+   The width alone was not enough. Each <Words> group is a block, so this heading is two lines
+   by construction — but `text-wrap: pretty` on .title was rebalancing the second group to
+   avoid leaving "numbers." alone, splitting it again and giving three ragged lines instead of
+   the two the design intends.
+
+   Fitting the whole sentence on a single line would take 975px at this size, more than the
+   760px column allows and more than a 1280px laptop has to spare once the frame's margins are
+   taken out. Shrinking the type enough to manage it would cost the closing line its weight.
+   So: two deliberate lines, each held intact. */
 .ctaTitle {
   max-width: 760px;
+}
+
+@media (min-width: 900px) {
+  .ctaTitle .line {
+    white-space: nowrap;
+  }
 }
 
 .ctaInner {
