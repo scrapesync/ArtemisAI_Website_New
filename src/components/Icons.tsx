@@ -29,33 +29,21 @@ function Icon({ size = 24, strokeWidth = 2, ...rest }: IconProps & { strokeWidth
   )
 }
 
-/** The Artemis roundel: the wordmark's glyph, and the whole brand identity for now. */
+/**
+ * The Artemis mark: a rounded square holding a struck triangle with a weight at its centre.
+ *
+ * Geometry is the brand SVG verbatim, on its own 36x36 grid rather than the icon set's 24, so
+ * the numbers can be checked against the source file without rescaling arithmetic in the way.
+ *
+ * Drawn in currentColor rather than the brand gradient. The brand set ships flat black and
+ * flat white variants alongside the gradient one, so a single-colour mark is the designer's
+ * intent, not a compromise; and one colour is what lets the same glyph serve both themes and
+ * sit on a mint fill without a second asset.
+ */
 export function ArtemisMark({ size = 18, ...rest }: IconProps) {
   return (
-    <Icon size={size} strokeWidth={1.8} {...rest}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 3v18" />
-      <path d="M3.6 9h16.8" />
-    </Icon>
-  )
-}
-
-/** The Art E avatar glyph — a struck triangle with a weight at its centre of mass. */
-export function ArtemisGlyph({ size = 16, ...rest }: IconProps) {
-  return (
-    <Icon size={size} strokeWidth={2.2} {...rest}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 3v18" />
-      <path d="M3.6 9h16.8" />
-    </Icon>
-  )
-}
-
-/** The mark used inside product chrome (notification icon, connect hub): triangle + dot. */
-export function ArtemisTriangle({ size = 14, ...rest }: IconProps) {
-  return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 36 36"
       width={size}
       height={size}
       fill="none"
@@ -63,13 +51,35 @@ export function ArtemisTriangle({ size = 14, ...rest }: IconProps) {
       focusable="false"
       {...rest}
     >
-      <path
-        d="M12 5.3L17.4 18.7H6.6Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <circle cx="12" cy="13.4" r="2" fill="currentColor" />
+      <rect x="2" y="2" width="32" height="32" rx="8" stroke="currentColor" strokeWidth="2" />
+      <path d="M18 8L26 28H10L18 8Z" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="18" cy="20" r="3" fill="currentColor" />
+    </svg>
+  )
+}
+
+/**
+ * The mark without its frame, for the small sizes: chat avatars, notification badges, the
+ * connect hub. Those already sit inside a circle or a tinted chip, so the frame would read as
+ * a second border, and below about 16px its 2px stroke closes up into a solid blob.
+ *
+ * Same triangle and dot as ArtemisMark, on a viewBox cropped to their painted bounds so the
+ * glyph fills the space it is given. The top of that box allows for the apex's miter, which
+ * overshoots the 8 in the path data by just over 2 units.
+ */
+export function ArtemisGlyph({ size = 16, ...rest }: IconProps) {
+  return (
+    <svg
+      viewBox="6.2 5.6 23.6 23.6"
+      width={size}
+      height={size}
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      {...rest}
+    >
+      <path d="M18 8L26 28H10L18 8Z" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="18" cy="20" r="3" fill="currentColor" />
     </svg>
   )
 }

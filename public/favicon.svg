@@ -1,8 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="14" fill="#080908"/>
-  <g fill="none" stroke="#3BB98F" stroke-width="4.8" stroke-linecap="round">
-    <circle cx="32" cy="32" r="24"/>
-    <path d="M32 8v48"/>
-    <path d="M9.6 24h44.8"/>
+<!-- The Artemis mark, geometry verbatim from the brand SVG. Mint on the site's near-black
+     rather than a bare glyph: a browser tab strip may be light or dark, and an unbacked mark
+     disappears against one of them. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
+  <rect width="36" height="36" rx="8" fill="#080908"/>
+  <g transform="translate(18 18) scale(0.82) translate(-18 -18)" fill="none" stroke="#3BB98F">
+    <rect x="2" y="2" width="32" height="32" rx="8" stroke-width="2"/>
+    <path d="M18 8L26 28H10L18 8Z" stroke-width="1.5"/>
+    <circle cx="18" cy="20" r="3" fill="#3BB98F" stroke="none"/>
   </g>
 </svg>

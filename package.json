@@ -17,6 +17,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "audit:light": "node scripts/audit.mjs --theme=light",
+    "icons": "node scripts/make-icons.mjs",
+    "og": "node scripts/make-og.mjs",
     "audit:all": "npm run audit && npm run audit:light"
   },
   "dependencies": {

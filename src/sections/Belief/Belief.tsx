@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { ArrowLeftIcon, ArrowRightIcon, ArtemisTriangle } from '../../components/Icons'
+import { ArrowLeftIcon, ArrowRightIcon, ArtemisGlyph } from '../../components/Icons'
 import { useCarousel } from '../../lib/useCarousel'
 import { useInView } from '../../lib/useInView'
 import { useMediaQuery } from '../../lib/useMediaQuery'
@@ -163,7 +163,7 @@ function NotificationCard() {
     <div className={`${s.glass} ${s.note}`} data-decorative="product-mock">
       <div className={s.noteHead}>
         <span className={s.noteIcon}>
-          <ArtemisTriangle size={12} />
+          <ArtemisGlyph size={12} />
         </span>
         <span className={s.noteApp}>Artemis</span>
         <span className={s.noteTime}>now</span>
