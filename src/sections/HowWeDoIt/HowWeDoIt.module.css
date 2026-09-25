@@ -83,16 +83,23 @@
    --mint-deep: brand mint is around 2:1 on warm white, not enough for a line, a dot or a lit
    border to read. */
 :global([data-theme='light']) .section {
-  --dot-idle: rgba(22, 21, 18, 0.22);
+  /* Heavier than the dark value's 0.20 even though that measures the same 1.6:1. Equal
+     contrast ratios do not read as equal weight in opposite directions: a dark dot on a light
+     ground recedes where a light dot on black advances. 1.95:1 restores the parity by eye. */
+  --dot-idle: rgba(22, 21, 18, 0.3);
   --dot-bright: rgba(22, 21, 18, 0.9);
-  --dot-live: var(--mint-deep);
+  /* Not --mint-deep. The lit dots are the point of this diagram, and #0F8A5F carries only
+     3.94:1 on warm white against the brand mint's 8.52:1 on black — less than half the
+     presence, on the one element that is supposed to draw the eye. This is the same 160deg
+     hue at 6.29:1: still unmistakably green, and it holds its own against the page. */
+  --dot-live: #0f6649;
   --dot-glow: 0 0 8px rgba(15, 138, 95, 0.45);
   --card-bg: #ffffff;
   --chip-bg: #ffffff;
   --chip-handle: rgba(22, 21, 18, 0.56);
   --key-line: rgba(22, 21, 18, 0.14);
   --key-lit: var(--mint-deep);
-  --travel-dot: var(--mint-deep);
+  --travel-dot: #0f6649;
   --reply-ink: rgba(22, 21, 18, 0.88);
   /* White cards on warm white need an edge, or they read as holes in the page. */
   --card-lift: 0 6px 18px -8px rgba(22, 21, 18, 0.16);
