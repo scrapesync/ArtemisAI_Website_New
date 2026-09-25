@@ -16,9 +16,6 @@ export const NAV_LINKS = [
 
 export type SocialPlatform = 'facebook' | 'instagram' | 'tiktok' | 'youtube' | 'x'
 
-/** The privacy notice, served as a static page from public/privacy.html. */
-export const PRIVACY_URL = '/privacy'
-
 /**
  * Destinations that do not exist yet.
  *
@@ -45,7 +42,7 @@ export const PENDING_LINKS: {
     careers: null,
   },
   legal: {
-    privacy: PRIVACY_URL,
+    privacy: null,
     terms: null,
   },
 }

@@ -349,30 +349,6 @@
   color: var(--danger);
 }
 
-/* The Article 13 notice under the email field. Aligned to the pill's inner edge so it reads as
-   part of the control rather than as loose page copy.
-
-   Held at --ink-70 rather than the --ink-62 body step. --ink-62 measures 7.17:1 against this
-   section's ground, which is the 7.2 floor to within rounding error. Legal text should not sit
-   on the line: --ink-70 clears it at 8.88:1 dark and 9.19:1 light. */
-.consent {
-  padding-left: var(--sp-5);
-  max-width: 46ch;
-  font-size: 0.84375rem;
-  line-height: 1.5;
-  color: var(--ink-70);
-}
-
-.consent a {
-  color: var(--mint-ink);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.consent a:hover {
-  color: var(--ink);
-}
-
 .done {
   display: flex;
   align-items: center;
