@@ -48,10 +48,20 @@ export default async (request: Request): Promise<Response | undefined> => {
   /* Fail closed. A missing credential is a misconfiguration, and serving the page anyway
      would quietly leave it open, which is the exact thing this function exists to stop. */
   if (!user || !password) {
+    /* Spells out that the two names are fixed keys rather than credentials to invent, and
+       that a redeploy is required. An earlier version said neither, and both were got wrong
+       in practice: one variable named after the person, and no rebuild afterwards. This
+       message is the only guidance anyone gets at the moment it matters. */
     return challenge(
       'Internal access is not configured.\n\n' +
-        'Set INTERNAL_USER and INTERNAL_PASSWORD in Netlify under\n' +
-        'Site configuration > Environment variables, then redeploy.\n',
+        'Two environment variables are missing.\n\n' +
+        'INTERNAL_USER and INTERNAL_PASSWORD are the variable NAMES, spelled\n' +
+        'exactly like that. Their VALUES are the username and password you\n' +
+        'want to sign in with.\n\n' +
+        'In Netlify: Project configuration > Environment variables > Add a\n' +
+        'variable. Add both, with the same value in all deploy contexts.\n\n' +
+        'Then Deploys > Trigger deploy. Netlify reads environment values at\n' +
+        'deploy time, so these pages stay locked until the site rebuilds.\n',
     )
   }
 
