@@ -56,6 +56,14 @@
 
 /* The outlined pill that carries the platform badges. Padding is asymmetric because the
    badge cluster sits tight to the left edge and the label needs room on the right. */
+/* The theme toggle and the Connect CTA travel together at the right-hand end. Deliberately
+   no `display` here: .desktopOnly supplies it, and its max-width:760px rule has to be able to
+   hide this whole group. */
+.actions {
+  align-items: center;
+  gap: 8px;
+}
+
 .connect {
   display: inline-flex;
   align-items: center;

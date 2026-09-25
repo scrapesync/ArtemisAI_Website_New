@@ -51,14 +51,18 @@ export function Nav() {
           ))}
         </nav>
 
-        <ThemeToggle className={styles.desktopOnly} />
+        {/* One group, so the bar's space-between distributes around the pair rather than
+            between them — that is what keeps the toggle a fixed 8px off the CTA. */}
+        <div className={`${styles.actions} ${styles.desktopOnly}`}>
+          <ThemeToggle />
 
-        <button className={`${styles.connect} ${styles.desktopOnly}`} onClick={goToSignup}>
-          <span className={styles.badges}>
-            <PlatformBadges size={26} overlap={-7} />
-          </span>
-          <span>{CONNECT_LABEL}</span>
-        </button>
+          <button className={styles.connect} onClick={goToSignup}>
+            <span className={styles.badges}>
+              <PlatformBadges size={26} overlap={-7} />
+            </span>
+            <span>{CONNECT_LABEL}</span>
+          </button>
+        </div>
 
         <button
           className={styles.burger}
