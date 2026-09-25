@@ -93,17 +93,35 @@ export function HowWeDoIt() {
               </span>
             </div>
 
-            {/* The stack they peel off */}
-            {DECK_CHIPS.map(({ left, top, handle, text }) => (
-              <div key={handle} className={s.chip} style={{ left, top }}>
-                <span className={s.chipAvatar} />
-                <span>
-                  <span className={s.chipHandle}>{handle}</span>
-                  <br />
-                  <span className={s.chipText}>{text}</span>
-                </span>
-              </div>
-            ))}
+            {/* The stack they peel off.
+
+                Only the top card carries content. The cards are 42px tall and offset by 4px,
+                so all that shows of the ones beneath is a 4px edge — but their text is
+                centred in the full 42px, which put it below the card covering it. Six cards
+                meant six sets of text overlapping in that strip. Blank cards behind read as
+                what this is meant to be: a deck seen edge-on. */}
+            {DECK_CHIPS.map(({ left, top, handle, text }, i) => {
+              const top_of_deck = i === DECK_CHIPS.length - 1
+              return (
+                <div
+                  key={handle}
+                  className={s.chip}
+                  style={{ left, top }}
+                  aria-hidden={!top_of_deck}
+                >
+                  {top_of_deck && (
+                    <>
+                      <span className={s.chipAvatar} />
+                      <span>
+                        <span className={s.chipHandle}>{handle}</span>
+                        <br />
+                        <span className={s.chipText}>{text}</span>
+                      </span>
+                    </>
+                  )}
+                </div>
+              )
+            })}
 
             {/* Ten comments flying into the lattice, 0.27s apart */}
             {FLYING_CHIPS.map(({ handle, text }, i) => (
